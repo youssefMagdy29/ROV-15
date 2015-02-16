@@ -83,6 +83,18 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
     else if (k == KEY_DOWN) {
         l->setText(DOWN);
     }
+    else if (k == KEY_CAM_RIGHT) {
+        l->setText(CAM_RIGHT);
+    }
+    else if (k == KEY_CAM_LEFT) {
+        l->setText(CAM_LEFT);
+    }
+    else if (k == KEY_LIGHT_ON) {
+        l->setText(LIGHT_ON);
+    }
+    else if (k == KEY_LIGHT_OFF) {
+        l->setText(LIGHT_OFF);
+    }
 }
 
 void MainWindow::on_buttonConnect_clicked()
