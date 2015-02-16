@@ -59,6 +59,8 @@ MainWindow::MainWindow(QWidget *parent) :
     serial->setParity(QSerialPort::NoParity);
     serial->setStopBits(QSerialPort::OneStop);
     serial->setFlowControl(QSerialPort::NoFlowControl);
+
+    connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
 }
 
 MainWindow::~MainWindow()
@@ -143,4 +145,8 @@ void MainWindow::on_buttonDisconnect_clicked()
     else {
         QMessageBox::critical(this, tr("Error"), "There is no serial connection");
     }
+}
+
+void MainWindow::readData() {
+    QByteArray data = serial->readAll();
 }
