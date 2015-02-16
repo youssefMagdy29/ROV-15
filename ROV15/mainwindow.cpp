@@ -97,6 +97,20 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
     }
 }
 
+void MainWindow::keyReleaseEvent(QKeyEvent *e) {
+    QChar k = e->key();
+    if (k == KEY_FORWARD    || k == KEY_BACKWARD  || k == KEY_MOVE_LEFT ||
+        k == KEY_MOVE_RIGHT || k == KEY_TURN_LEFT || k == KEY_TURN_RIGHT) {
+        l->setText(STOP_HORIZONTAL);
+    }
+    else if (k == KEY_UP || k == KEY_DOWN) {
+        l->setText(STOP_VERTICAL);
+    }
+    else if (k == KEY_CAM_LEFT || k == KEY_CAM_RIGHT) {
+        l->setText(CAM_STOP);
+    }
+}
+
 void MainWindow::on_buttonConnect_clicked()
 {
     ui->labelConnectionStatus->setText("Connected");

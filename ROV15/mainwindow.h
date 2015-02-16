@@ -18,6 +18,8 @@ public:
 private slots:
     void keyPressEvent(QKeyEvent *e);
 
+    void keyReleaseEvent(QKeyEvent *e);
+
     void on_buttonConnect_clicked();
 
     void on_buttonDisconnect_clicked();
