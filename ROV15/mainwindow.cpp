@@ -1,7 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QKeyEvent>
+#include <QtSerialPort/QSerialPort>
+#include <QMessageBox>
 
+QSerialPort *serial;
 QLabel *l;
 //Directions...
     //Commands...
@@ -50,11 +53,18 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     l = ui->labelSentCommand;
+    serial = new QSerialPort(this);
+    serial->setBaudRate(QSerialPort::Baud9600);
+    serial->setDataBits(QSerialPort::Data8);
+    serial->setParity(QSerialPort::NoParity);
+    serial->setStopBits(QSerialPort::OneStop);
+    serial->setFlowControl(QSerialPort::NoFlowControl);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    serial->close();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
@@ -113,12 +123,24 @@ void MainWindow::keyReleaseEvent(QKeyEvent *e) {
 
 void MainWindow::on_buttonConnect_clicked()
 {
-    ui->labelConnectionStatus->setText("Connected");
-    ui->labelConnectionStatus->setStyleSheet("color: #00ff00");
+    serial->setPortName(ui->lineEditCOMNumber->text());
+    if(serial->open(QIODevice::ReadWrite)) {
+        ui->labelConnectionStatus->setText("Connected");
+        ui->labelConnectionStatus->setStyleSheet("color: #00ff00");
+    }
+    else {
+        QMessageBox::critical(this, tr("Error"), serial->errorString());
+    }
 }
 
 void MainWindow::on_buttonDisconnect_clicked()
 {
-    ui->labelConnectionStatus->setText("Disconnected");
-    ui->labelConnectionStatus->setStyleSheet("color: #ff0000");
+    if (serial->isOpen()) {
+        serial->close();
+        ui->labelConnectionStatus->setText("Disconnected");
+        ui->labelConnectionStatus->setStyleSheet("color: #ff0000");
+    }
+    else {
+        QMessageBox::critical(this, tr("Error"), "There is no serial connection");
+    }
 }
