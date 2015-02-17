@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QtSerialPort/QSerialPort>
 
 namespace Ui {
 class MainWindow;
@@ -18,9 +19,13 @@ public:
 private slots:
     void keyPressEvent(QKeyEvent *e);
 
+    void keyReleaseEvent(QKeyEvent *e);
+
     void on_buttonConnect_clicked();
 
     void on_buttonDisconnect_clicked();
+
+    void readData();
 
 private:
     Ui::MainWindow *ui;
