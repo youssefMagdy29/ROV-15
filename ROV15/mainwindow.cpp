@@ -191,4 +191,5 @@ void MainWindow::on_buttonDisconnect_clicked()
 
 void MainWindow::readData() {
     QByteArray data = serial->readAll();
+    ui->label_2->setText(data);
 }
