@@ -10,6 +10,8 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 }
 
 QT       += core gui
+QT       += multimedia
+QT       += multimediawidgets
 
 TARGET = ROV15
 TEMPLATE = app

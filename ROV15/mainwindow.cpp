@@ -4,9 +4,17 @@
 #include <QtSerialPort/QSerialPort>
 #include <QMessageBox>
 
+#include <QtMultimedia/QCamera>
+#include <QCameraImageCapture>
+#include <QCameraViewfinder>
+
 QSerialPort *serial;
 QLabel *l;
 QByteArray prevCmd;
+QCamera *camera;
+QCameraViewfinder *viewfinder;
+QCameraImageCapture *imageCapture;
+
 //Directions...
     //Commands...
     QByteArray const FORWARD         = "f";
@@ -54,6 +62,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     l = ui->labelSentCommand;
+
+    //Serial connection setup
     serial = new QSerialPort(this);
     serial->setBaudRate(QSerialPort::Baud9600);
     serial->setDataBits(QSerialPort::Data8);
@@ -62,6 +72,19 @@ MainWindow::MainWindow(QWidget *parent) :
     serial->setFlowControl(QSerialPort::NoFlowControl);
 
     connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+
+    //Camera setup
+    camera = new QCamera;
+
+    viewfinder = ui->viewfinder;
+    viewfinder->show();
+
+    camera->setViewfinder(viewfinder);
+
+    imageCapture = new QCameraImageCapture(camera);
+
+    camera->setCaptureMode(QCamera::CaptureStillImage);
+    camera->start();
 }
 
 MainWindow::~MainWindow()
