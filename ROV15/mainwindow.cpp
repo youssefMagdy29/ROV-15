@@ -57,54 +57,54 @@ QChar const KEY_CAM_LEFT  = 'T';
 
 //Arm..
 //Commands..
-QByteArray const GRIPPER_STOP  = '0';
-QByteArray const GRIPPER_RIGHT = '1';
-QByteArray const GRIPPER_LEFT  = '2';
+QByteArray const GRIPPER_STOP  = "0";
+QByteArray const GRIPPER_RIGHT = "1";
+QByteArray const GRIPPER_LEFT  = "2";
 
 //Keys..
-QByteArray const KEY_GRIPPER_STOP  = Qt::Key_0;
-QByteArray const KEY_GRIPPER_RIGHT = Qt::Key_1;
-QByteArray const KEY_GRIPPER_LEFT  = Qt::Key_2;
+QChar const KEY_GRIPPER_STOP  = Qt::Key_0;
+QChar const KEY_GRIPPER_RIGHT = Qt::Key_1;
+QChar const KEY_GRIPPER_LEFT  = Qt::Key_2;
 
 //Commands..
-QByteArray const WRIST_STOP  = '3';
-QByteArray const WRIST_RIGHT = '4';
-QByteArray const WRIST_LEFT  = '5';
+QByteArray const WRIST_STOP  = "3";
+QByteArray const WRIST_RIGHT = "4";
+QByteArray const WRIST_LEFT  = "5";
 
 //Keys..
-QByteArray const KEY_WRIST_STOP  = Qt::Key_3;
-QByteArray const KEY_WRIST_RIGHT = Qt::Key_4;
-QByteArray const KEY_WRIST_LEFT  = Qt::Key_5;
+QChar const KEY_WRIST_STOP  = Qt::Key_3;
+QChar const KEY_WRIST_RIGHT = Qt::Key_4;
+QChar const KEY_WRIST_LEFT  = Qt::Key_5;
 
 //Commands..
-QByteArray const ELBOW_STOP  = '6';
-QByteArray const ELBOW_RIGHT = '7';
-QByteArray const ELBOW_LEFT  = '8';
+QByteArray const ELBOW_STOP  = "6";
+QByteArray const ELBOW_RIGHT = "7";
+QByteArray const ELBOW_LEFT  = "8";
 
 //Keys..
-QByteArray const KEY_ELBOW_STOP  = Qt::Key_6;
-QByteArray const KEY_ELBOW_RIGHT = Qt::Key_7;
-QByteArray const KEY_ELBOW_LEFT  = Qt::Key_8;
+QChar const KEY_ELBOW_STOP  = Qt::Key_6;
+QChar const KEY_ELBOW_RIGHT = Qt::Key_7;
+QChar const KEY_ELBOW_LEFT  = Qt::Key_8;
 
 //Commands..
-QByteArray const SHOULDER_STOP  = '9';
-QByteArray const SHOULDER_RIGHT = 'q';
-QByteArray const SHOULDER_LEFT  = 'e';
+QByteArray const SHOULDER_STOP  = "9";
+QByteArray const SHOULDER_RIGHT = "q";
+QByteArray const SHOULDER_LEFT  = "e";
 
 //Keys..
-QByteArray const KEY_SHOULDER_STOP  = Qt::Key_9;
-QByteArray const KEY_SHOULDER_RIGHT = 'Q';
-QByteArray const KEY_SHOULDER_LEFT  = 'E';
+QChar const KEY_SHOULDER_STOP  = Qt::Key_9;
+QChar const KEY_SHOULDER_RIGHT = 'Q';
+QChar const KEY_SHOULDER_LEFT  = 'E';
 
 //Commands..
-QByteArray const BASE_STOP  = 'j';
-QByteArray const BASE_RIGHT = 'k';
-QByteArray const BASE_LEFT  = 'i';
+QByteArray const BASE_STOP  = "j";
+QByteArray const BASE_RIGHT = "k";
+QByteArray const BASE_LEFT  = "i";
 
 //Keys..
-QByteArray const KEY_BASE_STOP  = 'H';
-QByteArray const KEY_BASE_RIGHT = 'V';
-QByteArray const KEY_BASE_LEFT  = 'U';
+QChar const KEY_BASE_STOP  = 'H';
+QChar const KEY_BASE_RIGHT = 'V';
+QChar const KEY_BASE_LEFT  = 'U';
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -194,6 +194,46 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
             l->setText(LIGHT_OFF);
             serial->write(LIGHT_OFF);
         }
+        else if (k == KEY_GRIPPER_RIGHT) {
+            l->setText(GRIPPER_RIGHT);
+            serial->write(GRIPPER_RIGHT);
+        }
+        else if (k == KEY_GRIPPER_LEFT) {
+            l->setText(GRIPPER_LEFT);
+            serial->write(GRIPPER_LEFT);
+        }
+        else if (k == KEY_WRIST_RIGHT) {
+            l->setText(WRIST_RIGHT);
+            serial->write(WRIST_RIGHT);
+        }
+        else if (k == KEY_WRIST_LEFT) {
+            l->setText(WRIST_LEFT);
+            serial->write(WRIST_LEFT);
+        }
+        else if (k == KEY_ELBOW_RIGHT) {
+            l->setText(ELBOW_RIGHT);
+            serial->write(ELBOW_RIGHT);
+        }
+        else if (k == KEY_ELBOW_LEFT) {
+            l->setText(ELBOW_LEFT);
+            serial->write(ELBOW_LEFT);
+        }
+        else if (k == KEY_SHOULDER_RIGHT) {
+            l->setText(SHOULDER_RIGHT);
+            serial->write(SHOULDER_RIGHT);
+        }
+        else if (k == KEY_SHOULDER_LEFT) {
+            l->setText(SHOULDER_LEFT);
+            serial->write(SHOULDER_LEFT);
+        }
+        else if (k == KEY_BASE_RIGHT) {
+            l->setText(BASE_RIGHT);
+            serial->write(BASE_RIGHT);
+        }
+        else if (k == KEY_BASE_LEFT) {
+            l->setText(BASE_LEFT);
+            serial->write(BASE_LEFT);
+        }
     }
 }
 
@@ -212,6 +252,26 @@ void MainWindow::keyReleaseEvent(QKeyEvent *e) {
         else if (k == KEY_CAM_LEFT || k == KEY_CAM_RIGHT) {
             l->setText(CAM_STOP);
             serial->write(CAM_STOP);
+        }
+        else if (k == KEY_GRIPPER_RIGHT || k == KEY_GRIPPER_LEFT) {
+            l->setText(GRIPPER_STOP);
+            serial->write(GRIPPER_STOP);
+        }
+        else if (k == KEY_WRIST_RIGHT || k == KEY_WRIST_LEFT) {
+            l->setText(WRIST_STOP);
+            serial->write(WRIST_STOP);
+        }
+        else if (k == KEY_ELBOW_RIGHT || k == KEY_ELBOW_LEFT) {
+            l->setText(ELBOW_STOP);
+            serial->write(ELBOW_STOP);
+        }
+        else if (k == KEY_SHOULDER_RIGHT || k == KEY_SHOULDER_LEFT) {
+            l->setText(SHOULDER_STOP);
+            serial->write(SHOULDER_STOP);
+        }
+        else if (k == KEY_BASE_RIGHT || k == KEY_BASE_LEFT) {
+            l->setText(BASE_STOP);
+            serial->write(BASE_STOP);
         }
     }
 }
