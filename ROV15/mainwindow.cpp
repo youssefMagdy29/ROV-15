@@ -55,6 +55,27 @@ QByteArray const CAM_STOP  = "o";
 QChar const KEY_CAM_RIGHT = 'Y';
 QChar const KEY_CAM_LEFT  = 'T';
 
+//Arm..
+QByteArray const GRIPPER_STOP  = '0';
+QByteArray const GRIPPER_RIGHT = '1';
+QByteArray const GRIPPER_LEFT  = '2';
+
+QByteArray const WRIST_STOP  = '3';
+QByteArray const WRIST_RIGHT = '4';
+QByteArray const WRIST_LEFT  = '5';
+
+QByteArray const ELBOW_STOP  = '6';
+QByteArray const ELBOW_RIGHT = '7';
+QByteArray const ELBOW_LEFT  = '8';
+
+QByteArray const SHOULDER_STOP  = '9';
+QByteArray const SHOULDER_RIGHT = 'q';
+QByteArray const SHOULDER_LEFT  = 'e';
+
+QByteArray const BASE_STOP  = 'j';
+QByteArray const BASE_RIGHT = 'k';
+QByteArray const BASE_LEFT  = 'i';
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -83,7 +104,7 @@ MainWindow::MainWindow(QWidget *parent) :
     imageCapture = new QCameraImageCapture(camera);
 
     camera->setCaptureMode(QCamera::CaptureStillImage);
-    camera->start();
+    //camera->start();
 }
 
 MainWindow::~MainWindow()
