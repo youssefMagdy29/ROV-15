@@ -340,10 +340,10 @@ void MainWindow::readJoystickState() {
     if (sf::Joystick::isConnected(0)) {
         ui->joystickStatus->setText("Connected");
 
+        //ROV Control
         float x1 = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
         float y1 = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 
-        //ROV Control
         //Moving forward
         if (!_1_pressed[JOYSTICK_1]) {
             if (sf::Joystick::isButtonPressed(0, JOYSTICK_1)) {
@@ -455,13 +455,38 @@ void MainWindow::readJoystickState() {
             if (sf::Joystick::isButtonPressed(1, JOYSTICK_4)) {
                 l->setText(GRIPPER_RIGHT);
                 serial->write(GRIPPER_RIGHT);
-                _2_pressed[JOYSTICK_2] = true;
+                _2_pressed[JOYSTICK_4] = true;
             }
         }
         else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_4)) {
             l->setText(GRIPPER_STOP);
             serial->write(GRIPPER_STOP);
             _2_pressed[JOYSTICK_4] = false;
+        }
+        //Wrist
+        if (!_2_pressed[JOYSTICK_1]) {
+            if (sf::Joystick::isButtonPressed(1, JOYSTICK_1)) {
+                l->setText(WRIST_LEFT);
+                serial->write(WRIST_LEFT);
+                _2_pressed[JOYSTICK_1] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_1)) {
+            l->setText(WRIST_STOP);
+            serial->write(WRIST_STOP);
+            _2_pressed[JOYSTICK_1] = false;
+        }
+        if (!_2_pressed[JOYSTICK_3]) {
+            if (sf::Joystick::isButtonPressed(1, JOYSTICK_3)) {
+                l->setText(WRIST_RIGHT);
+                serial->write(WRIST_RIGHT);
+                _2_pressed[JOYSTICK_3] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_3)) {
+            l->setText(WRIST_STOP);
+            serial->write(WRIST_STOP);
+            _2_pressed[JOYSTICK_3] = false;
         }
     }
     else {
