@@ -339,10 +339,8 @@ void MainWindow::readJoystickState() {
     if (sf::Joystick::isConnected(0)) {
         ui->joystickStatus->setText("Connected");
 
-        float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-        float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-        float z = sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
-        float v = sf::Joystick::getAxisPosition(0, sf::Joystick::R);
+        float x1 = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+        float y1 = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 
         //Moving forward
         if (!_1_pressed[JOYSTICK_1]) {
@@ -402,20 +400,39 @@ void MainWindow::readJoystickState() {
         }
 
         if (!x_1_pressed) {
-            if (x == -100) {
+            //Turning left
+            if (x1 == -100) {
                 l->setText(TURN_LEFT);
                 serial->write(TURN_LEFT);
                 x_1_pressed = true;
             }
-            else if (x == 100) {
+            //Turning right
+            else if (x1 == 100) {
                 l->setText(TURN_RIGHT);
                 serial->write(TURN_RIGHT);
                 x_1_pressed = true;
             }
         }
-        else if ((int) x == 0) {
+        else if ((int) x1 == 0) {
             l->setText(STOP_HORIZONTAL);
             x_1_pressed = false;
+        }
+
+        if (!y_1_pressed) {
+            if (y1 == -100) {
+                l->setText(UP);
+                serial->write(UP);
+                y_1_pressed = true;
+            }
+            else if (y1 == 100) {
+                l->setText(DOWN);
+                serial->write(DOWN);
+                y_1_pressed = true;
+            }
+        }
+        else if ((int) y1 == 0) {
+            l->setText(STOP_VERTICAL);
+            y_1_pressed = false;
         }
     }
     else {
