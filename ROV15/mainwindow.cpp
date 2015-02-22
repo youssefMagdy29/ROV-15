@@ -110,6 +110,18 @@ QChar const KEY_BASE_STOP  = 'H';
 QChar const KEY_BASE_RIGHT = 'V';
 QChar const KEY_BASE_LEFT  = 'U';
 
+//Joystick buttons
+int const JOYSTICK_1      = 0;
+int const JOYSTICK_2      = 1;
+int const JOYSTICK_3      = 2;
+int const JOYSTICK_4      = 3;
+int const JOYSTICK_R1     = 5;
+int const JOYSTICK_R2     = 7;
+int const JOYSTICK_L1     = 4;
+int const JOYSTICK_L2     = 6;
+int const JOYSTICK_START  = 9;
+int const JOYSTICK_SELECT = 8;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
