@@ -124,8 +124,8 @@ unsigned int const JOYSTICK_SELECT = 8;
 
 bool x_1_pressed = false;
 bool y_1_pressed = false;
-bool z_1_pressed = false;
-bool r_1_pressed = false;
+bool x_2_pressed = false;
+bool y_2_pressed = false;
 
 bool _1_pressed[32];
 bool _2_pressed[32];
@@ -417,6 +417,7 @@ void MainWindow::readJoystickState() {
         }
         else if ((int) x1 == 0) {
             l->setText(STOP_HORIZONTAL);
+            serial->write(STOP_HORIZONTAL);
             x_1_pressed = false;
         }
 
@@ -434,10 +435,14 @@ void MainWindow::readJoystickState() {
         }
         else if ((int) y1 == 0) {
             l->setText(STOP_VERTICAL);
+            serial->write(STOP_VERTICAL);
             y_1_pressed = false;
         }
 
         //Arm Control
+        float x2 = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
+        float y2 = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
+
         //Gripper
         if (!_2_pressed[JOYSTICK_2]) {
             if (sf::Joystick::isButtonPressed(1, JOYSTICK_2)) {
@@ -487,6 +492,24 @@ void MainWindow::readJoystickState() {
             l->setText(WRIST_STOP);
             serial->write(WRIST_STOP);
             _2_pressed[JOYSTICK_3] = false;
+        }
+        //Elbow
+        if (!y_2_pressed) {
+            if (y2 == -100) {
+                l->setText(ELBOW_LEFT);
+                serial->write(ELBOW_LEFT);
+                y_2_pressed = true;
+            }
+            else if (y2 == 100) {
+                l->setText(ELBOW_RIGHT);
+                serial->write(ELBOW_RIGHT);
+                y_2_pressed = true;
+            }
+        }
+        else if (abs(y2) < 5) {
+            l->setText(ELBOW_STOP);
+            serial->write(ELBOW_STOP);
+            y_2_pressed = false;
         }
     }
     else {
