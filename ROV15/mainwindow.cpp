@@ -111,16 +111,21 @@ QChar const KEY_BASE_RIGHT = 'V';
 QChar const KEY_BASE_LEFT  = 'U';
 
 //Joystick buttons
-int const JOYSTICK_1      = 0;
-int const JOYSTICK_2      = 1;
-int const JOYSTICK_3      = 2;
-int const JOYSTICK_4      = 3;
-int const JOYSTICK_R1     = 5;
-int const JOYSTICK_R2     = 7;
-int const JOYSTICK_L1     = 4;
-int const JOYSTICK_L2     = 6;
-int const JOYSTICK_START  = 9;
-int const JOYSTICK_SELECT = 8;
+unsigned int const JOYSTICK_1      = 0;
+unsigned int const JOYSTICK_2      = 1;
+unsigned int const JOYSTICK_3      = 2;
+unsigned int const JOYSTICK_4      = 3;
+unsigned int const JOYSTICK_R1     = 5;
+unsigned int const JOYSTICK_R2     = 7;
+unsigned int const JOYSTICK_L1     = 4;
+unsigned int const JOYSTICK_L2     = 6;
+unsigned int const JOYSTICK_START  = 9;
+unsigned int const JOYSTICK_SELECT = 8;
+
+bool x_1_pressed = false;
+bool y_1_pressed = false;
+bool z_1_pressed = false;
+bool r_1_pressed = false;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -331,10 +336,23 @@ void MainWindow::readJoystickState() {
 
     if (sf::Joystick::isConnected(0)) {
         ui->joystickStatus->setText("Connected");
-        for (int i = 0; i < 32; i++) {
-            if (sf::Joystick::isButtonPressed(0, i)) {
-                l->setText(QString::number(i));
-            }
+
+        float x = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
+        float y = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
+        float z = sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
+        float v = sf::Joystick::getAxisPosition(0, sf::Joystick::R);
+
+        if (y == -100) {
+            l->setText(FORWARD);
+            y_1_pressed = true;
+        }
+        else if (y == 100) {
+            l->setText(BACKWARD);
+            y_1_pressed = true;
+        }
+        else if (y_1_pressed) {
+            l->setText(STOP_HORIZONTAL);
+            y_1_pressed = false;
         }
     }
     else {
