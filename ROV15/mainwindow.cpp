@@ -314,9 +314,16 @@ void MainWindow::readData() {
 }
 
 void MainWindow::readJoystickState() {
+
     sf::Joystick::update();
+
     if (sf::Joystick::isConnected(0)) {
         ui->joystickStatus->setText("Connected");
+        for (int i = 0; i < 32; i++) {
+            if (sf::Joystick::isButtonPressed(0, i)) {
+                l->setText(QString::number(i));
+            }
+        }
     }
     else {
         ui->joystickStatus->setText("Not Connected");
