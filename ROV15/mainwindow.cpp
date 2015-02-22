@@ -124,8 +124,9 @@ unsigned int const JOYSTICK_SELECT = 8;
 
 bool x_1_pressed = false;
 bool y_1_pressed = false;
-bool x_2_pressed = false;
 bool y_2_pressed = false;
+bool z_2_pressed = false;
+bool r_2_pressed = false;
 
 bool _1_pressed[32];
 bool _2_pressed[32];
@@ -440,8 +441,8 @@ void MainWindow::readJoystickState() {
         }
 
         //Arm Control
-        float x2 = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
         float y2 = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
+        float z2 = sf::Joystick::getAxisPosition(1, sf::Joystick::Z);
 
         //Gripper
         if (!_2_pressed[JOYSTICK_2]) {
@@ -510,6 +511,24 @@ void MainWindow::readJoystickState() {
             l->setText(ELBOW_STOP);
             serial->write(ELBOW_STOP);
             y_2_pressed = false;
+        }
+        //Shoulder
+        if (!z_2_pressed) {
+            if (z2 == -100) {
+                l->setText(SHOULDER_LEFT);
+                serial->write(SHOULDER_LEFT);
+                z_2_pressed = true;
+            }
+            else if (z2 == 100) {
+                l->setText(SHOULDER_RIGHT);
+                serial->write(SHOULDER_RIGHT);
+                z_2_pressed = true;
+            }
+        }
+        else if (abs(z2) < 5) {
+            l->setText(SHOULDER_STOP);
+            serial->write(SHOULDER_STOP);
+            z_2_pressed = false;
         }
     }
     else {
