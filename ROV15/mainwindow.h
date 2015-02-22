@@ -27,6 +27,8 @@ private slots:
 
     void readData();
 
+    void readJoystickState();
+
 private:
     Ui::MainWindow *ui;
 };

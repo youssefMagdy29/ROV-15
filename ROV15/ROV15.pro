@@ -23,3 +23,10 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/C:/Qt/5.4/msvc2013_64/lib/ -lsfml-window
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/C:/Qt/5.4/msvc2013_64/lib/ -lsfml-windowd
+else:unix: LIBS += -L$$PWD/C:/Qt/5.4/msvc2013_64/lib/ -lsfml-window
+
+INCLUDEPATH += $$PWD/C:/Qt/5.4/msvc2013_64/include/SFML
+DEPENDPATH += $$PWD/C:/Qt/5.4/msvc2013_64/include/SFML

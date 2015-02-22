@@ -8,6 +8,10 @@
 #include <QCameraImageCapture>
 #include <QCameraViewfinder>
 
+#include <QTimer>
+
+#include <SFML/Window.hpp>
+
 QSerialPort *serial;
 QLabel *l;
 QCamera *camera;
@@ -135,6 +139,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     camera->setCaptureMode(QCamera::CaptureStillImage);
     //camera->start();
+
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(readJoystickState()));
+    timer->start(15);
 }
 
 MainWindow::~MainWindow()
@@ -303,4 +311,14 @@ void MainWindow::on_buttonDisconnect_clicked()
 void MainWindow::readData() {
     QByteArray data = serial->readAll();
     ui->label_2->setText(data);
+}
+
+void MainWindow::readJoystickState() {
+    sf::Joystick::update();
+    if (sf::Joystick::isConnected(0)) {
+        l->setText("Connected");
+    }
+    else {
+        l->setText("not Connected");
+    }
 }
