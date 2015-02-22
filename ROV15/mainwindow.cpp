@@ -128,6 +128,7 @@ bool z_1_pressed = false;
 bool r_1_pressed = false;
 
 bool _1_pressed[32];
+bool _2_pressed[32];
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -342,6 +343,7 @@ void MainWindow::readJoystickState() {
         float x1 = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
         float y1 = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 
+        //ROV Control
         //Moving forward
         if (!_1_pressed[JOYSTICK_1]) {
             if (sf::Joystick::isButtonPressed(0, JOYSTICK_1)) {
@@ -433,6 +435,33 @@ void MainWindow::readJoystickState() {
         else if ((int) y1 == 0) {
             l->setText(STOP_VERTICAL);
             y_1_pressed = false;
+        }
+
+        //Arm Control
+        //Gripper
+        if (!_2_pressed[JOYSTICK_2]) {
+            if (sf::Joystick::isButtonPressed(1, JOYSTICK_2)) {
+                l->setText(GRIPPER_LEFT);
+                serial->write(GRIPPER_LEFT);
+                _2_pressed[JOYSTICK_2] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_2)) {
+            l->setText(GRIPPER_STOP);
+            serial->write(GRIPPER_STOP);
+            _2_pressed[JOYSTICK_2] = false;
+        }
+        if (!_2_pressed[JOYSTICK_4]) {
+            if (sf::Joystick::isButtonPressed(1, JOYSTICK_4)) {
+                l->setText(GRIPPER_RIGHT);
+                serial->write(GRIPPER_RIGHT);
+                _2_pressed[JOYSTICK_2] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_4)) {
+            l->setText(GRIPPER_STOP);
+            serial->write(GRIPPER_STOP);
+            _2_pressed[JOYSTICK_4] = false;
         }
     }
     else {
