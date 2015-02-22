@@ -127,6 +127,8 @@ bool y_1_pressed = false;
 bool z_1_pressed = false;
 bool r_1_pressed = false;
 
+bool _1_pressed[32];
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -309,7 +311,7 @@ void MainWindow::on_buttonConnect_clicked()
         ui->labelConnectionStatus->setStyleSheet("color: #00ff00");
     }
     else {
-        QMessageBox::critical(this, tr("Error"), serial->errorString());
+        QMessageBox::critical(this, tr("Error"), "Invalid Serial port");
     }
 }
 
@@ -321,7 +323,7 @@ void MainWindow::on_buttonDisconnect_clicked()
         ui->labelConnectionStatus->setStyleSheet("color: #ff0000");
     }
     else {
-        QMessageBox::critical(this, tr("Error"), "There is no serial connection");
+        QMessageBox::critical(this, tr("Error"), "Not Connected!");
     }
 }
 
@@ -342,17 +344,47 @@ void MainWindow::readJoystickState() {
         float z = sf::Joystick::getAxisPosition(0, sf::Joystick::Z);
         float v = sf::Joystick::getAxisPosition(0, sf::Joystick::R);
 
-        if (y == -100) {
-            l->setText(FORWARD);
-            y_1_pressed = true;
+        //Moving forward
+        if (!_1_pressed[JOYSTICK_1]) {
+            if (sf::Joystick::isButtonPressed(0, JOYSTICK_1)) {
+                l->setText(FORWARD);
+                serial->write(FORWARD);
+                _1_pressed[JOYSTICK_1] = true;
+            }
         }
-        else if (y == 100) {
-            l->setText(BACKWARD);
-            y_1_pressed = true;
-        }
-        else if (y_1_pressed) {
+        else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_1)) {
             l->setText(STOP_HORIZONTAL);
-            y_1_pressed = false;
+            serial->write(STOP_HORIZONTAL);
+            _1_pressed[JOYSTICK_1] = false;
+        }
+
+        //Moving backward
+        if (!_1_pressed[JOYSTICK_3]) {
+            if (sf::Joystick::isButtonPressed(0, JOYSTICK_3)) {
+                l->setText(BACKWARD);
+                serial->write(BACKWARD);
+                _1_pressed[JOYSTICK_3] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_3)) {
+            l->setText(STOP_HORIZONTAL);
+            serial->write(STOP_HORIZONTAL);
+            _1_pressed[JOYSTICK_3] = false;
+        }
+
+        if (!x_1_pressed) {
+            if (x == -100) {
+                l->setText(MOVE_LEFT);
+                x_1_pressed = true;
+            }
+            else if (x == 100) {
+                l->setText(MOVE_RIGHT);
+                x_1_pressed = true;
+            }
+        }
+        else if ((int) x == 0) {
+            l->setText(STOP_HORIZONTAL);
+            x_1_pressed = false;
         }
     }
     else {
