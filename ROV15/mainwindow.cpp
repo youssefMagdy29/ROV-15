@@ -443,6 +443,7 @@ void MainWindow::readJoystickState() {
         //Arm Control
         float y2 = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
         float z2 = sf::Joystick::getAxisPosition(1, sf::Joystick::Z);
+        float r2 = sf::Joystick::getAxisPosition(1, sf::Joystick::R);
 
         //Gripper
         if (!_2_pressed[JOYSTICK_2]) {
@@ -529,6 +530,24 @@ void MainWindow::readJoystickState() {
             l->setText(SHOULDER_STOP);
             serial->write(SHOULDER_STOP);
             z_2_pressed = false;
+        }
+        //Base
+        if (!r_2_pressed) {
+            if (r2 == -100) {
+                l->setText(BASE_LEFT);
+                serial->write(BASE_LEFT);
+                r_2_pressed = true;
+            }
+            else if (r2 == 100) {
+                l->setText(BASE_RIGHT);
+                serial->write(BASE_RIGHT);
+                r_2_pressed = true;
+            }
+        }
+        else if (abs(r2) < 5) {
+            l->setText(BASE_STOP);
+            serial->write(BASE_STOP);
+            r_2_pressed = false;
         }
     }
     else {
