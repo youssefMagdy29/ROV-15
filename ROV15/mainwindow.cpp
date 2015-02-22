@@ -124,10 +124,12 @@ unsigned int const JOYSTICK_SELECT = 8;
 
 bool x_1_pressed = false;
 bool y_1_pressed = false;
-bool z_1_pressed = false;
-bool r_1_pressed = false;
+bool y_2_pressed = false;
+bool z_2_pressed = false;
+bool r_2_pressed = false;
 
 bool _1_pressed[32];
+bool _2_pressed[32];
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -339,6 +341,7 @@ void MainWindow::readJoystickState() {
     if (sf::Joystick::isConnected(0)) {
         ui->joystickStatus->setText("Connected");
 
+        //ROV Control
         float x1 = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
         float y1 = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
 
@@ -415,6 +418,7 @@ void MainWindow::readJoystickState() {
         }
         else if ((int) x1 == 0) {
             l->setText(STOP_HORIZONTAL);
+            serial->write(STOP_HORIZONTAL);
             x_1_pressed = false;
         }
 
@@ -432,7 +436,118 @@ void MainWindow::readJoystickState() {
         }
         else if ((int) y1 == 0) {
             l->setText(STOP_VERTICAL);
+            serial->write(STOP_VERTICAL);
             y_1_pressed = false;
+        }
+
+        //Arm Control
+        float y2 = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
+        float z2 = sf::Joystick::getAxisPosition(1, sf::Joystick::Z);
+        float r2 = sf::Joystick::getAxisPosition(1, sf::Joystick::R);
+
+        //Gripper
+        if (!_2_pressed[JOYSTICK_2]) {
+            if (sf::Joystick::isButtonPressed(1, JOYSTICK_2)) {
+                l->setText(GRIPPER_LEFT);
+                serial->write(GRIPPER_LEFT);
+                _2_pressed[JOYSTICK_2] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_2)) {
+            l->setText(GRIPPER_STOP);
+            serial->write(GRIPPER_STOP);
+            _2_pressed[JOYSTICK_2] = false;
+        }
+        if (!_2_pressed[JOYSTICK_4]) {
+            if (sf::Joystick::isButtonPressed(1, JOYSTICK_4)) {
+                l->setText(GRIPPER_RIGHT);
+                serial->write(GRIPPER_RIGHT);
+                _2_pressed[JOYSTICK_4] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_4)) {
+            l->setText(GRIPPER_STOP);
+            serial->write(GRIPPER_STOP);
+            _2_pressed[JOYSTICK_4] = false;
+        }
+        //Wrist
+        if (!_2_pressed[JOYSTICK_1]) {
+            if (sf::Joystick::isButtonPressed(1, JOYSTICK_1)) {
+                l->setText(WRIST_LEFT);
+                serial->write(WRIST_LEFT);
+                _2_pressed[JOYSTICK_1] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_1)) {
+            l->setText(WRIST_STOP);
+            serial->write(WRIST_STOP);
+            _2_pressed[JOYSTICK_1] = false;
+        }
+        if (!_2_pressed[JOYSTICK_3]) {
+            if (sf::Joystick::isButtonPressed(1, JOYSTICK_3)) {
+                l->setText(WRIST_RIGHT);
+                serial->write(WRIST_RIGHT);
+                _2_pressed[JOYSTICK_3] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_3)) {
+            l->setText(WRIST_STOP);
+            serial->write(WRIST_STOP);
+            _2_pressed[JOYSTICK_3] = false;
+        }
+        //Elbow
+        if (!y_2_pressed) {
+            if (y2 == -100) {
+                l->setText(ELBOW_LEFT);
+                serial->write(ELBOW_LEFT);
+                y_2_pressed = true;
+            }
+            else if (y2 == 100) {
+                l->setText(ELBOW_RIGHT);
+                serial->write(ELBOW_RIGHT);
+                y_2_pressed = true;
+            }
+        }
+        else if (abs(y2) < 5) {
+            l->setText(ELBOW_STOP);
+            serial->write(ELBOW_STOP);
+            y_2_pressed = false;
+        }
+        //Shoulder
+        if (!z_2_pressed) {
+            if (z2 == -100) {
+                l->setText(SHOULDER_LEFT);
+                serial->write(SHOULDER_LEFT);
+                z_2_pressed = true;
+            }
+            else if (z2 == 100) {
+                l->setText(SHOULDER_RIGHT);
+                serial->write(SHOULDER_RIGHT);
+                z_2_pressed = true;
+            }
+        }
+        else if (abs(z2) < 5) {
+            l->setText(SHOULDER_STOP);
+            serial->write(SHOULDER_STOP);
+            z_2_pressed = false;
+        }
+        //Base
+        if (!r_2_pressed) {
+            if (r2 == -100) {
+                l->setText(BASE_LEFT);
+                serial->write(BASE_LEFT);
+                r_2_pressed = true;
+            }
+            else if (r2 == 100) {
+                l->setText(BASE_RIGHT);
+                serial->write(BASE_RIGHT);
+                r_2_pressed = true;
+            }
+        }
+        else if (abs(r2) < 5) {
+            l->setText(BASE_STOP);
+            serial->write(BASE_STOP);
+            r_2_pressed = false;
         }
     }
     else {
