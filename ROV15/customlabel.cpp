@@ -15,6 +15,12 @@ void customLabel::paintEvent(QPaintEvent *e) {
 
     QPainter painter(this);
 
+    QPen pen = QPen();
+    pen.setColor(QColor(255, 0, 0));
+    pen.setWidth(5);
+
+    painter.setPen(pen);
+
     painter.drawLine(startX, startY, endX, endY);
 }
 
@@ -32,5 +38,7 @@ void customLabel::mouseMoveEvent(QMouseEvent *e) {
 }
 
 void customLabel::mouseReleaseEvent(QMouseEvent *e) {
+    Q_UNUSED(e);
+
     clicked = false;
 }
