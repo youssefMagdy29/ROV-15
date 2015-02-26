@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
+    <width>800</width>
     <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Image</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="customLabel" name="label">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -26,7 +26,144 @@
     <string/>
    </property>
   </widget>
+  <widget class="QLabel" name="startX">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>180</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Start X:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="startY">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>220</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Start Y:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="endX">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>260</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>End X:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="endY">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>300</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>End Y:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="valueStartX">
+   <property name="geometry">
+    <rect>
+     <x>740</x>
+     <y>180</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="valueStartY">
+   <property name="geometry">
+    <rect>
+     <x>740</x>
+     <y>220</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="valueEndX">
+   <property name="geometry">
+    <rect>
+     <x>740</x>
+     <y>260</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="valueEndY">
+   <property name="geometry">
+    <rect>
+     <x>740</x>
+     <y>300</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="length">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>340</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Length:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="valueLength">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>340</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>customLabel</class>
+   <extends>QLabel</extends>
+   <header>customlabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
