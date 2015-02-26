@@ -11,6 +11,7 @@ public:
 protected:
     void paintEvent(QPaintEvent *e);
     void mouseMoveEvent(QMouseEvent *e);
+    void mouseReleaseEvent(QMouseEvent *e);
 
 private:
     int startX, startY;

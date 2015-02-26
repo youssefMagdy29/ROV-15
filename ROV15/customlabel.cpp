@@ -30,3 +30,7 @@ void customLabel::mouseMoveEvent(QMouseEvent *e) {
 
     this->repaint();
 }
+
+void customLabel::mouseReleaseEvent(QMouseEvent *e) {
+    clicked = false;
+}
