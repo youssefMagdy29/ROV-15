@@ -18,11 +18,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    image.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    image.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    image.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/C:/Qt/5.4/msvc2013_64/lib/ -lsfml-window
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/C:/Qt/5.4/msvc2013_64/lib/ -lsfml-windowd

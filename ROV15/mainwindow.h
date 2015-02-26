@@ -29,6 +29,10 @@ private slots:
 
     void readJoystickState();
 
+    void on_captureButton_clicked();
+
+    void imageSaved(int id, QString str);
+
 private:
     Ui::MainWindow *ui;
 };

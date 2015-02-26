@@ -10,13 +10,16 @@
 
 #include <QTimer>
 
+#include "image.h"
+
 #include <SFML/Window.hpp>
 
 QSerialPort *serial;
 QLabel *l;
 QCamera *camera;
-QCameraViewfinder *viewfinder;
+QVideoWidget *viewfinder;
 QCameraImageCapture *imageCapture;
+QGraphicsView *graphicsView;
 
 //Directions...
 //Commands...
@@ -150,16 +153,26 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Camera setup
     camera = new QCamera;
+    viewfinder = new QVideoWidget;
 
-    viewfinder = ui->viewfinder;
-    viewfinder->show();
+    graphicsView = ui->graphicsView;
+
+    QGraphicsScene *scene = new QGraphicsScene;
+
+    scene->addWidget(viewfinder);
+
+    graphicsView->scale(-1, 1);
+    graphicsView->setScene(scene);
 
     camera->setViewfinder(viewfinder);
 
     imageCapture = new QCameraImageCapture(camera);
 
+    connect(imageCapture, SIGNAL(imageSaved(int,QString)),
+            this, SLOT(imageSaved(int, QString)));
+
     camera->setCaptureMode(QCamera::CaptureStillImage);
-    //camera->start();
+    camera->start();
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(readJoystickState()));
@@ -555,4 +568,16 @@ void MainWindow::readJoystickState() {
         ui->joystickStatus->setText("Not Connected");
         ui->joystickStatus->setStyleSheet("color: #ff0000");
     }
+}
+
+void MainWindow::on_captureButton_clicked()
+{
+    imageCapture->capture();
+}
+
+void MainWindow::imageSaved(int id, QString str) {
+    Q_UNUSED(id);
+
+    Image *image = new Image(new QImage(str));
+    image->show();
 }
