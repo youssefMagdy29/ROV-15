@@ -7,6 +7,8 @@ customLabel::customLabel(QWidget *parent)
     :QLabel(parent) {
     startX = 0;
     startY = 0;
+    endX   = 0;
+    endY   = 0;
     clicked = false;
 }
 
@@ -21,7 +23,9 @@ void customLabel::paintEvent(QPaintEvent *e) {
 
     painter.setPen(pen);
 
-    painter.drawLine(startX, startY, endX, endY);
+    if (clicked) {
+        painter.drawLine(startX, startY, endX, endY);
+    }
 }
 
 void customLabel::mouseMoveEvent(QMouseEvent *e) {
