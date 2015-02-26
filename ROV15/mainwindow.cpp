@@ -159,6 +159,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     scene->addWidget(viewfinder);
 
+    graphicsView->scale(-1, 1);
     graphicsView->setScene(scene);
 
     camera->setViewfinder(viewfinder);
