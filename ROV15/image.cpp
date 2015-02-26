@@ -5,6 +5,7 @@
 #include <QCameraViewfinder>
 #include <QPainter>
 #include <QDebug>
+#include <QtCore/qmath.h>
 
 Image::Image(QImage *image, QWidget *parent) :
     QWidget(parent),
@@ -29,4 +30,8 @@ void Image::showResult(int startX, int startY, int endX, int endY) {
     ui->valueStartY->setText(QString::number(startY));
     ui->valueEndX->setText(QString::number(endX));
     ui->valueEndY->setText(QString::number(endY));
+    int width  = endX - startX;
+    int height = endY - startY;
+    float length = qSqrt(height * height + width * width);
+    ui->valueLength->setText(QString::number(length));
 }

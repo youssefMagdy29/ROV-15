@@ -130,6 +130,32 @@
     <string/>
    </property>
   </widget>
+  <widget class="QLabel" name="length">
+   <property name="geometry">
+    <rect>
+     <x>680</x>
+     <y>340</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Length:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="valueLength">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>340</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
