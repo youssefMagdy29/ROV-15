@@ -41,4 +41,5 @@ void customLabel::mouseReleaseEvent(QMouseEvent *e) {
     Q_UNUSED(e);
 
     clicked = false;
+    emit lineFinished(startX, startY, endX, endY);
 }

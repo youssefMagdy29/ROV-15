@@ -18,6 +18,9 @@ public:
 private:
     Ui::Image *ui;
     QImage *image;
+
+private slots:
+    void showResult(int startX, int startY, int endX, int endY);
 };
 
 #endif // IMAGE_H
