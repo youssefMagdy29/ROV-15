@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>659</width>
-    <height>328</height>
+    <width>840</width>
+    <height>510</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>50</y>
+      <x>10</x>
+      <y>150</y>
       <width>151</width>
       <height>131</height>
      </rect>
@@ -101,8 +101,8 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>190</y>
+      <x>50</x>
+      <y>290</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -117,8 +117,8 @@
    <widget class="QLabel" name="labelSentCommand">
     <property name="geometry">
      <rect>
-      <x>80</x>
-      <y>210</y>
+      <x>70</x>
+      <y>310</y>
       <width>31</width>
       <height>16</height>
      </rect>
@@ -127,23 +127,11 @@
      <string>None</string>
     </property>
    </widget>
-   <widget class="QStackedWidget" name="stackedWidget">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>20</y>
-      <width>421</width>
-      <height>271</height>
-     </rect>
-    </property>
-    <widget class="QCameraViewfinder" name="viewfinder"/>
-    <widget class="QWidget" name="page_2"/>
-   </widget>
    <widget class="QLabel" name="joystickConnection">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>240</y>
+      <x>40</x>
+      <y>340</y>
       <width>101</width>
       <height>16</height>
      </rect>
@@ -158,8 +146,8 @@
    <widget class="QLabel" name="joystickStatus">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>260</y>
+      <x>50</x>
+      <y>360</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -171,18 +159,19 @@
      <string>Not Connected</string>
     </property>
    </widget>
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>180</x>
+      <y>10</y>
+      <width>650</width>
+      <height>490</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>QCameraViewfinder</class>
-   <extends>QWidget</extends>
-   <header>qcameraviewfinder.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

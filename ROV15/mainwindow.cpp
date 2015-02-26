@@ -15,8 +15,9 @@
 QSerialPort *serial;
 QLabel *l;
 QCamera *camera;
-QCameraViewfinder *viewfinder;
+QVideoWidget *viewfinder;
 QCameraImageCapture *imageCapture;
+QGraphicsView *graphicsView;
 
 //Directions...
 //Commands...
@@ -150,16 +151,22 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Camera setup
     camera = new QCamera;
+    viewfinder = new QVideoWidget;
 
-    viewfinder = ui->viewfinder;
-    viewfinder->show();
+    graphicsView = ui->graphicsView;
+
+    QGraphicsScene *scene = new QGraphicsScene;
+
+    scene->addWidget(viewfinder);
+
+    graphicsView->setScene(scene);
 
     camera->setViewfinder(viewfinder);
 
     imageCapture = new QCameraImageCapture(camera);
 
     camera->setCaptureMode(QCamera::CaptureStillImage);
-    //camera->start();
+    camera->start();
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(readJoystickState()));
