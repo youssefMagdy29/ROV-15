@@ -19,10 +19,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    image.cpp
+    image.cpp \
+    customlabel.cpp
 
 HEADERS  += mainwindow.h \
-    image.h
+    image.h \
+    customlabel.h
 
 FORMS    += mainwindow.ui \
     image.ui

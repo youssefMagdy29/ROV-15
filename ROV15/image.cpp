@@ -3,6 +3,8 @@
 
 #include <QMouseEvent>
 #include <QCameraViewfinder>
+#include <QPainter>
+#include <QDebug>
 
 Image::Image(QImage *image, QWidget *parent) :
     QWidget(parent),

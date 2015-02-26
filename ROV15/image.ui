@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Image</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="customLabel" name="label">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -27,6 +27,13 @@
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>customLabel</class>
+   <extends>QLabel</extends>
+   <header>customlabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
