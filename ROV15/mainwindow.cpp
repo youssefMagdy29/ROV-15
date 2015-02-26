@@ -340,6 +340,7 @@ void MainWindow::readJoystickState() {
 
     if (sf::Joystick::isConnected(0)) {
         ui->joystickStatus->setText("Connected");
+        ui->joystickStatus->setStyleSheet("color: #00ff00");
 
         //ROV Control
         float x1 = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
@@ -552,5 +553,6 @@ void MainWindow::readJoystickState() {
     }
     else {
         ui->joystickStatus->setText("Not Connected");
+        ui->joystickStatus->setStyleSheet("color: #ff0000");
     }
 }
