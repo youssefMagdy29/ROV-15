@@ -10,6 +10,8 @@
 
 #include <QTimer>
 
+#include "image.h"
+
 #include <SFML/Window.hpp>
 
 QSerialPort *serial;
@@ -165,6 +167,9 @@ MainWindow::MainWindow(QWidget *parent) :
     camera->setViewfinder(viewfinder);
 
     imageCapture = new QCameraImageCapture(camera);
+
+    connect(imageCapture, SIGNAL(imageSaved(int,QString)),
+            this, SLOT(imageSaved(int, QString)));
 
     camera->setCaptureMode(QCamera::CaptureStillImage);
     camera->start();
@@ -563,4 +568,16 @@ void MainWindow::readJoystickState() {
         ui->joystickStatus->setText("Not Connected");
         ui->joystickStatus->setStyleSheet("color: #ff0000");
     }
+}
+
+void MainWindow::on_captureButton_clicked()
+{
+    imageCapture->capture();
+}
+
+void MainWindow::imageSaved(int id, QString str) {
+    Q_UNUSED(id);
+
+    Image *image = new Image(new QImage(str));
+    image->show();
 }
