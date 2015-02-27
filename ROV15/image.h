@@ -1,13 +1,13 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-#include <QWidget>
+#include <QMainWindow>
 
 namespace Ui {
 class Image;
 }
 
-class Image : public QWidget
+class Image : public QMainWindow
 {
     Q_OBJECT
 
@@ -21,6 +21,7 @@ private:
 
 private slots:
     void showResult(int startX, int startY, int endX, int endY);
+    void saveAs();
 };
 
 #endif // IMAGE_H

@@ -6,9 +6,11 @@
 #include <QPainter>
 #include <QDebug>
 #include <QtCore/qmath.h>
+#include <QDir>
+#include <QFileDialog>
 
 Image::Image(QImage *image, QWidget *parent) :
-    QWidget(parent),
+    QMainWindow(parent),
     ui(new Ui::Image)
 {
     ui->setupUi(this);
@@ -18,6 +20,7 @@ Image::Image(QImage *image, QWidget *parent) :
 
     connect(ui->label, SIGNAL(lineFinished(int,int,int,int)),
             this, SLOT(showResult(int, int, int, int)));
+    connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(saveAs()));
 }
 
 Image::~Image()
@@ -34,4 +37,24 @@ void Image::showResult(int startX, int startY, int endX, int endY) {
     int height = endY - startY;
     float length = qSqrt(height * height + width * width);
     ui->valueLength->setText(QString::number(length));
+}
+
+void Image::saveAs() {
+    const QByteArray fileFormat = "jpeg";
+
+    const QString initialPath = QDir::currentPath() + "/untitled." + fileFormat;
+
+    const QString fileName =
+            QFileDialog::getSaveFileName(this, tr("Save As"),
+                                         initialPath,
+                                         tr("%1 Files (*.%2);;All Files (*)")
+                                         .arg(QString::fromLatin1(
+                                                  fileFormat.toUpper()))
+                                         .arg(QString::fromLatin1(fileFormat)));
+    if (image->save(fileName, fileFormat.constData())) {
+        qDebug() << "Success";
+    }
+    else {
+        qDebug() << "Fail";
+    }
 }
