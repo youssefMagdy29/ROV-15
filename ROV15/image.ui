@@ -1,161 +1,195 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Image</class>
- <widget class="QWidget" name="Image">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>480</height>
+    <height>500</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Image</string>
+   <string>MainWindow</string>
   </property>
-  <widget class="customLabel" name="label">
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="endX">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>260</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>End X:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="length">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>340</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Length:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="valueStartY">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>220</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="startY">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>220</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Start Y:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="valueStartX">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>180</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="customLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>640</width>
+      <height>480</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="valueEndX">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>260</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="startX">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>180</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Start X:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="valueLength">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>340</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="valueEndY">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>300</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="endY">
+    <property name="geometry">
+     <rect>
+      <x>680</x>
+      <y>300</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>End Y:</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>640</width>
-     <height>480</height>
+     <width>800</width>
+     <height>21</height>
     </rect>
    </property>
-   <property name="text">
-    <string/>
-   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="actionSave_As"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
-  <widget class="QLabel" name="startX">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>180</y>
-     <width>47</width>
-     <height>13</height>
-    </rect>
-   </property>
+  <action name="actionSave_As">
    <property name="text">
-    <string>Start X:</string>
+    <string>Save As...</string>
    </property>
-  </widget>
-  <widget class="QLabel" name="startY">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>220</y>
-     <width>47</width>
-     <height>13</height>
-    </rect>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
+  </action>
+  <action name="actionExit">
    <property name="text">
-    <string>Start Y:</string>
+    <string>Exit</string>
    </property>
-  </widget>
-  <widget class="QLabel" name="endX">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>260</y>
-     <width>47</width>
-     <height>13</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>End X:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="endY">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>300</y>
-     <width>47</width>
-     <height>13</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>End Y:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="valueStartX">
-   <property name="geometry">
-    <rect>
-     <x>740</x>
-     <y>180</y>
-     <width>47</width>
-     <height>13</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="valueStartY">
-   <property name="geometry">
-    <rect>
-     <x>740</x>
-     <y>220</y>
-     <width>47</width>
-     <height>13</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="valueEndX">
-   <property name="geometry">
-    <rect>
-     <x>740</x>
-     <y>260</y>
-     <width>47</width>
-     <height>13</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="valueEndY">
-   <property name="geometry">
-    <rect>
-     <x>740</x>
-     <y>300</y>
-     <width>47</width>
-     <height>13</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
-  <widget class="QLabel" name="length">
-   <property name="geometry">
-    <rect>
-     <x>680</x>
-     <y>340</y>
-     <width>47</width>
-     <height>13</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Length:</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="valueLength">
-   <property name="geometry">
-    <rect>
-     <x>730</x>
-     <y>340</y>
-     <width>47</width>
-     <height>13</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-  </widget>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
