@@ -21,6 +21,7 @@ Image::Image(QImage *image, QWidget *parent) :
     connect(ui->label, SIGNAL(lineFinished(int,int,int,int)),
             this, SLOT(showResult(int, int, int, int)));
     connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(saveAs()));
+    connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(exit()));
 }
 
 Image::~Image()
@@ -57,4 +58,8 @@ void Image::saveAs() {
     else {
         qDebug() << "Fail";
     }
+}
+
+void Image::exit() {
+    this->close();
 }

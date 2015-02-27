@@ -22,6 +22,7 @@ private:
 private slots:
     void showResult(int startX, int startY, int endX, int endY);
     void saveAs();
+    void exit();
 };
 
 #endif // IMAGE_H
