@@ -141,6 +141,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     l = ui->labelSentCommand;
 
+    ui->buttonDisconnect->setDisabled(true);
+
     //Serial connection setup
     serial = new QSerialPort(this);
     serial->setBaudRate(QSerialPort::Baud9600);
@@ -324,6 +326,8 @@ void MainWindow::on_buttonConnect_clicked()
     if(serial->open(QIODevice::ReadWrite)) {
         ui->labelConnectionStatus->setText("Connected");
         ui->labelConnectionStatus->setStyleSheet("color: #00ff00");
+        ui->buttonConnect->setDisabled(true);
+        ui->buttonDisconnect->setEnabled(true);
     }
     else {
         QMessageBox::critical(this, tr("Error"), "Invalid Serial port");
@@ -336,6 +340,8 @@ void MainWindow::on_buttonDisconnect_clicked()
         serial->close();
         ui->labelConnectionStatus->setText("Disconnected");
         ui->labelConnectionStatus->setStyleSheet("color: #ff0000");
+        ui->buttonConnect->setEnabled(true);
+        ui->buttonDisconnect->setDisabled(true);
     }
     else {
         QMessageBox::critical(this, tr("Error"), "Not Connected!");
