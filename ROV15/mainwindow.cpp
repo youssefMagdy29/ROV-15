@@ -132,8 +132,8 @@ QByteArray const ACTION_PRESS_JOYSTICK1_DOWN   = BACKWARD;
 QByteArray const ACTION_PRESS_JOYSTICK1_RIGHT  = MOVE_RIGHT;
 QByteArray const ACTION_PRESS_JOYSTICK1_LEFT   = MOVE_LEFT;
 QByteArray const ACTION_PRESS_JOYSTICK1_1      = UP;
-QByteArray const ACTION_PRESS_JOYSTICK1_2      = DOWN;
-QByteArray const ACTION_PRESS_JOYSTICK1_3      = "";
+QByteArray const ACTION_PRESS_JOYSTICK1_2      = "";
+QByteArray const ACTION_PRESS_JOYSTICK1_3      = DOWN;
 QByteArray const ACTION_PRESS_JOYSTICK1_4      = LIGHT_ON;
 QByteArray const ACTION_PRESS_JOYSTICK1_R1     = TURN_RIGHT;
 QByteArray const ACTION_PRESS_JOYSTICK1_R2     = "";
@@ -148,8 +148,8 @@ QByteArray const ACTION_RELEASE_JOYSTICK1_DOWN   = STOP_HORIZONTAL;
 QByteArray const ACTION_RELEASE_JOYSTICK1_RIGHT  = STOP_HORIZONTAL;
 QByteArray const ACTION_RELEASE_JOYSTICK1_LEFT   = STOP_HORIZONTAL;
 QByteArray const ACTION_RELEASE_JOYSTICK1_1      = STOP_VERTICAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_2      = STOP_VERTICAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_3      = "";
+QByteArray const ACTION_RELEASE_JOYSTICK1_2      = "";
+QByteArray const ACTION_RELEASE_JOYSTICK1_3      = STOP_VERTICAL;
 QByteArray const ACTION_RELEASE_JOYSTICK1_4      = "";
 QByteArray const ACTION_RELEASE_JOYSTICK1_R1     = STOP_HORIZONTAL;
 QByteArray const ACTION_RELEASE_JOYSTICK1_R2     = "";
@@ -470,26 +470,26 @@ void MainWindow::readJoystickState() {
             }
         }
         else if ((int) x1 == 0) {
-            l->setText(STOP_HORIZONTAL);
-            serial->write(STOP_HORIZONTAL);
+            l->setText(ACTION_RELEASE_JOYSTICK1_LEFT);
+            serial->write(ACTION_RELEASE_JOYSTICK1_LEFT);
             x_1_pressed = false;
         }
 
         if (!y_1_pressed) {
             if (y1 == -100) {
-                l->setText(UP);
-                serial->write(UP);
+                l->setText(ACTION_PRESS_JOYSTICK1_UP);
+                serial->write(ACTION_PRESS_JOYSTICK1_UP);
                 y_1_pressed = true;
             }
             else if (y1 == 100) {
-                l->setText(DOWN);
-                serial->write(DOWN);
+                l->setText(ACTION_PRESS_JOYSTICK1_DOWN);
+                serial->write(ACTION_PRESS_JOYSTICK1_DOWN);
                 y_1_pressed = true;
             }
         }
         else if ((int) y1 == 0) {
-            l->setText(STOP_VERTICAL);
-            serial->write(STOP_VERTICAL);
+            l->setText(ACTION_RELEASE_JOYSTICK1_DOWN);
+            serial->write(ACTION_RELEASE_JOYSTICK1_DOWN);
             y_1_pressed = false;
         }
 
