@@ -184,6 +184,8 @@ MainWindow::MainWindow(QWidget *parent) :
     lbl = new QLabel;
     lbl->setWindowTitle("Screen Shot");
 
+    image = new Image(new QImage());
+
     //Serial connection setup
     serial = new QSerialPort(this);
     serial->setBaudRate(QSerialPort::Baud9600);
@@ -690,14 +692,15 @@ void MainWindow::on_captureButton_clicked()
 void MainWindow::imageSaved(int id, QString str) {
     Q_UNUSED(id);
 
+    QImage img = QImage(str);
+    img = img.mirrored(true, false);
+
     if (mode) {
-        image = new Image(new QImage(str));
+        image->setImage(img);
         image->show();
     }
     else {
         QByteArray fileformat = "jpeg";
-        QImage img = QImage(str);
-        img = img.mirrored(true, false);
         lbl->setPixmap(QPixmap::fromImage(img));
         lbl->show();
         QString filename = "C:/Users/Youssef/Desktop/ROV_ScreenShots/" + QString::number(img_counter++) + ".jpeg";

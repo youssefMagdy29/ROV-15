@@ -60,6 +60,10 @@ void Image::saveAs() {
     }
 }
 
+void Image::setImage(QImage &image) {
+    ui->label->setPixmap(QPixmap::fromImage(image));
+}
+
 void Image::exit() {
     this->close();
 }

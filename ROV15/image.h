@@ -13,6 +13,7 @@ class Image : public QMainWindow
 
 public:
     explicit Image(QImage *image, QWidget *parent = 0);
+    void setImage(QImage &image);
     ~Image();
 
 private:
