@@ -21,6 +21,7 @@ QVideoWidget *viewfinder;
 QCameraImageCapture *imageCapture;
 QGraphicsView *graphicsView;
 QLabel *lbl;
+Image *image;
 
 //Directions...
 //Commands...
@@ -510,6 +511,25 @@ void MainWindow::readJoystickState() {
             _1_pressed[JOYSTICK_L2] = false;
         }*/
 
+        if (!_1_pressed[JOYSTICK_START]) {
+            if (sf::Joystick::isButtonPressed(0, JOYSTICK_START)) {
+                /*l->setText(ACTION_PRESS_JOYSTICK1_START);
+                serial->write(ACTION_PRESS_JOYSTICK1_START);*/
+                mode = !mode;
+                if (mode)
+                    ui->valueMode->setText("Measuring");
+                else
+                    ui->valueMode->setText("Capturing");
+                _1_pressed[JOYSTICK_START] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_START)) {
+            /*l->setText(ACTION_RELEASE_JOYSTICK1_START);
+            serial->write(ACTION_RELEASE_JOYSTICK1_START);*/
+            _1_pressed[JOYSTICK_START] = false;
+        }
+
+
         if (!x_1_pressed) {
             if (x1 == -100) {
                 l->setText(ACTION_PRESS_JOYSTICK1_LEFT);
@@ -671,13 +691,13 @@ void MainWindow::imageSaved(int id, QString str) {
     Q_UNUSED(id);
 
     if (mode) {
-        Image *image = new Image(new QImage(str));
+        image = new Image(new QImage(str));
         image->show();
     }
     else {
         QByteArray fileformat = "jpeg";
         QImage img = QImage(str);
-        img.mirrored(true, false);
+        img = img.mirrored(true, false);
         lbl->setPixmap(QPixmap::fromImage(img));
         lbl->show();
         QString filename = "C:/Users/Youssef/Desktop/ROV_ScreenShots/" + QString::number(img_counter++) + ".jpeg";
