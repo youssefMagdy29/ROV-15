@@ -20,11 +20,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     image.cpp \
-    customlabel.cpp
+    customlabel.cpp \
+    resizable_label.cpp
 
 HEADERS  += mainwindow.h \
     image.h \
-    customlabel.h
+    customlabel.h \
+    resizable_label.h
 
 FORMS    += mainwindow.ui \
     image.ui

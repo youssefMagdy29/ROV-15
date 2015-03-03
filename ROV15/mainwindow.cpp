@@ -13,6 +13,7 @@
 #include <QTimer>
 
 #include "image.h"
+#include "resizable_label.h"
 
 #include <SFML/Window.hpp>
 
@@ -22,7 +23,7 @@ QCamera *camera;
 QVideoWidget *viewfinder;
 QCameraImageCapture *imageCapture;
 QGraphicsView *graphicsView;
-QLabel *lbl;
+ResizableLabel *lbl;
 Image *image;
 QImage img;
 
@@ -186,7 +187,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->buttonDisconnect->setDisabled(true);
 
-    lbl = new QLabel;
+    lbl = new ResizableLabel;
     lbl->setWindowTitle("Screen Shot");
 
     image = new Image(new QImage());
@@ -714,11 +715,11 @@ void MainWindow::imageSaved(int id, QString str) {
     else {
         QByteArray fileformat = "jpeg";
         lbl->setPixmap(QPixmap::fromImage(img));
+        lbl->setImage(&img);
         lbl->show();
         QString filename = "C:/Users/Youssef/Desktop/ROV_ScreenShots/"
                 + QDate::currentDate().toString(Qt::ISODate) + " " +
                 QTime::currentTime().toString("hh:mm:ss.zzz").replace(":", "_").replace(".", "_") + ".jpeg";
-        qDebug() << filename;
         img.save(filename, fileformat.constData());
     }
 }
