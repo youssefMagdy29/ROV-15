@@ -170,7 +170,9 @@ bool _1_pressed[32];
 bool _2_pressed[32];
 
 bool mode;
+bool light_state;
 int img_counter;
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -450,14 +452,21 @@ void MainWindow::readJoystickState() {
 
         if (!_1_pressed[JOYSTICK_4]) {
             if (sf::Joystick::isButtonPressed(0, JOYSTICK_4)) {
-                l->setText(ACTION_PRESS_JOYSTICK1_4);
-                serial->write(ACTION_PRESS_JOYSTICK1_4);
+                light_state = !light_state;
+                if (light_state) {
+                    l->setText(LIGHT_ON);
+                    serial->write(LIGHT_ON);
+                }
+                else {
+                    l->setText(LIGHT_OFF);
+                    serial->write(LIGHT_OFF);
+                }
                 _1_pressed[JOYSTICK_4] = true;
             }
         }
         else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_4)) {
-            l->setText(ACTION_RELEASE_JOYSTICK1_4);
-            serial->write(ACTION_RELEASE_JOYSTICK1_4);
+            /*l->setText(ACTION_RELEASE_JOYSTICK1_4);
+            serial->write(ACTION_RELEASE_JOYSTICK1_4);*/
             _1_pressed[JOYSTICK_4] = false;
         }
 
