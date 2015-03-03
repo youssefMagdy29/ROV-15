@@ -401,28 +401,28 @@ void MainWindow::readJoystickState() {
         //Moving forward
         if (!_1_pressed[JOYSTICK_1]) {
             if (sf::Joystick::isButtonPressed(0, JOYSTICK_1)) {
-                l->setText(FORWARD);
-                serial->write(FORWARD);
+                l->setText(ACTION_PRESS_JOYSTICK1_1);
+                serial->write(ACTION_PRESS_JOYSTICK1_1);
                 _1_pressed[JOYSTICK_1] = true;
             }
         }
         else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_1)) {
-            l->setText(STOP_HORIZONTAL);
-            serial->write(STOP_HORIZONTAL);
+            l->setText(ACTION_RELEASE_JOYSTICK1_1);
+            serial->write(ACTION_RELEASE_JOYSTICK1_1);
             _1_pressed[JOYSTICK_1] = false;
         }
 
         //Moving backward
         if (!_1_pressed[JOYSTICK_3]) {
             if (sf::Joystick::isButtonPressed(0, JOYSTICK_3)) {
-                l->setText(BACKWARD);
-                serial->write(BACKWARD);
+                l->setText(ACTION_PRESS_JOYSTICK1_3);
+                serial->write(ACTION_PRESS_JOYSTICK1_3);
                 _1_pressed[JOYSTICK_3] = true;
             }
         }
         else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_3)) {
-            l->setText(STOP_HORIZONTAL);
-            serial->write(STOP_HORIZONTAL);
+            l->setText(ACTION_RELEASE_JOYSTICK1_3);
+            serial->write(ACTION_RELEASE_JOYSTICK1_3);
             _1_pressed[JOYSTICK_3] = false;
         }
 
@@ -430,42 +430,42 @@ void MainWindow::readJoystickState() {
         //Moving right
         if (!_1_pressed[JOYSTICK_2]) {
             if (sf::Joystick::isButtonPressed(0, JOYSTICK_2)) {
-                l->setText(MOVE_RIGHT);
-                serial->write(MOVE_RIGHT);
+                l->setText(ACTION_PRESS_JOYSTICK1_2);
+                serial->write(ACTION_PRESS_JOYSTICK1_2);
                 _1_pressed[JOYSTICK_2] = true;
             }
         }
         else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_2)) {
-            l->setText(STOP_HORIZONTAL);
-            serial->write(STOP_HORIZONTAL);
+            l->setText(ACTION_RELEASE_JOYSTICK1_2);
+            serial->write(ACTION_RELEASE_JOYSTICK1_2);
             _1_pressed[JOYSTICK_2] = false;
         }
 
         //Moving left
         if (!_1_pressed[JOYSTICK_4]) {
             if (sf::Joystick::isButtonPressed(0, JOYSTICK_4)) {
-                l->setText(MOVE_LEFT);
-                serial->write(MOVE_LEFT);
+                l->setText(ACTION_PRESS_JOYSTICK1_4);
+                serial->write(ACTION_PRESS_JOYSTICK1_4);
                 _1_pressed[JOYSTICK_4] = true;
             }
         }
         else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_4)) {
-            l->setText(STOP_HORIZONTAL);
-            serial->write(STOP_HORIZONTAL);
+            l->setText(ACTION_RELEASE_JOYSTICK1_4);
+            serial->write(ACTION_RELEASE_JOYSTICK1_4);
             _1_pressed[JOYSTICK_4] = false;
         }
 
         if (!x_1_pressed) {
             //Turning left
             if (x1 == -100) {
-                l->setText(TURN_LEFT);
-                serial->write(TURN_LEFT);
+                l->setText(ACTION_PRESS_JOYSTICK1_LEFT);
+                serial->write(ACTION_PRESS_JOYSTICK1_LEFT);
                 x_1_pressed = true;
             }
             //Turning right
             else if (x1 == 100) {
-                l->setText(TURN_RIGHT);
-                serial->write(TURN_RIGHT);
+                l->setText(ACTION_PRESS_JOYSTICK1_RIGHT);
+                serial->write(ACTION_PRESS_JOYSTICK1_RIGHT);
                 x_1_pressed = true;
             }
         }
