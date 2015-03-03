@@ -169,6 +169,7 @@ bool _1_pressed[32];
 bool _2_pressed[32];
 
 bool mode;
+int img_counter;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -674,8 +675,12 @@ void MainWindow::imageSaved(int id, QString str) {
         image->show();
     }
     else {
+        QByteArray fileformat = "jpeg";
         QImage img = QImage(str);
+        img.mirrored(true, false);
         lbl->setPixmap(QPixmap::fromImage(img));
         lbl->show();
+        QString filename = "C:/Users/Youssef/Desktop/ROV_ScreenShots/" + QString::number(img_counter++) + ".jpeg";
+        img.save(filename, fileformat.constData());
     }
 }
