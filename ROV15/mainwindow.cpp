@@ -125,6 +125,23 @@ unsigned int const JOYSTICK_L2     = 6;
 unsigned int const JOYSTICK_START  = 9;
 unsigned int const JOYSTICK_SELECT = 8;
 
+//Pilot Control
+//Press actions
+QByteArray const ACTION_PRESS_JOYSTICK1_UP     = FORWARD;
+QByteArray const ACTION_PRESS_JOYSTICK1_DOWN   = BACKWARD;
+QByteArray const ACTION_PRESS_JOYSTICK1_RIGHT  = MOVE_RIGHT;
+QByteArray const ACTION_PRESS_JOYSTICK1_LEFT   = MOVE_LEFT;
+QByteArray const ACTION_PRESS_JOYSTICK1_1      = UP;
+QByteArray const ACTION_PRESS_JOYSTICK1_2      = DOWN;
+QByteArray const ACTION_PRESS_JOYSTICK1_3      = "";
+QByteArray const ACTION_PRESS_JOYSTICK1_4      = LIGHT_ON;
+QByteArray const ACTION_PRESS_JOYSTICK1_R1     = TURN_RIGHT;
+QByteArray const ACTION_PRESS_JOYSTICK1_R2     = TURN_LEFT;
+QByteArray const ACTION_PRESS_JOYSTICK1_L1     = "";
+QByteArray const ACTION_PRESS_JOYSTICK1_L2     = "";
+QByteArray const ACTION_PRESS_JOYSTICK1_START  = "";
+QByteArray const ACTION_PRESS_JOYSTICK1_SELECT = "";
+
 bool x_1_pressed = false;
 bool y_1_pressed = false;
 bool y_2_pressed = false;
