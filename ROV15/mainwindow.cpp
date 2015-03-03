@@ -20,6 +20,7 @@ QCamera *camera;
 QVideoWidget *viewfinder;
 QCameraImageCapture *imageCapture;
 QGraphicsView *graphicsView;
+QLabel *lbl;
 
 //Directions...
 //Commands...
@@ -167,6 +168,8 @@ bool r_2_pressed = false;
 bool _1_pressed[32];
 bool _2_pressed[32];
 
+bool mode;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -175,6 +178,9 @@ MainWindow::MainWindow(QWidget *parent) :
     l = ui->labelSentCommand;
 
     ui->buttonDisconnect->setDisabled(true);
+
+    lbl = new QLabel;
+    lbl->setWindowTitle("Screen Shot");
 
     //Serial connection setup
     serial = new QSerialPort(this);
@@ -428,6 +434,7 @@ void MainWindow::readJoystickState() {
             if (sf::Joystick::isButtonPressed(0, JOYSTICK_2)) {
                 /*l->setText(ACTION_PRESS_JOYSTICK1_2);
                 serial->write(ACTION_PRESS_JOYSTICK1_2);*/
+                imageCapture->capture();
                 _1_pressed[JOYSTICK_2] = true;
             }
         }
@@ -662,6 +669,13 @@ void MainWindow::on_captureButton_clicked()
 void MainWindow::imageSaved(int id, QString str) {
     Q_UNUSED(id);
 
-    Image *image = new Image(new QImage(str));
-    image->show();
+    if (mode) {
+        Image *image = new Image(new QImage(str));
+        image->show();
+    }
+    else {
+        QImage img = QImage(str);
+        lbl->setPixmap(QPixmap::fromImage(img));
+        lbl->show();
+    }
 }
