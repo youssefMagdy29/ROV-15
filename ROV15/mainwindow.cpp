@@ -3,6 +3,8 @@
 #include <QKeyEvent>
 #include <QtSerialPort/QSerialPort>
 #include <QMessageBox>
+#include <QDate>
+#include <QTime>
 
 #include <QtMultimedia/QCamera>
 #include <QCameraImageCapture>
@@ -22,6 +24,7 @@ QCameraImageCapture *imageCapture;
 QGraphicsView *graphicsView;
 QLabel *lbl;
 Image *image;
+QImage img;
 
 //Directions...
 //Commands...
@@ -701,7 +704,7 @@ void MainWindow::on_captureButton_clicked()
 void MainWindow::imageSaved(int id, QString str) {
     Q_UNUSED(id);
 
-    QImage img = QImage(str);
+    img = QImage(str);
     img = img.mirrored(true, false);
 
     if (mode) {
@@ -712,7 +715,10 @@ void MainWindow::imageSaved(int id, QString str) {
         QByteArray fileformat = "jpeg";
         lbl->setPixmap(QPixmap::fromImage(img));
         lbl->show();
-        QString filename = "C:/Users/Youssef/Desktop/ROV_ScreenShots/" + QString::number(img_counter++) + ".jpeg";
+        QString filename = "C:/Users/Youssef/Desktop/ROV_ScreenShots/"
+                + QDate::currentDate().toString(Qt::ISODate) + " " +
+                QTime::currentTime().toString("hh:mm:ss.zzz").replace(":", "_").replace(".", "_") + ".jpeg";
+        qDebug() << filename;
         img.save(filename, fileformat.constData());
     }
 }
