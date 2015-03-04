@@ -40,12 +40,12 @@ void customLabel::mouseMoveEvent(QMouseEvent *e) {
 
     if (endX < 0)
         endX = 0;
-    else if (endX > 640)
-        endX = 640;
+    else if (endX > 720)
+        endX = 720;
     if (endY < 0)
         endY = 0;
-    else if (endY > 480)
-        endY = 480;
+    else if (endY > 576)
+        endY = 576;
 
     this->repaint();
 }
