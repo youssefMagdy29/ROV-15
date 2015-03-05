@@ -24,6 +24,9 @@ private slots:
     void showResult(int startX, int startY, int endX, int endY);
     void saveAs();
     void exit();
+protected:
+    void dragEnterEvent(QDragEnterEvent *e);
+    void dropEvent(QDropEvent *e);
 };
 
 #endif // IMAGE_H

@@ -9,6 +9,7 @@
 #include <QtMultimedia/QCamera>
 #include <QCameraImageCapture>
 #include <QCameraViewfinder>
+#include <QCameraInfo>
 
 #include <QTimer>
 
@@ -26,6 +27,7 @@ QGraphicsView *graphicsView;
 ResizableLabel *lbl;
 Image *image;
 QImage img;
+QCameraInfo camInfo;
 
 //Directions...
 //Commands...
@@ -203,7 +205,16 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
 
     //Camera setup
-    camera = new QCamera;
+     foreach (const QCameraInfo &cameraInfo, QCameraInfo::availableCameras()) {
+         if (cameraInfo.description() == "SMI Grabber Device") {
+             camInfo = cameraInfo;
+         }
+         else {
+             camInfo = QCameraInfo::defaultCamera();
+         }
+     }
+
+    camera = new QCamera(camInfo);
     viewfinder = new QVideoWidget;
 
     graphicsView = ui->graphicsView;
@@ -714,7 +725,7 @@ void MainWindow::imageSaved(int id, QString str) {
     }
     else {
         QByteArray fileformat = "jpeg";
-        lbl->setPixmap(QPixmap::fromImage(img));
+        lbl->setPixmap(QPixmap::fromImage(img.scaled(lbl->width(), lbl->height())));
         lbl->setImage(&img);
         lbl->show();
         QString filename = "C:/Users/Youssef/Desktop/ROV_ScreenShots/"
