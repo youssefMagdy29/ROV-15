@@ -9,6 +9,8 @@
 #include <QDir>
 #include <QFileDialog>
 #include <QMimeData>
+#include <QDate>
+#include <QTime>
 
 Image::Image(QImage *image, QWidget *parent) :
     QMainWindow(parent),
@@ -82,4 +84,18 @@ void Image::dropEvent(QDropEvent *e) {
         QByteArray data = e->mimeData()->data("jpeg");
         ui->label->setPixmap(QPixmap::fromImage(QImage(fileName, data)));
     }
+}
+
+void Image::show() {
+    QMainWindow::show();
+
+    QByteArray fileformat = "jpeg";
+
+    QString filename = "C:/Users/Youssef/Desktop/ROV_ScreenShots/"
+            + QDate::currentDate().toString(Qt::ISODate) + " " +
+            QTime::currentTime().toString("hh:mm:ss.zzz").replace(":", "_").replace(".", "_") + ".jpeg";
+
+    qDebug() << filename;
+
+    this->image->save(filename, fileformat.constData());
 }
