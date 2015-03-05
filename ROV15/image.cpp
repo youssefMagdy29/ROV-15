@@ -8,6 +8,7 @@
 #include <QtCore/qmath.h>
 #include <QDir>
 #include <QFileDialog>
+#include <QMimeData>
 
 Image::Image(QImage *image, QWidget *parent) :
     QMainWindow(parent),
@@ -22,6 +23,7 @@ Image::Image(QImage *image, QWidget *parent) :
             this, SLOT(showResult(int, int, int, int)));
     connect(ui->actionSave_As, SIGNAL(triggered()), this, SLOT(saveAs()));
     connect(ui->actionExit, SIGNAL(triggered()), this, SLOT(exit()));
+    setAcceptDrops(true);
 }
 
 Image::~Image()
@@ -67,4 +69,17 @@ void Image::setImage(QImage &image) {
 
 void Image::exit() {
     this->close();
+}
+
+void Image::dragEnterEvent(QDragEnterEvent *e) {
+    if (e->mimeData()->hasUrls())
+        e->acceptProposedAction();
+}
+
+void Image::dropEvent(QDropEvent *e) {
+    foreach(const QUrl &url, e->mimeData()->urls()) {
+        const QString &fileName = url.toLocalFile();
+        QByteArray data = e->mimeData()->data("jpeg");
+        ui->label->setPixmap(QPixmap::fromImage(QImage(fileName, data)));
+    }
 }
