@@ -121,6 +121,10 @@ QChar const KEY_BASE_STOP  = 'H';
 QChar const KEY_BASE_RIGHT = 'V';
 QChar const KEY_BASE_LEFT  = 'U';
 
+//Speed Commands
+QByteArray const ARM_SPEED_UP   = "z";
+QByteArray const ARM_SPEED_DOWN = "p";
+
 //Joystick buttons
 unsigned int const JOYSTICK_1      = 0;
 unsigned int const JOYSTICK_2      = 1;
@@ -701,6 +705,30 @@ void MainWindow::readJoystickState() {
             serial->write(BASE_STOP);
             r_2_pressed = false;
         }
+        //Speed
+        //Speed up
+        if (!_2_pressed[JOYSTICK_R1]) {
+            if (sf::Joystick::isButtonPressed(1, JOYSTICK_R1)) {
+                l->setText(ARM_SPEED_UP);
+                serial->write(ARM_SPEED_UP);
+                _2_pressed[JOYSTICK_R1] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_R1)) {
+            _2_pressed[JOYSTICK_R1] = false;
+        }
+        //Speed down
+        if (!_2_pressed[JOYSTICK_L1]) {
+            if (sf::Joystick::isButtonPressed(1, JOYSTICK_L1)) {
+                l->setText(ARM_SPEED_DOWN);
+                serial->write(ARM_SPEED_DOWN);
+                _2_pressed[JOYSTICK_L1] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_L1)) {
+            _2_pressed[JOYSTICK_L1] = false;
+        }
+
     }
     else {
         ui->joystickStatus->setText("Not Connected");
