@@ -33,6 +33,10 @@ private slots:
 
     void imageSaved(int id, QString str);
 
+    void joystickMotorSpeed();
+
+    void autoRepeatEvent();
+
 private:
     Ui::MainWindow *ui;
 };

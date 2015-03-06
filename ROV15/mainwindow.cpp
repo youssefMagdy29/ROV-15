@@ -51,6 +51,10 @@ QChar const KEY_TURN_LEFT  = 'L';
 QChar const KEY_UP         = 'I';
 QChar const KEY_DOWN       = 'J';
 
+//Vertical motors speed
+QByteArray const VERTICAL_MOTORS_SPEED_UP   = "+";
+QByteArray const VERTICAL_MOTORS_SPEED_DOWN = "-";
+
 //Light..
 //Commands...
 QByteArray const LIGHT_ON  = "n";
@@ -148,9 +152,9 @@ QByteArray const ACTION_PRESS_JOYSTICK1_2      = "";
 QByteArray const ACTION_PRESS_JOYSTICK1_3      = DOWN;
 QByteArray const ACTION_PRESS_JOYSTICK1_4      = LIGHT_ON;
 QByteArray const ACTION_PRESS_JOYSTICK1_R1     = TURN_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK1_R2     = "";
+QByteArray const ACTION_PRESS_JOYSTICK1_R2     = VERTICAL_MOTORS_SPEED_UP;
 QByteArray const ACTION_PRESS_JOYSTICK1_L1     = TURN_LEFT;
-QByteArray const ACTION_PRESS_JOYSTICK1_L2     = "";
+QByteArray const ACTION_PRESS_JOYSTICK1_L2     = VERTICAL_MOTORS_SPEED_DOWN;
 QByteArray const ACTION_PRESS_JOYSTICK1_START  = "";
 QByteArray const ACTION_PRESS_JOYSTICK1_SELECT = "";
 
@@ -183,6 +187,8 @@ bool mode;
 bool light_state;
 int img_counter;
 
+QTimer *autoRepeat;
+QTimer *joystickAutoRepeat;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -200,7 +206,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Serial connection setup
     serial = new QSerialPort(this);
-    serial->setBaudRate(QSerialPort::Baud9600);
+    serial->setBaudRate(QSerialPort::Baud19200);
     serial->setDataBits(QSerialPort::Data8);
     serial->setParity(QSerialPort::NoParity);
     serial->setStopBits(QSerialPort::OneStop);
@@ -243,6 +249,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(readJoystickState()));
     timer->start(15);
+
+    joystickAutoRepeat = new QTimer(this);
+    connect(joystickAutoRepeat, SIGNAL(timeout()), this, SLOT(joystickMotorSpeed()));
+
+    autoRepeat = new QTimer(this);
+    connect(autoRepeat, SIGNAL(timeout()), this, SLOT(autoRepeatEvent()));
 }
 
 MainWindow::~MainWindow()
@@ -502,18 +514,25 @@ void MainWindow::readJoystickState() {
             _1_pressed[JOYSTICK_R1] = false;
         }
 
-        /*if (!_1_pressed[JOYSTICK_R2]) {
+        if (!_1_pressed[JOYSTICK_R2]) {
             if (sf::Joystick::isButtonPressed(0, JOYSTICK_R2)) {
+                if (!autoRepeat->isActive()) {
+                    autoRepeat->start(500);
+                }
                 l->setText(ACTION_PRESS_JOYSTICK1_R2);
                 serial->write(ACTION_PRESS_JOYSTICK1_R2);
                 _1_pressed[JOYSTICK_R2] = true;
             }
         }
         else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_R2)) {
-            l->setText(ACTION_RELEASE_JOYSTICK1_R2);
-            serial->write(ACTION_RELEASE_JOYSTICK1_R2);
             _1_pressed[JOYSTICK_R2] = false;
-        }*/
+            if (autoRepeat->isActive()) {
+                autoRepeat->stop();
+            }
+            if (joystickAutoRepeat->isActive()) {
+                joystickAutoRepeat->stop();
+            }
+        }
 
         if (!_1_pressed[JOYSTICK_L1]) {
             if (sf::Joystick::isButtonPressed(0, JOYSTICK_L1)) {
@@ -528,18 +547,25 @@ void MainWindow::readJoystickState() {
             _1_pressed[JOYSTICK_L1] = false;
         }
 
-        /*if (!_1_pressed[JOYSTICK_L2]) {
+        if (!_1_pressed[JOYSTICK_L2]) {
             if (sf::Joystick::isButtonPressed(0, JOYSTICK_L2)) {
+                if (!autoRepeat->isActive()) {
+                    autoRepeat->start(500);
+                }
                 l->setText(ACTION_PRESS_JOYSTICK1_L2);
                 serial->write(ACTION_PRESS_JOYSTICK1_L2);
                 _1_pressed[JOYSTICK_L2] = true;
             }
         }
         else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_L2)) {
-            l->setText(ACTION_RELEASE_JOYSTICK1_L2);
-            serial->write(ACTION_RELEASE_JOYSTICK1_L2);
             _1_pressed[JOYSTICK_L2] = false;
-        }*/
+            if (autoRepeat->isActive()) {
+                autoRepeat->stop();
+            }
+            if (joystickAutoRepeat->isActive()) {
+                joystickAutoRepeat->stop();
+            }
+        }
 
         if (!_1_pressed[JOYSTICK_START]) {
             if (sf::Joystick::isButtonPressed(0, JOYSTICK_START)) {
@@ -761,4 +787,21 @@ void MainWindow::imageSaved(int id, QString str) {
                 QTime::currentTime().toString("hh:mm:ss.zzz").replace(":", "_").replace(".", "_") + ".jpeg";
         img.save(filename, fileformat.constData());
     }
+}
+
+void MainWindow::joystickMotorSpeed() {
+    if (sf::Joystick::isButtonPressed(0, JOYSTICK_R2)) {
+        l->setText(ACTION_PRESS_JOYSTICK1_R2);
+        serial->write(ACTION_PRESS_JOYSTICK1_R2);
+    }
+
+    else if (sf::Joystick::isButtonPressed(0, JOYSTICK_L2)) {
+        l->setText(ACTION_PRESS_JOYSTICK1_L2);
+        serial->write(ACTION_PRESS_JOYSTICK1_L2);
+    }
+}
+
+void MainWindow::autoRepeatEvent() {
+    autoRepeat->stop();
+    joystickAutoRepeat->start(100);
 }
