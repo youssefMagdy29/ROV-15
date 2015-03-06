@@ -174,6 +174,39 @@ QByteArray const ACTION_RELEASE_JOYSTICK1_L2     = "";
 QByteArray const ACTION_RELEASE_JOYSTICK1_START  = "";
 QByteArray const ACTION_RELEASE_JOYSTICK1_SELECT = "";
 
+//Co-pilot Control
+//Press actions
+QByteArray const ACTION_PRESS_JOYSTICK2_UP     = "";
+QByteArray const ACTION_PRESS_JOYSTICK2_DOWN   = "";
+QByteArray const ACTION_PRESS_JOYSTICK2_RIGHT  = "";
+QByteArray const ACTION_PRESS_JOYSTICK2_LEFT   = "";
+QByteArray const ACTION_PRESS_JOYSTICK2_1      = "";
+QByteArray const ACTION_PRESS_JOYSTICK2_2      = "";
+QByteArray const ACTION_PRESS_JOYSTICK2_3      = "";
+QByteArray const ACTION_PRESS_JOYSTICK2_4      = "";
+QByteArray const ACTION_PRESS_JOYSTICK2_R1     = "";
+QByteArray const ACTION_PRESS_JOYSTICK2_R2     = "";
+QByteArray const ACTION_PRESS_JOYSTICK2_L1     = "";
+QByteArray const ACTION_PRESS_JOYSTICK2_L2     = "";
+QByteArray const ACTION_PRESS_JOYSTICK2_START  = "";
+QByteArray const ACTION_PRESS_JOYSTICK2_SELECT = "";
+
+//Release actions
+QByteArray const ACTION_RELEASE_JOYSTICK2_UP     = "";
+QByteArray const ACTION_RELEASE_JOYSTICK2_DOWN   = "";
+QByteArray const ACTION_RELEASE_JOYSTICK2_RIGHT  = "";
+QByteArray const ACTION_RELEASE_JOYSTICK2_LEFT   = "";
+QByteArray const ACTION_RELEASE_JOYSTICK2_1      = "";
+QByteArray const ACTION_RELEASE_JOYSTICK2_2      = "";
+QByteArray const ACTION_RELEASE_JOYSTICK2_3      = "";
+QByteArray const ACTION_RELEASE_JOYSTICK2_4      = "";
+QByteArray const ACTION_RELEASE_JOYSTICK2_R1     = "";
+QByteArray const ACTION_RELEASE_JOYSTICK2_R2     = "";
+QByteArray const ACTION_RELEASE_JOYSTICK2_L1     = "";
+QByteArray const ACTION_RELEASE_JOYSTICK2_L2     = "";
+QByteArray const ACTION_RELEASE_JOYSTICK2_START  = "";
+QByteArray const ACTION_RELEASE_JOYSTICK2_SELECT = "";
+
 bool x_1_pressed = false;
 bool y_1_pressed = false;
 bool y_2_pressed = false;
