@@ -66,15 +66,20 @@ QByteArray const LIGHT_OFF = "m";
 QChar const KEY_LIGHT_ON  = 'N';
 QChar const KEY_LIGHT_OFF = 'M';
 
-//Camera..
+//Camera1..
 //Commands...
-QByteArray const CAM_RIGHT = "y";
-QByteArray const CAM_LEFT  = "t";
-QByteArray const CAM_STOP  = "o";
+QByteArray const CAM1_RIGHT = "y";
+QByteArray const CAM1_LEFT  = "t";
+QByteArray const CAM1_STOP  = "o";
 
 //Keys...
-QChar const KEY_CAM_RIGHT = 'Y';
-QChar const KEY_CAM_LEFT  = 'T';
+QChar const KEY_CAM1_RIGHT = 'Y';
+QChar const KEY_CAM1_LEFT  = 'T';
+
+//Camera2..
+QByteArray const CAM2_RIGHT = "/";
+QByteArray const CAM2_LEFT  = "*";
+QByteArray const CAM2_STOP  = ",";
 
 //Arm..
 //Commands..
@@ -180,8 +185,8 @@ QByteArray const ACTION_RELEASE_JOYSTICK1_SELECT = "";
 //Press actions
 QByteArray const ACTION_PRESS_JOYSTICK2_UP     = ELBOW_LEFT;
 QByteArray const ACTION_PRESS_JOYSTICK2_DOWN   = ELBOW_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK2_RIGHT  = CAM_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK2_LEFT   = CAM_LEFT;
+QByteArray const ACTION_PRESS_JOYSTICK2_RIGHT  = CAM1_RIGHT;
+QByteArray const ACTION_PRESS_JOYSTICK2_LEFT   = CAM1_LEFT;
 QByteArray const ACTION_PRESS_JOYSTICK2_1      = SHOULDER_LEFT;
 QByteArray const ACTION_PRESS_JOYSTICK2_2      = GRIPPER_LEFT;
 QByteArray const ACTION_PRESS_JOYSTICK2_3      = SHOULDER_RIGHT;
@@ -190,14 +195,14 @@ QByteArray const ACTION_PRESS_JOYSTICK2_R1     = WRIST_LEFT;
 QByteArray const ACTION_PRESS_JOYSTICK2_R2     = WRIST_RIGHT;
 QByteArray const ACTION_PRESS_JOYSTICK2_L1     = ARM_SPEED_UP;
 QByteArray const ACTION_PRESS_JOYSTICK2_L2     = ARM_SPEED_DOWN;
-QByteArray const ACTION_PRESS_JOYSTICK2_START  = "";
-QByteArray const ACTION_PRESS_JOYSTICK2_SELECT = "";
+QByteArray const ACTION_PRESS_JOYSTICK2_START  = CAM2_RIGHT;
+QByteArray const ACTION_PRESS_JOYSTICK2_SELECT = CAM2_LEFT;
 
 //Release actions
 QByteArray const ACTION_RELEASE_JOYSTICK2_UP     = ELBOW_STOP;
 QByteArray const ACTION_RELEASE_JOYSTICK2_DOWN   = ELBOW_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_RIGHT  = CAM_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_LEFT   = CAM_STOP;
+QByteArray const ACTION_RELEASE_JOYSTICK2_RIGHT  = CAM1_STOP;
+QByteArray const ACTION_RELEASE_JOYSTICK2_LEFT   = CAM1_STOP;
 QByteArray const ACTION_RELEASE_JOYSTICK2_1      = SHOULDER_STOP;
 QByteArray const ACTION_RELEASE_JOYSTICK2_2      = GRIPPER_STOP;
 QByteArray const ACTION_RELEASE_JOYSTICK2_3      = SHOULDER_STOP;
@@ -206,8 +211,8 @@ QByteArray const ACTION_RELEASE_JOYSTICK2_R1     = WRIST_STOP;
 QByteArray const ACTION_RELEASE_JOYSTICK2_R2     = WRIST_STOP;
 QByteArray const ACTION_RELEASE_JOYSTICK2_L1     = "";
 QByteArray const ACTION_RELEASE_JOYSTICK2_L2     = "";
-QByteArray const ACTION_RELEASE_JOYSTICK2_START  = "";
-QByteArray const ACTION_RELEASE_JOYSTICK2_SELECT = "";
+QByteArray const ACTION_RELEASE_JOYSTICK2_START  = CAM2_STOP;
+QByteArray const ACTION_RELEASE_JOYSTICK2_SELECT = CAM2_STOP;
 
 bool x_1_pressed = false;
 bool y_1_pressed = false;
@@ -251,9 +256,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
 
     //Camera setup
-     foreach (const QCameraInfo &cameraInfo, QCameraInfo::availableCameras()) {
-         if (cameraInfo.description() == "SMI Grabber Device") {
-             camInfo = cameraInfo;
+     foreach (const QCameraInfo &CameraInfo, QCameraInfo::availableCameras()) {
+         if (CameraInfo.description() == "SMI Grabber Device") {
+             camInfo = CameraInfo;
          }
          else {
              camInfo = QCameraInfo::defaultCamera();
@@ -334,13 +339,13 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
             l->setText(DOWN);
             serial->write(DOWN);
         }
-        else if (k == KEY_CAM_RIGHT) {
-            l->setText(CAM_RIGHT);
-            serial->write(CAM_RIGHT);
+        else if (k == KEY_CAM1_RIGHT) {
+            l->setText(CAM1_RIGHT);
+            serial->write(CAM1_RIGHT);
         }
-        else if (k == KEY_CAM_LEFT) {
-            l->setText(CAM_LEFT);
-            serial->write(CAM_LEFT);
+        else if (k == KEY_CAM1_LEFT) {
+            l->setText(CAM1_LEFT);
+            serial->write(CAM1_LEFT);
         }
         else if (k == KEY_LIGHT_ON) {
             l->setText(LIGHT_ON);
@@ -405,9 +410,9 @@ void MainWindow::keyReleaseEvent(QKeyEvent *e) {
             l->setText(STOP_VERTICAL);
             serial->write(STOP_VERTICAL);
         }
-        else if (k == KEY_CAM_LEFT || k == KEY_CAM_RIGHT) {
-            l->setText(CAM_STOP);
-            serial->write(CAM_STOP);
+        else if (k == KEY_CAM1_LEFT || k == KEY_CAM1_RIGHT) {
+            l->setText(CAM1_STOP);
+            serial->write(CAM1_STOP);
         }
         else if (k == KEY_GRIPPER_RIGHT || k == KEY_GRIPPER_LEFT) {
             l->setText(GRIPPER_STOP);
@@ -834,6 +839,34 @@ void MainWindow::readJoystickState() {
         else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_L2)) {
             _2_pressed[JOYSTICK_L2] = false;
         }
+        //CAM12
+        if (!_2_pressed[JOYSTICK_START]) {
+            if (sf::Joystick::isButtonPressed(1, JOYSTICK_START)) {
+                l->setText(ACTION_PRESS_JOYSTICK2_START);
+                serial->write(ACTION_PRESS_JOYSTICK2_START);
+                _2_pressed[JOYSTICK_START] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_START)) {
+            l->setText(ACTION_RELEASE_JOYSTICK2_START);
+            serial->write(ACTION_RELEASE_JOYSTICK2_START);
+            _2_pressed[JOYSTICK_START] = false;
+        }
+
+
+        if (!_2_pressed[JOYSTICK_SELECT]) {
+            if (sf::Joystick::isButtonPressed(1, JOYSTICK_SELECT)) {
+                l->setText(ACTION_PRESS_JOYSTICK2_SELECT);
+                serial->write(ACTION_PRESS_JOYSTICK2_SELECT);
+                _2_pressed[JOYSTICK_SELECT] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_SELECT)) {
+            l->setText(ACTION_RELEASE_JOYSTICK2_SELECT);
+            serial->write(ACTION_RELEASE_JOYSTICK2_SELECT);
+            _2_pressed[JOYSTICK_SELECT] = false;
+        }
+
 
     }
     else {
