@@ -176,32 +176,32 @@ QByteArray const ACTION_RELEASE_JOYSTICK1_SELECT = "";
 
 //Co-pilot Control
 //Press actions
-QByteArray const ACTION_PRESS_JOYSTICK2_UP     = "";
-QByteArray const ACTION_PRESS_JOYSTICK2_DOWN   = "";
+QByteArray const ACTION_PRESS_JOYSTICK2_UP     = ELBOW_LEFT;
+QByteArray const ACTION_PRESS_JOYSTICK2_DOWN   = ELBOW_RIGHT;
 QByteArray const ACTION_PRESS_JOYSTICK2_RIGHT  = "";
 QByteArray const ACTION_PRESS_JOYSTICK2_LEFT   = "";
-QByteArray const ACTION_PRESS_JOYSTICK2_1      = "";
-QByteArray const ACTION_PRESS_JOYSTICK2_2      = "";
-QByteArray const ACTION_PRESS_JOYSTICK2_3      = "";
-QByteArray const ACTION_PRESS_JOYSTICK2_4      = "";
-QByteArray const ACTION_PRESS_JOYSTICK2_R1     = "";
-QByteArray const ACTION_PRESS_JOYSTICK2_R2     = "";
-QByteArray const ACTION_PRESS_JOYSTICK2_L1     = "";
-QByteArray const ACTION_PRESS_JOYSTICK2_L2     = "";
+QByteArray const ACTION_PRESS_JOYSTICK2_1      = SHOULDER_LEFT;
+QByteArray const ACTION_PRESS_JOYSTICK2_2      = GRIPPER_LEFT;
+QByteArray const ACTION_PRESS_JOYSTICK2_3      = SHOULDER_RIGHT;
+QByteArray const ACTION_PRESS_JOYSTICK2_4      = GRIPPER_RIGHT;
+QByteArray const ACTION_PRESS_JOYSTICK2_R1     = WRIST_LEFT;
+QByteArray const ACTION_PRESS_JOYSTICK2_R2     = WRIST_RIGHT;
+QByteArray const ACTION_PRESS_JOYSTICK2_L1     = ARM_SPEED_UP;
+QByteArray const ACTION_PRESS_JOYSTICK2_L2     = ARM_SPEED_DOWN;
 QByteArray const ACTION_PRESS_JOYSTICK2_START  = "";
 QByteArray const ACTION_PRESS_JOYSTICK2_SELECT = "";
 
 //Release actions
-QByteArray const ACTION_RELEASE_JOYSTICK2_UP     = "";
-QByteArray const ACTION_RELEASE_JOYSTICK2_DOWN   = "";
+QByteArray const ACTION_RELEASE_JOYSTICK2_UP     = ELBOW_STOP;
+QByteArray const ACTION_RELEASE_JOYSTICK2_DOWN   = ELBOW_STOP;
 QByteArray const ACTION_RELEASE_JOYSTICK2_RIGHT  = "";
 QByteArray const ACTION_RELEASE_JOYSTICK2_LEFT   = "";
-QByteArray const ACTION_RELEASE_JOYSTICK2_1      = "";
-QByteArray const ACTION_RELEASE_JOYSTICK2_2      = "";
-QByteArray const ACTION_RELEASE_JOYSTICK2_3      = "";
-QByteArray const ACTION_RELEASE_JOYSTICK2_4      = "";
-QByteArray const ACTION_RELEASE_JOYSTICK2_R1     = "";
-QByteArray const ACTION_RELEASE_JOYSTICK2_R2     = "";
+QByteArray const ACTION_RELEASE_JOYSTICK2_1      = SHOULDER_STOP;
+QByteArray const ACTION_RELEASE_JOYSTICK2_2      = GRIPPER_STOP;
+QByteArray const ACTION_RELEASE_JOYSTICK2_3      = SHOULDER_STOP;
+QByteArray const ACTION_RELEASE_JOYSTICK2_4      = GRIPPER_STOP;
+QByteArray const ACTION_RELEASE_JOYSTICK2_R1     = WRIST_STOP;
+QByteArray const ACTION_RELEASE_JOYSTICK2_R2     = WRIST_STOP;
 QByteArray const ACTION_RELEASE_JOYSTICK2_L1     = "";
 QByteArray const ACTION_RELEASE_JOYSTICK2_L2     = "";
 QByteArray const ACTION_RELEASE_JOYSTICK2_START  = "";
@@ -657,79 +657,105 @@ void MainWindow::readJoystickState() {
 
         //Arm Control
         float y2 = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
-        float z2 = sf::Joystick::getAxisPosition(1, sf::Joystick::Z);
-        float r2 = sf::Joystick::getAxisPosition(1, sf::Joystick::R);
+        //float z2 = sf::Joystick::getAxisPosition(1, sf::Joystick::Z);
+        //float r2 = sf::Joystick::getAxisPosition(1, sf::Joystick::R);
 
         //Gripper
         if (!_2_pressed[JOYSTICK_2]) {
             if (sf::Joystick::isButtonPressed(1, JOYSTICK_2)) {
-                l->setText(GRIPPER_LEFT);
-                serial->write(GRIPPER_LEFT);
+                l->setText(ACTION_PRESS_JOYSTICK2_2);
+                serial->write(ACTION_PRESS_JOYSTICK2_2);
                 _2_pressed[JOYSTICK_2] = true;
             }
         }
         else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_2)) {
-            l->setText(GRIPPER_STOP);
-            serial->write(GRIPPER_STOP);
+            l->setText(ACTION_RELEASE_JOYSTICK2_2);
+            serial->write(ACTION_RELEASE_JOYSTICK2_2);
             _2_pressed[JOYSTICK_2] = false;
         }
         if (!_2_pressed[JOYSTICK_4]) {
             if (sf::Joystick::isButtonPressed(1, JOYSTICK_4)) {
-                l->setText(GRIPPER_RIGHT);
-                serial->write(GRIPPER_RIGHT);
+                l->setText(ACTION_PRESS_JOYSTICK2_4);
+                serial->write(ACTION_PRESS_JOYSTICK2_4);
                 _2_pressed[JOYSTICK_4] = true;
             }
         }
         else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_4)) {
-            l->setText(GRIPPER_STOP);
-            serial->write(GRIPPER_STOP);
+            l->setText(ACTION_RELEASE_JOYSTICK2_4);
+            serial->write(ACTION_RELEASE_JOYSTICK2_4);
             _2_pressed[JOYSTICK_4] = false;
         }
         //Wrist
+        if (!_2_pressed[JOYSTICK_R1]) {
+            if (sf::Joystick::isButtonPressed(1, JOYSTICK_R1)) {
+                l->setText(ACTION_PRESS_JOYSTICK2_R1);
+                serial->write(ACTION_PRESS_JOYSTICK2_R1);
+                _2_pressed[JOYSTICK_R1] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_R1)) {
+            l->setText(ACTION_RELEASE_JOYSTICK2_R1);
+            serial->write(ACTION_RELEASE_JOYSTICK2_R1);
+            _2_pressed[JOYSTICK_R1] = false;
+        }
+        if (!_2_pressed[JOYSTICK_R2]) {
+            if (sf::Joystick::isButtonPressed(1, JOYSTICK_R2)) {
+                l->setText(ACTION_PRESS_JOYSTICK2_R2);
+                serial->write(ACTION_PRESS_JOYSTICK2_R2);
+                _2_pressed[JOYSTICK_R2] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_R2)) {
+            l->setText(ACTION_RELEASE_JOYSTICK2_R2);
+            serial->write(ACTION_RELEASE_JOYSTICK2_R2);
+            _2_pressed[JOYSTICK_R2] = false;
+        }
+
+        //Shoulder
         if (!_2_pressed[JOYSTICK_1]) {
             if (sf::Joystick::isButtonPressed(1, JOYSTICK_1)) {
-                l->setText(WRIST_LEFT);
-                serial->write(WRIST_LEFT);
+                l->setText(ACTION_PRESS_JOYSTICK2_1);
+                serial->write(ACTION_PRESS_JOYSTICK2_1);
                 _2_pressed[JOYSTICK_1] = true;
             }
         }
         else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_1)) {
-            l->setText(WRIST_STOP);
-            serial->write(WRIST_STOP);
+            l->setText(ACTION_RELEASE_JOYSTICK2_1);
+            serial->write(ACTION_RELEASE_JOYSTICK2_1);
             _2_pressed[JOYSTICK_1] = false;
         }
         if (!_2_pressed[JOYSTICK_3]) {
             if (sf::Joystick::isButtonPressed(1, JOYSTICK_3)) {
-                l->setText(WRIST_RIGHT);
-                serial->write(WRIST_RIGHT);
+                l->setText(ACTION_PRESS_JOYSTICK2_3);
+                serial->write(ACTION_PRESS_JOYSTICK2_3);
                 _2_pressed[JOYSTICK_3] = true;
             }
         }
         else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_3)) {
-            l->setText(WRIST_STOP);
-            serial->write(WRIST_STOP);
+            l->setText(ACTION_RELEASE_JOYSTICK2_3);
+            serial->write(ACTION_RELEASE_JOYSTICK2_3);
             _2_pressed[JOYSTICK_3] = false;
         }
         //Elbow
         if (!y_2_pressed) {
             if (y2 == -100) {
-                l->setText(ELBOW_LEFT);
-                serial->write(ELBOW_LEFT);
+                l->setText(ACTION_PRESS_JOYSTICK2_UP);
+                serial->write(ACTION_PRESS_JOYSTICK2_UP);
                 y_2_pressed = true;
             }
             else if (y2 == 100) {
-                l->setText(ELBOW_RIGHT);
-                serial->write(ELBOW_RIGHT);
+                l->setText(ACTION_PRESS_JOYSTICK2_DOWN);
+                serial->write(ACTION_PRESS_JOYSTICK2_DOWN);
                 y_2_pressed = true;
             }
         }
         else if (abs(y2) < 5) {
-            l->setText(ELBOW_STOP);
-            serial->write(ELBOW_STOP);
+            l->setText(ACTION_RELEASE_JOYSTICK2_UP);
+            serial->write(ACTION_RELEASE_JOYSTICK2_UP);
             y_2_pressed = false;
         }
         //Shoulder
-        if (!z_2_pressed) {
+        /*if (!z_2_pressed) {
             if (z2 == -100) {
                 l->setText(SHOULDER_LEFT);
                 serial->write(SHOULDER_LEFT);
@@ -745,9 +771,9 @@ void MainWindow::readJoystickState() {
             l->setText(SHOULDER_STOP);
             serial->write(SHOULDER_STOP);
             z_2_pressed = false;
-        }
+        }*/
         //Base
-        if (!r_2_pressed) {
+        /*if (!r_2_pressed) {
             if (r2 == -100) {
                 l->setText(BASE_LEFT);
                 serial->write(BASE_LEFT);
@@ -763,29 +789,29 @@ void MainWindow::readJoystickState() {
             l->setText(BASE_STOP);
             serial->write(BASE_STOP);
             r_2_pressed = false;
-        }
+        }*/
         //Speed
         //Speed up
-        if (!_2_pressed[JOYSTICK_R1]) {
-            if (sf::Joystick::isButtonPressed(1, JOYSTICK_R1)) {
-                l->setText(ARM_SPEED_UP);
-                serial->write(ARM_SPEED_UP);
-                _2_pressed[JOYSTICK_R1] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_R1)) {
-            _2_pressed[JOYSTICK_R1] = false;
-        }
-        //Speed down
         if (!_2_pressed[JOYSTICK_L1]) {
             if (sf::Joystick::isButtonPressed(1, JOYSTICK_L1)) {
-                l->setText(ARM_SPEED_DOWN);
-                serial->write(ARM_SPEED_DOWN);
+                l->setText(ACTION_PRESS_JOYSTICK2_L1);
+                serial->write(ACTION_PRESS_JOYSTICK2_L1);
                 _2_pressed[JOYSTICK_L1] = true;
             }
         }
         else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_L1)) {
             _2_pressed[JOYSTICK_L1] = false;
+        }
+        //Speed down
+        if (!_2_pressed[JOYSTICK_L2]) {
+            if (sf::Joystick::isButtonPressed(1, JOYSTICK_L2)) {
+                l->setText(ACTION_PRESS_JOYSTICK2_L2);
+                serial->write(ACTION_PRESS_JOYSTICK2_L2);
+                _2_pressed[JOYSTICK_L2] = true;
+            }
+        }
+        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_L2)) {
+            _2_pressed[JOYSTICK_L2] = false;
         }
 
     }
