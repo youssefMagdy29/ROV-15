@@ -11,6 +11,7 @@
 #include <QMimeData>
 #include <QDate>
 #include <QTime>
+#include <QStandardPaths>
 
 Image::Image(QImage *image, QWidget *parent) :
     QMainWindow(parent),
@@ -91,9 +92,10 @@ void Image::show() {
 
     QByteArray fileformat = "jpeg";
 
-    QString filename = "C:/Users/Youssef/Desktop/ROV_ScreenShots/"
+    QString filename = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/ROV_ScreenShots/"
             + QDate::currentDate().toString(Qt::ISODate) + " " +
             QTime::currentTime().toString("hh:mm:ss.zzz").replace(":", "_").replace(".", "_") + ".jpeg";
+
 
     qDebug() << filename;
 

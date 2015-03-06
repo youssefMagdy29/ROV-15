@@ -18,6 +18,8 @@
 
 #include <SFML/Window.hpp>
 
+#include <QDesktopServices>
+
 QSerialPort *serial;
 QLabel *l;
 QCamera *camera;
@@ -841,7 +843,7 @@ void MainWindow::imageSaved(int id, QString str) {
         lbl->setPixmap(QPixmap::fromImage(img.scaled(lbl->width(), lbl->height())));
         lbl->setImage(&img);
         lbl->show();
-        QString filename = "C:/Users/Youssef/Desktop/ROV_ScreenShots/"
+        QString filename = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/ROV_ScreenShots/"
                 + QDate::currentDate().toString(Qt::ISODate) + " " +
                 QTime::currentTime().toString("hh:mm:ss.zzz").replace(":", "_").replace(".", "_") + ".jpeg";
         img.save(filename, fileformat.constData());
