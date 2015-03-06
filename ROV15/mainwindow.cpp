@@ -248,7 +248,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Serial connection setup
     serial = new QSerialPort(this);
-    serial->setBaudRate(QSerialPort::Baud19200);
+    serial->setBaudRate(QSerialPort::Baud9600);
     serial->setDataBits(QSerialPort::Data8);
     serial->setParity(QSerialPort::NoParity);
     serial->setStopBits(QSerialPort::OneStop);
