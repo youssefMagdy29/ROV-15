@@ -220,6 +220,7 @@ bool x_2_pressed = false;
 bool y_2_pressed = false;
 bool z_2_pressed = false;
 bool r_2_pressed = false;
+bool p_2_pressed = false;
 
 bool _1_pressed[32];
 bool _2_pressed[32];
@@ -664,9 +665,10 @@ void MainWindow::readJoystickState() {
         }
 
         //Arm Control
-        float x2 = sf::Joystick::getAxisPosition(1, sf::Joystick::X);
-        float y2 = sf::Joystick::getAxisPosition(1, sf::Joystick::Y);
-        //float z2 = sf::Joystick::getAxisPosition(1, sf::Joystick::Z);
+        float x2 = sf::Joystick::getAxisPosition(1, sf::Joystick::PovX);
+        float y2 = sf::Joystick::getAxisPosition(1, sf::Joystick::PovY);
+        //float p2 = sf::Joystick::getAxisPosition(1, sf::Joystick::PovX);
+        float z2 = sf::Joystick::getAxisPosition(1, sf::Joystick::R);
         //float r2 = sf::Joystick::getAxisPosition(1, sf::Joystick::R);
 
         //Gripper
@@ -866,8 +868,19 @@ void MainWindow::readJoystickState() {
             serial->write(ACTION_RELEASE_JOYSTICK2_SELECT);
             _2_pressed[JOYSTICK_SELECT] = false;
         }
-
-
+        //Tool Control
+        if (!z_2_pressed) {
+            if (z2 == 100) {
+                l->setText("@");
+                serial->write("@");
+                z_2_pressed = true;
+            }
+        }
+        else if (abs(z2) < 5) {
+            l->setText("#");
+            serial->write("#");
+            z_2_pressed = false;
+        }
     }
     else {
         ui->joystickStatus->setText("Not Connected");
