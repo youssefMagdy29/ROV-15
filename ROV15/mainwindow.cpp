@@ -286,7 +286,8 @@ MainWindow::MainWindow(QWidget *parent) :
             this, SLOT(imageSaved(int, QString)));
 
     camera->setCaptureMode(QCamera::CaptureStillImage);
-    camera->start();
+    if (camInfo.description() == "SMI Grabber Device")
+        camera->start();
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(readJoystickState()));
