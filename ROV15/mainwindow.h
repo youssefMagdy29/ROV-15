@@ -17,8 +17,6 @@ public:
     ~MainWindow();
 
 private slots:
-    void keyPressEvent(QKeyEvent *e);
-
     void keyReleaseEvent(QKeyEvent *e);
 
     void on_buttonConnect_clicked();
@@ -36,6 +34,8 @@ private slots:
     void joystickMotorSpeed();
 
     void autoRepeatEvent();
+
+    void keyPressEvent(QKeyEvent *e);
 
 private:
     Ui::MainWindow *ui;
