@@ -42,7 +42,8 @@ void Image::showResult(int startX, int startY, int endX, int endY) {
     int width  = endX - startX;
     int height = endY - startY;
     float length = qSqrt(height * height + width * width);
-    ui->valueLength->setText(QString::number(length));
+    float cm = 50.6  + length * 0.2 *0.278;
+    ui->valueLength->setText(QString::number(cm));
 }
 
 void Image::saveAs() {

@@ -305,100 +305,6 @@ MainWindow::~MainWindow()
     serial->close();
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *e) {
-    QChar k = e->key();
-    if (!e->isAutoRepeat()) {
-        if (k == KEY_FORWARD) {
-            l->setText(FORWARD);
-            serial->write(FORWARD);
-        }
-        else if (k == KEY_BACKWARD) {
-            l->setText(BACKWARD);
-            serial->write(BACKWARD);
-        }
-        else if (k == KEY_MOVE_RIGHT) {
-            l->setText(MOVE_RIGHT);
-            serial->write(MOVE_RIGHT);
-        }
-        else if (k == KEY_MOVE_LEFT) {
-            l->setText(MOVE_LEFT);
-            serial->write(MOVE_LEFT);
-        }
-        else if (k == KEY_TURN_RIGHT) {
-            l->setText(TURN_RIGHT);
-            serial->write(TURN_RIGHT);
-        }
-        else if (k == KEY_TURN_LEFT) {
-            l->setText(TURN_LEFT);
-            serial->write(TURN_LEFT);
-        }
-        else if (k == KEY_UP) {
-            l->setText(UP);
-            serial->write(UP);
-        }
-        else if (k == KEY_DOWN) {
-            l->setText(DOWN);
-            serial->write(DOWN);
-        }
-        else if (k == KEY_CAM1_RIGHT) {
-            l->setText(CAM1_RIGHT);
-            serial->write(CAM1_RIGHT);
-        }
-        else if (k == KEY_CAM1_LEFT) {
-            l->setText(CAM1_LEFT);
-            serial->write(CAM1_LEFT);
-        }
-        else if (k == KEY_LIGHT_ON) {
-            l->setText(LIGHT_ON);
-            serial->write(LIGHT_ON);
-        }
-        else if (k == KEY_LIGHT_OFF) {
-            l->setText(LIGHT_OFF);
-            serial->write(LIGHT_OFF);
-        }
-        else if (k == KEY_GRIPPER_RIGHT) {
-            l->setText(GRIPPER_RIGHT);
-            serial->write(GRIPPER_RIGHT);
-        }
-        else if (k == KEY_GRIPPER_LEFT) {
-            l->setText(GRIPPER_LEFT);
-            serial->write(GRIPPER_LEFT);
-        }
-        else if (k == KEY_WRIST_RIGHT) {
-            l->setText(WRIST_RIGHT);
-            serial->write(WRIST_RIGHT);
-        }
-        else if (k == KEY_WRIST_LEFT) {
-            l->setText(WRIST_LEFT);
-            serial->write(WRIST_LEFT);
-        }
-        else if (k == KEY_ELBOW_RIGHT) {
-            l->setText(ELBOW_RIGHT);
-            serial->write(ELBOW_RIGHT);
-        }
-        else if (k == KEY_ELBOW_LEFT) {
-            l->setText(ELBOW_LEFT);
-            serial->write(ELBOW_LEFT);
-        }
-        else if (k == KEY_SHOULDER_RIGHT) {
-            l->setText(SHOULDER_RIGHT);
-            serial->write(SHOULDER_RIGHT);
-        }
-        else if (k == KEY_SHOULDER_LEFT) {
-            l->setText(SHOULDER_LEFT);
-            serial->write(SHOULDER_LEFT);
-        }
-        else if (k == KEY_BASE_RIGHT) {
-            l->setText(BASE_RIGHT);
-            serial->write(BASE_RIGHT);
-        }
-        else if (k == KEY_BASE_LEFT) {
-            l->setText(BASE_LEFT);
-            serial->write(BASE_LEFT);
-        }
-    }
-}
-
 void MainWindow::keyReleaseEvent(QKeyEvent *e) {
     QChar k = e->key();
     if (!e->isAutoRepeat()) {
@@ -463,6 +369,100 @@ void MainWindow::on_buttonDisconnect_clicked()
     }
     else {
         QMessageBox::critical(this, tr("Error"), "Not Connected!");
+    }
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *e) {
+    QChar k = e->key();
+    if (!e->isAutoRepeat()) {
+        if (k == KEY_FORWARD) {
+            l->setText(FORWARD);
+            serial->write(FORWARD);
+        }
+        else if (k == KEY_BACKWARD) {
+            l->setText(BACKWARD);
+            serial->write(BACKWARD);
+        }
+        else if (k == KEY_MOVE_RIGHT) {
+            l->setText(MOVE_RIGHT);
+            serial->write(MOVE_RIGHT);
+        }
+        else if (k == KEY_MOVE_LEFT) {
+            l->setText(MOVE_LEFT);
+            serial->write(MOVE_LEFT);
+        }
+        else if (k == KEY_TURN_RIGHT) {
+            l->setText(TURN_RIGHT);
+            serial->write(TURN_RIGHT);
+        }
+        else if (k == KEY_TURN_LEFT) {
+            l->setText(TURN_LEFT);
+            serial->write(TURN_LEFT);
+        }
+        else if (k == KEY_UP) {
+            l->setText(UP);
+            serial->write(UP);
+        }
+        else if (k == KEY_DOWN) {
+            l->setText(DOWN);
+            serial->write(DOWN);
+        }
+        else if (k == KEY_CAM1_RIGHT) {
+            l->setText(CAM1_RIGHT);
+            serial->write(CAM1_RIGHT);
+        }
+        else if (k == KEY_CAM1_LEFT) {
+            l->setText(CAM1_LEFT);
+            serial->write(CAM1_LEFT);
+        }
+        else if (k == KEY_LIGHT_ON) {
+            l->setText("$");
+            serial->write("$");
+        }
+        else if (k == KEY_LIGHT_OFF) {
+            l->setText("%");
+            serial->write("%");
+        }
+        else if (k == KEY_GRIPPER_RIGHT) {
+            l->setText(GRIPPER_RIGHT);
+            serial->write(GRIPPER_RIGHT);
+        }
+        else if (k == KEY_GRIPPER_LEFT) {
+            l->setText(GRIPPER_LEFT);
+            serial->write(GRIPPER_LEFT);
+        }
+        else if (k == KEY_WRIST_RIGHT) {
+            l->setText(WRIST_RIGHT);
+            serial->write(WRIST_RIGHT);
+        }
+        else if (k == KEY_WRIST_LEFT) {
+            l->setText(WRIST_LEFT);
+            serial->write(WRIST_LEFT);
+        }
+        else if (k == KEY_ELBOW_RIGHT) {
+            l->setText(ELBOW_RIGHT);
+            serial->write(ELBOW_RIGHT);
+        }
+        else if (k == KEY_ELBOW_LEFT) {
+            l->setText(ELBOW_LEFT);
+            serial->write(ELBOW_LEFT);
+        }
+        else if (k == KEY_SHOULDER_RIGHT) {
+            l->setText(SHOULDER_RIGHT);
+            serial->write(SHOULDER_RIGHT);
+        }
+        else if (k == KEY_SHOULDER_LEFT) {
+            l->setText(SHOULDER_LEFT);
+            serial->write(SHOULDER_LEFT);
+        }
+        else if (k == KEY_BASE_RIGHT) {
+            l->setText(BASE_RIGHT);
+            serial->write(BASE_RIGHT);
+        }
+        else if (k == KEY_BASE_LEFT) {
+            l->setText(BASE_LEFT);
+            serial->write(BASE_LEFT);
+        }
     }
 }
 
