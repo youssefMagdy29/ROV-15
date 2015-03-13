@@ -248,11 +248,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Serial connection setup
     serial = new QSerialPort(this);
-    serial->setBaudRate(QSerialPort::Baud9600);
-    serial->setDataBits(QSerialPort::Data8);
-    serial->setParity(QSerialPort::NoParity);
-    serial->setStopBits(QSerialPort::OneStop);
-    serial->setFlowControl(QSerialPort::NoFlowControl);
 
     connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
 
@@ -348,6 +343,11 @@ void MainWindow::keyReleaseEvent(QKeyEvent *e) {
 void MainWindow::on_buttonConnect_clicked()
 {
     serial->setPortName(ui->lineEditCOMNumber->text());
+    serial->setBaudRate(QSerialPort::Baud115200);
+    serial->setDataBits(QSerialPort::Data8);
+    serial->setParity(QSerialPort::NoParity);
+    serial->setStopBits(QSerialPort::OneStop);
+    serial->setFlowControl(QSerialPort::NoFlowControl);
     if(serial->open(QIODevice::ReadWrite)) {
         ui->labelConnectionStatus->setText("Connected");
         ui->labelConnectionStatus->setStyleSheet("color: #00ff00");
@@ -468,8 +468,13 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
 }
 
 void MainWindow::readData() {
-    QByteArray data = serial->readAll();
-    ui->valueLeakage->setText(data);
+    QByteArray data;
+    while (serial->canReadLine()) {
+        data = serial->readAll();
+        data = data.trimmed();
+        qDebug() << data;
+        ui->valueLeakage->setText(data);
+    }
 }
 
 void MainWindow::readJoystickState() {
