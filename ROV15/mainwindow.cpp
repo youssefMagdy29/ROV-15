@@ -377,6 +377,13 @@ void MainWindow::readData() {
     }
 }
 
+void MainWindow::on_sendButton_clicked() {
+    QString cmd = ui->lineEditTerminalCmd->text();
+    ui->lineEditTerminalCmd->clear();
+    l->setText(cmd);
+    serial->write(cmd.toUtf8());
+}
+
 void MainWindow::on_captureButton_clicked()
 {
     imageCapture->capture();
