@@ -1,8 +1,6 @@
 #include "joystick.h"
 
-#include <QDebug>
-
-Joystick::Joystick(int joystickNumber, QObject *parent) :
+Joystick::Joystick(unsigned int joystickNumber, QObject *parent) :
     QObject(parent),
     joystickNumber(joystickNumber),
     isConnected(false)
@@ -15,6 +13,9 @@ Joystick::Joystick(int joystickNumber, QObject *parent) :
     }
 
     t->start(30);
+
+    for (int i = 0; i < 32; i++)
+        buttonStates[i] = false;
 }
 
 Joystick::~Joystick()
@@ -28,15 +29,20 @@ void Joystick::checkConnectivity() {
     if (sf::Joystick::isConnected(joystickNumber) && !isConnected) {
         isConnected = true;
         emit connected();
-        qDebug() << "Connected";
     }
     if (!sf::Joystick::isConnected(joystickNumber) && isConnected) {
         isConnected = false;
         emit disconnected();
-        qDebug() << "Disconnected";
     }
 }
 
 void Joystick::readJoystickState() {
-
+    //Emit buttonPressed signal
+    for (int i = 0; i < 32; i++) {
+        if (sf::Joystick::isButtonPressed(joystickNumber, i)
+                && !buttonStates[i]) {
+            buttonStates[i] = true;
+            emit buttonPressed(i);
+        }
+    }
 }

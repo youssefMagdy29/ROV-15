@@ -11,7 +11,7 @@ class Joystick : public QObject
     Q_OBJECT
 
 public:
-    explicit Joystick(int joystickNumber, QObject *parent = 0);
+    explicit Joystick(unsigned int joystickNumber, QObject *parent = 0);
     ~Joystick();
 
     static enum JOYSTICK {
@@ -20,22 +20,22 @@ public:
     } JOYSTICK;
 
     static enum BUTTON {
-        JOYSTICK_1      = 0,
-        JOYSTICK_2      = 1,
-        JOYSTICK_3      = 2,
-        JOYSTICK_4      = 3,
-        JOYSTICK_R1     = 5,
-        JOYSTICK_R2     = 7,
-        JOYSTICK_L1     = 4,
-        JOYSTICK_L2     = 6,
-        JOYSTICK_START  = 9,
-        JOYSTICK_SELECT = 8
+        BUTTON_1      = 0,
+        BUTTON_2      = 1,
+        BUTTON_3      = 2,
+        BUTTON_4      = 3,
+        BUTTON_R1     = 5,
+        BUTTON_R2     = 7,
+        BUTTON_L1     = 4,
+        BUTTON_L2     = 6,
+        BUTTON_START  = 9,
+        BUTTON_SELECT = 8
     } BUTTON;
 
 private:
     int joystickNumber;
     bool isConnected;
-    bool buttonState[32];
+    bool buttonStates[32];
     QTimer *t;
 
 signals:
@@ -43,9 +43,9 @@ signals:
 
     void disconnected();
 
-    void buttonPressed();
+    void buttonPressed(int id);
 
-    void buttonReleased();
+    void buttonReleased(int id);
 
 private slots:
     void checkConnectivity();

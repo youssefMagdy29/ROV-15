@@ -37,6 +37,10 @@ private slots:
 
     void joystickDisconnected();
 
+    void joystick1ButtonPressed(int id);
+
+    void joystick2ButtonPressed(int id);
+
 private:
     Ui::MainWindow *ui;
     Joystick *j1, *j2;

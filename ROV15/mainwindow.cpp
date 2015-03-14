@@ -496,8 +496,13 @@ void MainWindow::setupJoystick() {
     j1 = new Joystick(Joystick::JOYSTICK1);
     j2 = new Joystick(Joystick::JOYSTICK2);
 
+    //Connectivity signals
     connect(j1, SIGNAL(connected()), this, SLOT(joystickConnected()));
     connect(j1, SIGNAL(disconnected()), this, SLOT(joystickDisconnected()));
+
+    //Button pressing signals
+    connect(j1, SIGNAL(buttonPressed(int)), this, SLOT(joystick1ButtonPressed(int)));
+    connect(j2, SIGNAL(buttonPressed(int)), this, SLOT(joystick2ButtonPressed(int)));
 }
 
 void MainWindow::joystickConnected() {
@@ -508,4 +513,12 @@ void MainWindow::joystickConnected() {
 void MainWindow::joystickDisconnected() {
     ui->joystickStatus->setText("Not Connected");
     ui->joystickStatus->setStyleSheet("color: #ff0000");
+}
+
+void MainWindow::joystick1ButtonPressed(int id) {
+
+}
+
+void MainWindow::joystick2ButtonPressed(int id) {
+
 }
