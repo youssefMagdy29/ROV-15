@@ -14,7 +14,7 @@ Joystick::Joystick(unsigned int joystickNumber, QObject *parent) :
 
     t->start(30);
 
-    for (int i = 0; i < 36; i++)
+    for (int i = 0; i < BUTTON_COUNT; i++)
         buttonStates[i] = false;
 }
 
@@ -41,9 +41,14 @@ void Joystick::readJoystickState() {
 
     x = sf::Joystick::getAxisPosition(joystickNumber, sf::Joystick::X);
     y = sf::Joystick::getAxisPosition(joystickNumber, sf::Joystick::Y);
+    z = sf::Joystick::getAxisPosition(joystickNumber, sf::Joystick::Z);
+    r = sf::Joystick::getAxisPosition(joystickNumber, sf::Joystick::R);
+
+    povX = sf::Joystick::getAxisPosition(joystickNumber, sf::Joystick::PovX);
+    povY = sf::Joystick::getAxisPosition(joystickNumber, sf::Joystick::PovY);
 
     if (sf::Joystick::isConnected(joystickNumber)) {
-        for (int i = 0; i < 36; i++) {
+        for (int i = 0; i < BUTTON_COUNT; i++) {
             if (isButtonPressed(i) && !buttonStates[i]) {
                 buttonStates[i] = true;
                 emit buttonPressed(i);
@@ -58,18 +63,19 @@ void Joystick::readJoystickState() {
 }
 
 bool Joystick::isButtonPressed(int id) {
-    if (id == Joystick::BUTTON_LEFT)
-        return x == -100;
-
-    else if (id == Joystick::BUTTON_RIGHT)
-        return x == 100;
-
-    else if (id == Joystick::BUTTON_UP)
-        return y == -100;
-
-    else if (id == Joystick::BUTTON_DOWN)
-        return y == 100;
-
-    else
-        return sf::Joystick::isButtonPressed(joystickNumber, id);
+    switch(id) {
+        case BUTTON_LEFT_OFF:     return x == -100;    break;
+        case BUTTON_RIGHT_OFF:    return x == 100;     break;
+        case BUTTON_UP_OFF:       return y == -100;    break;
+        case BUTTON_DOWN_OFF:     return y == 100;     break;
+        case BUTTON_LEFT_ON:      return povX == -100; break;
+        case BUTTON_RIGHT_ON:     return povX == 100;  break;
+        case BUTTON_UP_ON:        return povY == 100; break;
+        case BUTTON_DOWN_ON:      return povY == -100;  break;
+        case BUTTON_ANALOG_1:     return z == -100;    break;
+        case BUTTON_ANALOG_2:     return r == 100;     break;
+        case BUTTON_ANALOG_3:     return z == 100;     break;
+        case BUTTON_ANALOG_4:     return r == -100;    break;
+        default:                  return sf::Joystick::isButtonPressed(joystickNumber, id);
+    }
 }

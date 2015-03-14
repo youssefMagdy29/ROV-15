@@ -48,8 +48,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Joystick *j1, *j2;
-    QByteArray j1ActionPress[36], j2ActionPress[36];
-    QByteArray j1ActionRelease[36], j2ActionRelease[36];
+    QByteArray j1ActionPress[Joystick::BUTTON_COUNT], j1ActionRelease[Joystick::BUTTON_COUNT];
+    QByteArray j2ActionPress[Joystick::BUTTON_COUNT], j2ActionRelease[Joystick::BUTTON_COUNT];
 
     void setupJoystick();
     void initializeJ1ActionPress();
