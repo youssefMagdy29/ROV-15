@@ -237,6 +237,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->buttonDisconnect->setDisabled(true);
 
+    setupJoystick();
+
     lbl = new ResizableLabel;
     lbl->setWindowTitle("Screen Shot");
 
@@ -488,4 +490,22 @@ void MainWindow::imageSaved(int id, QString str) {
                 QTime::currentTime().toString("hh:mm:ss.zzz").replace(":", "_").replace(".", "_") + ".jpeg";
         img.save(filename, fileformat.constData());
     }
+}
+
+void MainWindow::setupJoystick() {
+    j1 = new Joystick(Joystick::JOYSTICK1);
+    j2 = new Joystick(Joystick::JOYSTICK2);
+
+    connect(j1, SIGNAL(connected()), this, SLOT(joystickConnected()));
+    connect(j1, SIGNAL(disconnected()), this, SLOT(joystickDisconnected()));
+}
+
+void MainWindow::joystickConnected() {
+    ui->joystickStatus->setText("Connected");
+    ui->joystickStatus->setStyleSheet("color: #00ff00");
+}
+
+void MainWindow::joystickDisconnected() {
+    ui->joystickStatus->setText("Not Connected");
+    ui->joystickStatus->setStyleSheet("color: #ff0000");
 }

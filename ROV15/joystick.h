@@ -1,17 +1,22 @@
 #ifndef JOYSTICK_H
 #define JOYSTICK_H
 
-class Joystick
+#include <QObject>
+#include <QTimer>
+
+#include <SFML/Window.hpp>
+
+class Joystick : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit Joystick(int joystickNumber);
+    explicit Joystick(int joystickNumber, QObject *parent = 0);
     ~Joystick();
 
     static enum JOYSTICK {
-        JOYSTICK_1 = 0,
-        JOYSTICK_2 = 1
+        JOYSTICK1 = 0,
+        JOYSTICK2 = 1
     } JOYSTICK;
 
     static enum BUTTON {
@@ -28,13 +33,24 @@ public:
     } BUTTON;
 
 private:
+    int joystickNumber;
+    bool isConnected;
     bool buttonState[32];
+    QTimer *t;
 
 signals:
     void connected();
+
     void disconnected();
+
     void buttonPressed();
+
     void buttonReleased();
+
+private slots:
+    void checkConnectivity();
+
+    void readJoystickState();
 };
 
 #endif // JOYSTICK_H
