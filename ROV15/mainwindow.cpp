@@ -136,22 +136,6 @@ QChar const KEY_BASE_LEFT  = 'U';
 QByteArray const ARM_SPEED_UP   = "z";
 QByteArray const ARM_SPEED_DOWN = "p";
 
-//Release actions
-QByteArray const ACTION_RELEASE_JOYSTICK1_UP     = STOP_HORIZONTAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_DOWN   = STOP_HORIZONTAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_RIGHT  = STOP_HORIZONTAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_LEFT   = STOP_HORIZONTAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_1      = STOP_VERTICAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_2      = "";
-QByteArray const ACTION_RELEASE_JOYSTICK1_3      = STOP_VERTICAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_4      = "";
-QByteArray const ACTION_RELEASE_JOYSTICK1_R1     = STOP_HORIZONTAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_R2     = "";
-QByteArray const ACTION_RELEASE_JOYSTICK1_L1     = STOP_HORIZONTAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_L2     = "";
-QByteArray const ACTION_RELEASE_JOYSTICK1_START  = "";
-QByteArray const ACTION_RELEASE_JOYSTICK1_SELECT = "";
-
 //Co-pilot Control
 //Press actions
 QByteArray const ACTION_PRESS_JOYSTICK2_UP     = ELBOW_LEFT;
@@ -456,6 +440,7 @@ void MainWindow::setupJoystick() {
     j2 = new Joystick(Joystick::JOYSTICK2);
 
     initializeJ1ActionPress();
+    initializeJ1ActionRelease();
 
     //Connectivity signals
     connect(j1, SIGNAL(connected()), this, SLOT(joystickConnected()));
@@ -486,7 +471,8 @@ void MainWindow::joystick1ButtonPressed(int id) {
 }
 
 void MainWindow::joystick1ButtonReleased(int id) {
-
+    l->setText(j1ActionRelease[id]);
+    serial->write(j1ActionRelease[id]);
 }
 
 void MainWindow::joystick2ButtonPressed(int id) {
@@ -512,4 +498,21 @@ void MainWindow::initializeJ1ActionPress() {
     j1ActionPress[Joystick::BUTTON_L2]     = VERTICAL_MOTORS_SPEED_DOWN;
     j1ActionPress[Joystick::BUTTON_START]  = "";
     j1ActionPress[Joystick::BUTTON_SELECT] = "";
+}
+
+void MainWindow::initializeJ1ActionRelease() {
+    j1ActionRelease[Joystick::BUTTON_UP]     = STOP_HORIZONTAL;
+    j1ActionRelease[Joystick::BUTTON_DOWN]   = STOP_HORIZONTAL;
+    j1ActionRelease[Joystick::BUTTON_RIGHT]  = STOP_HORIZONTAL;
+    j1ActionRelease[Joystick::BUTTON_LEFT]   = STOP_HORIZONTAL;
+    j1ActionRelease[Joystick::BUTTON_1]      = STOP_VERTICAL;
+    j1ActionRelease[Joystick::BUTTON_2]      = "";
+    j1ActionRelease[Joystick::BUTTON_3]      = STOP_VERTICAL;
+    j1ActionRelease[Joystick::BUTTON_4]      = "";
+    j1ActionRelease[Joystick::BUTTON_R1]     = STOP_HORIZONTAL;
+    j1ActionRelease[Joystick::BUTTON_R2]     = "";
+    j1ActionRelease[Joystick::BUTTON_L1]     = STOP_HORIZONTAL;
+    j1ActionRelease[Joystick::BUTTON_L2]     = "";
+    j1ActionRelease[Joystick::BUTTON_START]  = "";
+    j1ActionRelease[Joystick::BUTTON_SELECT] = "";
 }

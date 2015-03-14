@@ -53,6 +53,9 @@ private:
 
     void setupJoystick();
     void initializeJ1ActionPress();
+    void initializeJ2ActionPress();
+    void initializeJ1ActionRelease();
+    void initializeJ2ActionRelease();
 };
 
 #endif // MAINWINDOW_H
