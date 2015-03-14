@@ -503,6 +503,10 @@ void MainWindow::setupJoystick() {
     //Button pressing signals
     connect(j1, SIGNAL(buttonPressed(int)), this, SLOT(joystick1ButtonPressed(int)));
     connect(j2, SIGNAL(buttonPressed(int)), this, SLOT(joystick2ButtonPressed(int)));
+
+    //Button releasing signals
+    connect(j1, SIGNAL(buttonReleased(int)), this, SLOT(joystick1ButtonReleased(int)));
+    connect(j2, SIGNAL(buttonReleased(int)), this, SLOT(joystick2ButtonReleased(int)));
 }
 
 void MainWindow::joystickConnected() {
@@ -519,6 +523,14 @@ void MainWindow::joystick1ButtonPressed(int id) {
 
 }
 
+void MainWindow::joystick1ButtonReleased(int id) {
+
+}
+
 void MainWindow::joystick2ButtonPressed(int id) {
+
+}
+
+void MainWindow::joystick2ButtonReleased(int id) {
 
 }

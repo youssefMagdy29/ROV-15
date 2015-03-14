@@ -44,5 +44,11 @@ void Joystick::readJoystickState() {
             buttonStates[i] = true;
             emit buttonPressed(i);
         }
+
+        if (!sf::Joystick::isButtonPressed(joystickNumber, i)
+                && buttonStates[i]) {
+            buttonStates[i] = false;
+            emit buttonReleased(i);
+        }
     }
 }
