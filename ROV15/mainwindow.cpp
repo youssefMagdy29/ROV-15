@@ -136,11 +136,11 @@ QChar const KEY_BASE_LEFT  = 'U';
 QByteArray const ARM_SPEED_UP   = "z";
 QByteArray const ARM_SPEED_DOWN = "p";
 
-bool mode;
-
 MainWindow::MainWindow(QWidget *parent) :
+
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    mode(false)
 {
     ui->setupUi(this);
     l = ui->labelSentCommand;
@@ -191,6 +191,10 @@ MainWindow::MainWindow(QWidget *parent) :
     camera->setCaptureMode(QCamera::CaptureStillImage);
     if (camInfo.description() == "SMI Grabber Device")
         camera->start();
+    for (int i = 0; i < Joystick::BUTTON_COUNT; i++) {
+        toggleJ1[i] = false;
+        toggleJ2[i] = false;
+    }
 }
 
 MainWindow::~MainWindow()
@@ -406,6 +410,7 @@ void MainWindow::setupJoystick() {
     j1 = new Joystick(Joystick::JOYSTICK1);
     j2 = new Joystick(Joystick::JOYSTICK2);
 
+    initializeJ1ButtonKinds();
     initializeJ1ActionPress();
     initializeJ1ActionRelease();
     initializeJ2ActionPress();
@@ -435,31 +440,79 @@ void MainWindow::joystickDisconnected() {
 }
 
 void MainWindow::joystick1ButtonPressed(int id) {
-    if (j1ActionPress[id] != "") {
+    int kind = j1->getKind(id);
+
+    if (kind == Joystick::CAPTURE)
+        imageCapture->capture();
+
+    else if (kind == Joystick::TOGGLE) {
+        toggleJ1[id] = !toggleJ1[id];
+        if (toggleJ1[id]) {
+            l->setText(j1ActionPress[id]);
+            serial->write(j1ActionPress[id]);
+        }
+        else {
+            l->setText(j1ActionRelease[id]);
+            serial->write(j1ActionRelease[id]);
+        }
+    }
+
+    else if (kind == Joystick::MODE) {
+        mode = !mode;
+        if (mode)
+            ui->valueMode->setText("Measuring");
+        else
+            ui->valueMode->setText("Capturing");
+    }
+
+    else if (j1ActionPress[id] != "") {
         l->setText(j1ActionPress[id]);
         serial->write(j1ActionPress[id]);
     }
 }
 
 void MainWindow::joystick1ButtonReleased(int id) {
-    if (j1ActionRelease[id] != "") {
+    if (j1ActionRelease[id] != ""
+            && j1->getKind(id) != Joystick::TOGGLE) {
         l->setText(j1ActionRelease[id]);
         serial->write(j1ActionRelease[id]);
     }
 }
 
 void MainWindow::joystick2ButtonPressed(int id) {
-    if (j2ActionPress[id] != "") {
+    int kind = j2->getKind(id);
+
+    if (kind == Joystick::TOGGLE) {
+        toggleJ2[id] = !toggleJ2[id];
+        if (toggleJ2[id]) {
+            l->setText(j2ActionPress[id]);
+            serial->write(j2ActionPress[id]);
+        }
+        else {
+            l->setText(j2ActionRelease[id]);
+            serial->write(j2ActionRelease[id]);
+        }
+    }
+    else if (j2ActionPress[id] != "") {
         l->setText(j2ActionPress[id]);
         serial->write(j2ActionPress[id]);
     }
 }
 
 void MainWindow::joystick2ButtonReleased(int id) {
-    if (j2ActionRelease[id] != "") {
+    if (j2ActionRelease[id] != ""
+            && j2->getKind(id) != Joystick::TOGGLE) {
         l->setText(j2ActionRelease[id]);
         serial->write(j2ActionRelease[id]);
     }
+}
+
+void MainWindow::initializeJ1ButtonKinds() {
+    j1->setKind(Joystick::BUTTON_2, Joystick::CAPTURE);
+    j1->setKind(Joystick::BUTTON_ANALOG_2, Joystick::CAPTURE);
+    j1->setKind(Joystick::BUTTON_4, Joystick::TOGGLE);
+    j1->setKind(Joystick::BUTTON_ANALOG_4, Joystick::TOGGLE);
+    j1->setKind(Joystick::BUTTON_START, Joystick::MODE);
 }
 
 void MainWindow::initializeJ1ActionPress() {
@@ -499,11 +552,11 @@ void MainWindow::initializeJ1ActionRelease() {
     j1ActionRelease[Joystick::BUTTON_1]          = STOP_VERTICAL;
     j1ActionRelease[Joystick::BUTTON_2]          = "";
     j1ActionRelease[Joystick::BUTTON_3]          = STOP_VERTICAL;
-    j1ActionRelease[Joystick::BUTTON_4]          = "";
+    j1ActionRelease[Joystick::BUTTON_4]          = LIGHT_OFF;
     j1ActionRelease[Joystick::BUTTON_ANALOG_1]   = STOP_VERTICAL;
     j1ActionRelease[Joystick::BUTTON_ANALOG_2]   = "";
     j1ActionRelease[Joystick::BUTTON_ANALOG_3]   = STOP_VERTICAL;
-    j1ActionRelease[Joystick::BUTTON_ANALOG_4]   = "";
+    j1ActionRelease[Joystick::BUTTON_ANALOG_4]   = LIGHT_OFF;
     j1ActionRelease[Joystick::BUTTON_R1]         = STOP_HORIZONTAL;
     j1ActionRelease[Joystick::BUTTON_R2]         = "";
     j1ActionRelease[Joystick::BUTTON_L1]         = STOP_HORIZONTAL;

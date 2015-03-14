@@ -45,10 +45,21 @@ public:
         BUTTON_COUNT        = 44
     } BUTTON;
 
+    static enum KIND {
+        NORMAL  = 0,
+        TOGGLE  = 1,
+        CAPTURE = 2,
+        MODE    = 3
+    } KIND;
+
+    void setKind(int id, int kind);
+    int getKind(int id);
+
 private:
     int joystickNumber;
     bool isConnected;
     bool buttonStates[BUTTON_COUNT];
+    short buttonKinds[BUTTON_COUNT];
     QTimer *t;
     float x, y, z, r;
     float povX, povY;

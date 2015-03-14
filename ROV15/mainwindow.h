@@ -50,8 +50,12 @@ private:
     Joystick *j1, *j2;
     QByteArray j1ActionPress[Joystick::BUTTON_COUNT], j1ActionRelease[Joystick::BUTTON_COUNT];
     QByteArray j2ActionPress[Joystick::BUTTON_COUNT], j2ActionRelease[Joystick::BUTTON_COUNT];
+    bool mode;
+    bool toggleJ1[Joystick::BUTTON_COUNT];
+    bool toggleJ2[Joystick::BUTTON_COUNT];
 
     void setupJoystick();
+    void initializeJ1ButtonKinds();
     void initializeJ1ActionPress();
     void initializeJ2ActionPress();
     void initializeJ1ActionRelease();

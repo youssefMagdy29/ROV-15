@@ -16,6 +16,9 @@ Joystick::Joystick(unsigned int joystickNumber, QObject *parent) :
 
     for (int i = 0; i < BUTTON_COUNT; i++)
         buttonStates[i] = false;
+
+    for (int i = 0; i < BUTTON_COUNT; i++)
+        buttonKinds[i] = 0;
 }
 
 Joystick::~Joystick()
@@ -78,4 +81,12 @@ bool Joystick::isButtonPressed(int id) {
         case BUTTON_ANALOG_4:     return r == -100;    break;
         default:                  return sf::Joystick::isButtonPressed(joystickNumber, id);
     }
+}
+
+void Joystick::setKind(int id, int kind) {
+    buttonKinds[id] = kind;
+}
+
+int Joystick::getKind(int id) {
+    return buttonKinds[id];
 }
