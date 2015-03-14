@@ -498,10 +498,10 @@ void MainWindow::joystick2ButtonReleased(int id) {
 }
 
 void MainWindow::initializeJ1ActionPress() {
-    /*j1ActionPress[Joystick::]     = FORWARD;
-    j1ActionPress[Joystick::]   = BACKWARD;
-    j1ActionPress[Joystick::]  = MOVE_RIGHT;
-    j1ActionPress[Joystick::]   = MOVE_LEFT;*/
+    j1ActionPress[Joystick::BUTTON_UP]     = FORWARD;
+    j1ActionPress[Joystick::BUTTON_DOWN]   = BACKWARD;
+    j1ActionPress[Joystick::BUTTON_RIGHT]  = MOVE_RIGHT;
+    j1ActionPress[Joystick::BUTTON_LEFT]   = MOVE_LEFT;
     j1ActionPress[Joystick::BUTTON_1]      = UP;
     j1ActionPress[Joystick::BUTTON_2]      = "";
     j1ActionPress[Joystick::BUTTON_3]      = DOWN;

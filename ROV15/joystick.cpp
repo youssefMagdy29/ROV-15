@@ -37,20 +37,40 @@ void Joystick::checkConnectivity() {
 }
 
 void Joystick::readJoystickState() {
+    sf::Joystick::update();
+
     //Emit buttonPressed signal
+    x = sf::Joystick::getAxisPosition(joystickNumber, sf::Joystick::X);
+    y = sf::Joystick::getAxisPosition(joystickNumber, sf::Joystick::Y);
+
     if (isConnected) {
-        for (int i = 0; i < 32; i++) {
-            if (sf::Joystick::isButtonPressed(joystickNumber, i)
-                    && !buttonStates[i]) {
+        for (int i = 0; i < 36; i++) {
+            if (isButtonPressed(i) && !buttonStates[i]) {
                 buttonStates[i] = true;
                 emit buttonPressed(i);
             }
 
-            if (!sf::Joystick::isButtonPressed(joystickNumber, i)
-                    && buttonStates[i]) {
+            if (!isButtonPressed(i) && buttonStates[i]) {
                 buttonStates[i] = false;
                 emit buttonReleased(i);
             }
         }
     }
+}
+
+bool Joystick::isButtonPressed(int id) {
+    if (id == Joystick::BUTTON_LEFT)
+        return x == -100;
+
+    else if (id == Joystick::BUTTON_RIGHT)
+        return x == 100;
+
+    else if (id == Joystick::BUTTON_UP)
+        return y == -100;
+
+    else if (id == Joystick::BUTTON_DOWN)
+        return y == 100;
+
+    else
+        return sf::Joystick::isButtonPressed(joystickNumber, id);
 }

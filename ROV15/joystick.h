@@ -20,6 +20,10 @@ public:
     } JOYSTICK;
 
     static enum BUTTON {
+        BUTTON_UP     = 32,
+        BUTTON_DOWN   = 33,
+        BUTTON_RIGHT  = 34,
+        BUTTON_LEFT   = 35,
         BUTTON_1      = 0,
         BUTTON_2      = 1,
         BUTTON_3      = 2,
@@ -35,8 +39,11 @@ public:
 private:
     int joystickNumber;
     bool isConnected;
-    bool buttonStates[32];
+    bool buttonStates[36];
     QTimer *t;
+    float x, y;
+
+    bool isButtonPressed(int id);
 
 signals:
     void connected();
