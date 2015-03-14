@@ -16,8 +16,6 @@
 #include "image.h"
 #include "resizable_label.h"
 
-#include <SFML/Window.hpp>
-
 #include <QDesktopServices>
 
 QSerialPort *serial;
@@ -136,110 +134,18 @@ QChar const KEY_BASE_LEFT  = 'U';
 QByteArray const ARM_SPEED_UP   = "z";
 QByteArray const ARM_SPEED_DOWN = "p";
 
-//Joystick buttons
-unsigned int const JOYSTICK_1      = 0;
-unsigned int const JOYSTICK_2      = 1;
-unsigned int const JOYSTICK_3      = 2;
-unsigned int const JOYSTICK_4      = 3;
-unsigned int const JOYSTICK_R1     = 5;
-unsigned int const JOYSTICK_R2     = 7;
-unsigned int const JOYSTICK_L1     = 4;
-unsigned int const JOYSTICK_L2     = 6;
-unsigned int const JOYSTICK_START  = 9;
-unsigned int const JOYSTICK_SELECT = 8;
-
-//Pilot Control
-//Press actions
-QByteArray const ACTION_PRESS_JOYSTICK1_UP     = FORWARD;
-QByteArray const ACTION_PRESS_JOYSTICK1_DOWN   = BACKWARD;
-QByteArray const ACTION_PRESS_JOYSTICK1_RIGHT  = MOVE_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK1_LEFT   = MOVE_LEFT;
-QByteArray const ACTION_PRESS_JOYSTICK1_1      = UP;
-QByteArray const ACTION_PRESS_JOYSTICK1_2      = "";
-QByteArray const ACTION_PRESS_JOYSTICK1_3      = DOWN;
-QByteArray const ACTION_PRESS_JOYSTICK1_4      = LIGHT_ON;
-QByteArray const ACTION_PRESS_JOYSTICK1_R1     = TURN_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK1_R2     = VERTICAL_MOTORS_SPEED_UP;
-QByteArray const ACTION_PRESS_JOYSTICK1_L1     = TURN_LEFT;
-QByteArray const ACTION_PRESS_JOYSTICK1_L2     = VERTICAL_MOTORS_SPEED_DOWN;
-QByteArray const ACTION_PRESS_JOYSTICK1_START  = "";
-QByteArray const ACTION_PRESS_JOYSTICK1_SELECT = "";
-
-//Release actions
-QByteArray const ACTION_RELEASE_JOYSTICK1_UP     = STOP_HORIZONTAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_DOWN   = STOP_HORIZONTAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_RIGHT  = STOP_HORIZONTAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_LEFT   = STOP_HORIZONTAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_1      = STOP_VERTICAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_2      = "";
-QByteArray const ACTION_RELEASE_JOYSTICK1_3      = STOP_VERTICAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_4      = "";
-QByteArray const ACTION_RELEASE_JOYSTICK1_R1     = STOP_HORIZONTAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_R2     = "";
-QByteArray const ACTION_RELEASE_JOYSTICK1_L1     = STOP_HORIZONTAL;
-QByteArray const ACTION_RELEASE_JOYSTICK1_L2     = "";
-QByteArray const ACTION_RELEASE_JOYSTICK1_START  = "";
-QByteArray const ACTION_RELEASE_JOYSTICK1_SELECT = "";
-
-//Co-pilot Control
-//Press actions
-QByteArray const ACTION_PRESS_JOYSTICK2_UP     = ELBOW_LEFT;
-QByteArray const ACTION_PRESS_JOYSTICK2_DOWN   = ELBOW_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK2_RIGHT  = CAM1_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK2_LEFT   = CAM1_LEFT;
-QByteArray const ACTION_PRESS_JOYSTICK2_1      = SHOULDER_LEFT;
-QByteArray const ACTION_PRESS_JOYSTICK2_2      = GRIPPER_LEFT;
-QByteArray const ACTION_PRESS_JOYSTICK2_3      = SHOULDER_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK2_4      = GRIPPER_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK2_R1     = WRIST_LEFT;
-QByteArray const ACTION_PRESS_JOYSTICK2_R2     = WRIST_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK2_L1     = ARM_SPEED_UP;
-QByteArray const ACTION_PRESS_JOYSTICK2_L2     = ARM_SPEED_DOWN;
-QByteArray const ACTION_PRESS_JOYSTICK2_START  = CAM2_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK2_SELECT = CAM2_LEFT;
-
-//Release actions
-QByteArray const ACTION_RELEASE_JOYSTICK2_UP     = ELBOW_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_DOWN   = ELBOW_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_RIGHT  = CAM1_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_LEFT   = CAM1_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_1      = SHOULDER_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_2      = GRIPPER_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_3      = SHOULDER_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_4      = GRIPPER_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_R1     = WRIST_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_R2     = WRIST_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_L1     = "";
-QByteArray const ACTION_RELEASE_JOYSTICK2_L2     = "";
-QByteArray const ACTION_RELEASE_JOYSTICK2_START  = CAM2_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_SELECT = CAM2_STOP;
-
-bool x_1_pressed = false;
-bool y_1_pressed = false;
-bool x_2_pressed = false;
-bool y_2_pressed = false;
-bool z_2_pressed = false;
-bool r_2_pressed = false;
-bool p_2_pressed = false;
-
-bool _1_pressed[32];
-bool _2_pressed[32];
-
-bool mode;
-bool light_state;
-int img_counter;
-
-QTimer *autoRepeat;
-QTimer *joystickAutoRepeat;
-
 MainWindow::MainWindow(QWidget *parent) :
+
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    mode(false)
 {
     ui->setupUi(this);
     l = ui->labelSentCommand;
 
     ui->buttonDisconnect->setDisabled(true);
+
+    setupJoystick();
 
     lbl = new ResizableLabel;
     lbl->setWindowTitle("Screen Shot");
@@ -283,94 +189,16 @@ MainWindow::MainWindow(QWidget *parent) :
     camera->setCaptureMode(QCamera::CaptureStillImage);
     if (camInfo.description() == "SMI Grabber Device")
         camera->start();
-
-    QTimer *timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(readJoystickState()));
-    timer->start(15);
-
-    joystickAutoRepeat = new QTimer(this);
-    connect(joystickAutoRepeat, SIGNAL(timeout()), this, SLOT(joystickMotorSpeed()));
-
-    autoRepeat = new QTimer(this);
-    connect(autoRepeat, SIGNAL(timeout()), this, SLOT(autoRepeatEvent()));
+    for (int i = 0; i < Joystick::BUTTON_COUNT; i++) {
+        toggleJ1[i] = false;
+        toggleJ2[i] = false;
+    }
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
     serial->close();
-}
-
-void MainWindow::keyReleaseEvent(QKeyEvent *e) {
-    QChar k = e->key();
-    if (!e->isAutoRepeat()) {
-        if (k == KEY_FORWARD    || k == KEY_BACKWARD  || k == KEY_MOVE_LEFT ||
-                k == KEY_MOVE_RIGHT || k == KEY_TURN_LEFT || k == KEY_TURN_RIGHT) {
-            l->setText(STOP_HORIZONTAL);
-            serial->write(STOP_HORIZONTAL);
-        }
-        else if (k == KEY_UP || k == KEY_DOWN) {
-            l->setText(STOP_VERTICAL);
-            serial->write(STOP_VERTICAL);
-        }
-        else if (k == KEY_CAM1_LEFT || k == KEY_CAM1_RIGHT) {
-            l->setText(CAM1_STOP);
-            serial->write(CAM1_STOP);
-        }
-        else if (k == KEY_GRIPPER_RIGHT || k == KEY_GRIPPER_LEFT) {
-            l->setText(GRIPPER_STOP);
-            serial->write(GRIPPER_STOP);
-        }
-        else if (k == KEY_WRIST_RIGHT || k == KEY_WRIST_LEFT) {
-            l->setText(WRIST_STOP);
-            serial->write(WRIST_STOP);
-        }
-        else if (k == KEY_ELBOW_RIGHT || k == KEY_ELBOW_LEFT) {
-            l->setText(ELBOW_STOP);
-            serial->write(ELBOW_STOP);
-        }
-        else if (k == KEY_SHOULDER_RIGHT || k == KEY_SHOULDER_LEFT) {
-            l->setText(SHOULDER_STOP);
-            serial->write(SHOULDER_STOP);
-        }
-        else if (k == KEY_BASE_RIGHT || k == KEY_BASE_LEFT) {
-            l->setText(BASE_STOP);
-            serial->write(BASE_STOP);
-        }
-    }
-}
-
-void MainWindow::on_buttonConnect_clicked()
-{
-    serial->setPortName(ui->lineEditCOMNumber->text());
-    serial->setBaudRate(QSerialPort::Baud115200);
-    serial->setDataBits(QSerialPort::Data8);
-    serial->setParity(QSerialPort::NoParity);
-    serial->setStopBits(QSerialPort::OneStop);
-    serial->setFlowControl(QSerialPort::NoFlowControl);
-    if(serial->open(QIODevice::ReadWrite)) {
-        ui->labelConnectionStatus->setText("Connected");
-        ui->labelConnectionStatus->setStyleSheet("color: #00ff00");
-        ui->buttonConnect->setDisabled(true);
-        ui->buttonDisconnect->setEnabled(true);
-    }
-    else {
-        QMessageBox::critical(this, tr("Error"), "Invalid Serial port");
-    }
-}
-
-void MainWindow::on_buttonDisconnect_clicked()
-{
-    if (serial->isOpen()) {
-        serial->close();
-        ui->labelConnectionStatus->setText("Disconnected");
-        ui->labelConnectionStatus->setStyleSheet("color: #ff0000");
-        ui->buttonConnect->setEnabled(true);
-        ui->buttonDisconnect->setDisabled(true);
-    }
-    else {
-        QMessageBox::critical(this, tr("Error"), "Not Connected!");
-    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
@@ -467,6 +295,78 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
     }
 }
 
+void MainWindow::keyReleaseEvent(QKeyEvent *e) {
+    QChar k = e->key();
+    if (!e->isAutoRepeat()) {
+        if (k == KEY_FORWARD    || k == KEY_BACKWARD  || k == KEY_MOVE_LEFT ||
+                k == KEY_MOVE_RIGHT || k == KEY_TURN_LEFT || k == KEY_TURN_RIGHT) {
+            l->setText(STOP_HORIZONTAL);
+            serial->write(STOP_HORIZONTAL);
+        }
+        else if (k == KEY_UP || k == KEY_DOWN) {
+            l->setText(STOP_VERTICAL);
+            serial->write(STOP_VERTICAL);
+        }
+        else if (k == KEY_CAM1_LEFT || k == KEY_CAM1_RIGHT) {
+            l->setText(CAM1_STOP);
+            serial->write(CAM1_STOP);
+        }
+        else if (k == KEY_GRIPPER_RIGHT || k == KEY_GRIPPER_LEFT) {
+            l->setText(GRIPPER_STOP);
+            serial->write(GRIPPER_STOP);
+        }
+        else if (k == KEY_WRIST_RIGHT || k == KEY_WRIST_LEFT) {
+            l->setText(WRIST_STOP);
+            serial->write(WRIST_STOP);
+        }
+        else if (k == KEY_ELBOW_RIGHT || k == KEY_ELBOW_LEFT) {
+            l->setText(ELBOW_STOP);
+            serial->write(ELBOW_STOP);
+        }
+        else if (k == KEY_SHOULDER_RIGHT || k == KEY_SHOULDER_LEFT) {
+            l->setText(SHOULDER_STOP);
+            serial->write(SHOULDER_STOP);
+        }
+        else if (k == KEY_BASE_RIGHT || k == KEY_BASE_LEFT) {
+            l->setText(BASE_STOP);
+            serial->write(BASE_STOP);
+        }
+    }
+}
+
+void MainWindow::on_buttonConnect_clicked()
+{
+    serial->setPortName(ui->lineEditCOMNumber->text());
+    serial->setBaudRate(QSerialPort::Baud115200);
+    serial->setDataBits(QSerialPort::Data8);
+    serial->setParity(QSerialPort::NoParity);
+    serial->setStopBits(QSerialPort::OneStop);
+    serial->setFlowControl(QSerialPort::NoFlowControl);
+    if(serial->open(QIODevice::ReadWrite)) {
+        ui->labelConnectionStatus->setText("Connected");
+        ui->labelConnectionStatus->setStyleSheet("color: #00ff00");
+        ui->buttonConnect->setDisabled(true);
+        ui->buttonDisconnect->setEnabled(true);
+    }
+    else {
+        QMessageBox::critical(this, tr("Error"), "Invalid Serial port");
+    }
+}
+
+void MainWindow::on_buttonDisconnect_clicked()
+{
+    if (serial->isOpen()) {
+        serial->close();
+        ui->labelConnectionStatus->setText("Disconnected");
+        ui->labelConnectionStatus->setStyleSheet("color: #ff0000");
+        ui->buttonConnect->setEnabled(true);
+        ui->buttonDisconnect->setDisabled(true);
+    }
+    else {
+        QMessageBox::critical(this, tr("Error"), "Not Connected!");
+    }
+}
+
 void MainWindow::readData() {
     QByteArray data;
     while (serial->canReadLine()) {
@@ -474,423 +374,6 @@ void MainWindow::readData() {
         data = data.trimmed();
         qDebug() << data;
         ui->valueLeakage->setText(data);
-    }
-}
-
-void MainWindow::readJoystickState() {
-
-    sf::Joystick::update();
-
-    if (sf::Joystick::isConnected(0)) {
-        ui->joystickStatus->setText("Connected");
-        ui->joystickStatus->setStyleSheet("color: #00ff00");
-
-        //ROV Control
-        float x1 = sf::Joystick::getAxisPosition(0, sf::Joystick::X);
-        float y1 = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
-
-        if (!_1_pressed[JOYSTICK_1]) {
-            if (sf::Joystick::isButtonPressed(0, JOYSTICK_1)) {
-                l->setText(ACTION_PRESS_JOYSTICK1_1);
-                serial->write(ACTION_PRESS_JOYSTICK1_1);
-                _1_pressed[JOYSTICK_1] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_1)) {
-            l->setText(ACTION_RELEASE_JOYSTICK1_1);
-            serial->write(ACTION_RELEASE_JOYSTICK1_1);
-            _1_pressed[JOYSTICK_1] = false;
-        }
-
-        if (!_1_pressed[JOYSTICK_3]) {
-            if (sf::Joystick::isButtonPressed(0, JOYSTICK_3)) {
-                l->setText(ACTION_PRESS_JOYSTICK1_3);
-                serial->write(ACTION_PRESS_JOYSTICK1_3);
-                _1_pressed[JOYSTICK_3] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_3)) {
-            l->setText(ACTION_RELEASE_JOYSTICK1_3);
-            serial->write(ACTION_RELEASE_JOYSTICK1_3);
-            _1_pressed[JOYSTICK_3] = false;
-        }
-
-        if (!_1_pressed[JOYSTICK_2]) {
-            if (sf::Joystick::isButtonPressed(0, JOYSTICK_2)) {
-                /*l->setText(ACTION_PRESS_JOYSTICK1_2);
-                serial->write(ACTION_PRESS_JOYSTICK1_2);*/
-                imageCapture->capture();
-                _1_pressed[JOYSTICK_2] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_2)) {
-            /*l->setText(ACTION_RELEASE_JOYSTICK1_2);
-            serial->write(ACTION_RELEASE_JOYSTICK1_2);*/
-            _1_pressed[JOYSTICK_2] = false;
-        }
-
-        if (!_1_pressed[JOYSTICK_4]) {
-            if (sf::Joystick::isButtonPressed(0, JOYSTICK_4)) {
-                light_state = !light_state;
-                if (light_state) {
-                    l->setText(LIGHT_ON);
-                    serial->write(LIGHT_ON);
-                }
-                else {
-                    l->setText(LIGHT_OFF);
-                    serial->write(LIGHT_OFF);
-                }
-                _1_pressed[JOYSTICK_4] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_4)) {
-            /*l->setText(ACTION_RELEASE_JOYSTICK1_4);
-            serial->write(ACTION_RELEASE_JOYSTICK1_4);*/
-            _1_pressed[JOYSTICK_4] = false;
-        }
-
-        if (!_1_pressed[JOYSTICK_R1]) {
-            if (sf::Joystick::isButtonPressed(0, JOYSTICK_R1)) {
-                l->setText(ACTION_PRESS_JOYSTICK1_R1);
-                serial->write(ACTION_PRESS_JOYSTICK1_R1);
-                _1_pressed[JOYSTICK_R1] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_R1)) {
-            l->setText(ACTION_RELEASE_JOYSTICK1_R1);
-            serial->write(ACTION_RELEASE_JOYSTICK1_R1);
-            _1_pressed[JOYSTICK_R1] = false;
-        }
-
-        if (!_1_pressed[JOYSTICK_R2]) {
-            if (sf::Joystick::isButtonPressed(0, JOYSTICK_R2)) {
-                if (!autoRepeat->isActive()) {
-                    autoRepeat->start(500);
-                }
-                l->setText(ACTION_PRESS_JOYSTICK1_R2);
-                serial->write(ACTION_PRESS_JOYSTICK1_R2);
-                _1_pressed[JOYSTICK_R2] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_R2)) {
-            _1_pressed[JOYSTICK_R2] = false;
-            if (autoRepeat->isActive()) {
-                autoRepeat->stop();
-            }
-            if (joystickAutoRepeat->isActive()) {
-                joystickAutoRepeat->stop();
-            }
-        }
-
-        if (!_1_pressed[JOYSTICK_L1]) {
-            if (sf::Joystick::isButtonPressed(0, JOYSTICK_L1)) {
-                l->setText(ACTION_PRESS_JOYSTICK1_L1);
-                serial->write(ACTION_PRESS_JOYSTICK1_L1);
-                _1_pressed[JOYSTICK_L1] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_L1)) {
-            l->setText(ACTION_RELEASE_JOYSTICK1_L1);
-            serial->write(ACTION_RELEASE_JOYSTICK1_L1);
-            _1_pressed[JOYSTICK_L1] = false;
-        }
-
-        if (!_1_pressed[JOYSTICK_L2]) {
-            if (sf::Joystick::isButtonPressed(0, JOYSTICK_L2)) {
-                if (!autoRepeat->isActive()) {
-                    autoRepeat->start(500);
-                }
-                l->setText(ACTION_PRESS_JOYSTICK1_L2);
-                serial->write(ACTION_PRESS_JOYSTICK1_L2);
-                _1_pressed[JOYSTICK_L2] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_L2)) {
-            _1_pressed[JOYSTICK_L2] = false;
-            if (autoRepeat->isActive()) {
-                autoRepeat->stop();
-            }
-            if (joystickAutoRepeat->isActive()) {
-                joystickAutoRepeat->stop();
-            }
-        }
-
-        if (!_1_pressed[JOYSTICK_START]) {
-            if (sf::Joystick::isButtonPressed(0, JOYSTICK_START)) {
-                /*l->setText(ACTION_PRESS_JOYSTICK1_START);
-                serial->write(ACTION_PRESS_JOYSTICK1_START);*/
-                mode = !mode;
-                if (mode)
-                    ui->valueMode->setText("Measuring");
-                else
-                    ui->valueMode->setText("Capturing");
-                _1_pressed[JOYSTICK_START] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(0, JOYSTICK_START)) {
-            /*l->setText(ACTION_RELEASE_JOYSTICK1_START);
-            serial->write(ACTION_RELEASE_JOYSTICK1_START);*/
-            _1_pressed[JOYSTICK_START] = false;
-        }
-
-
-        if (!x_1_pressed) {
-            if (x1 == -100) {
-                l->setText(ACTION_PRESS_JOYSTICK1_LEFT);
-                serial->write(ACTION_PRESS_JOYSTICK1_LEFT);
-                x_1_pressed = true;
-            }
-            else if (x1 == 100) {
-                l->setText(ACTION_PRESS_JOYSTICK1_RIGHT);
-                serial->write(ACTION_PRESS_JOYSTICK1_RIGHT);
-                x_1_pressed = true;
-            }
-        }
-        else if ((int) x1 == 0) {
-            l->setText(ACTION_RELEASE_JOYSTICK1_LEFT);
-            serial->write(ACTION_RELEASE_JOYSTICK1_LEFT);
-            x_1_pressed = false;
-        }
-
-        if (!y_1_pressed) {
-            if (y1 == -100) {
-                l->setText(ACTION_PRESS_JOYSTICK1_UP);
-                serial->write(ACTION_PRESS_JOYSTICK1_UP);
-                y_1_pressed = true;
-            }
-            else if (y1 == 100) {
-                l->setText(ACTION_PRESS_JOYSTICK1_DOWN);
-                serial->write(ACTION_PRESS_JOYSTICK1_DOWN);
-                y_1_pressed = true;
-            }
-        }
-        else if ((int) y1 == 0) {
-            l->setText(ACTION_RELEASE_JOYSTICK1_DOWN);
-            serial->write(ACTION_RELEASE_JOYSTICK1_DOWN);
-            y_1_pressed = false;
-        }
-
-        //Arm Control
-        float x2 = sf::Joystick::getAxisPosition(1, sf::Joystick::PovX);
-        float y2 = sf::Joystick::getAxisPosition(1, sf::Joystick::PovY);
-        //float p2 = sf::Joystick::getAxisPosition(1, sf::Joystick::PovX);
-        float z2 = sf::Joystick::getAxisPosition(1, sf::Joystick::R);
-        //float r2 = sf::Joystick::getAxisPosition(1, sf::Joystick::R);
-
-        //Gripper
-        if (!_2_pressed[JOYSTICK_2]) {
-            if (sf::Joystick::isButtonPressed(1, JOYSTICK_2)) {
-                l->setText(ACTION_PRESS_JOYSTICK2_2);
-                serial->write(ACTION_PRESS_JOYSTICK2_2);
-                _2_pressed[JOYSTICK_2] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_2)) {
-            l->setText(ACTION_RELEASE_JOYSTICK2_2);
-            serial->write(ACTION_RELEASE_JOYSTICK2_2);
-            _2_pressed[JOYSTICK_2] = false;
-        }
-        if (!_2_pressed[JOYSTICK_4]) {
-            if (sf::Joystick::isButtonPressed(1, JOYSTICK_4)) {
-                l->setText(ACTION_PRESS_JOYSTICK2_4);
-                serial->write(ACTION_PRESS_JOYSTICK2_4);
-                _2_pressed[JOYSTICK_4] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_4)) {
-            l->setText(ACTION_RELEASE_JOYSTICK2_4);
-            serial->write(ACTION_RELEASE_JOYSTICK2_4);
-            _2_pressed[JOYSTICK_4] = false;
-        }
-        //Wrist
-        if (!_2_pressed[JOYSTICK_R1]) {
-            if (sf::Joystick::isButtonPressed(1, JOYSTICK_R1)) {
-                l->setText(ACTION_PRESS_JOYSTICK2_R1);
-                serial->write(ACTION_PRESS_JOYSTICK2_R1);
-                _2_pressed[JOYSTICK_R1] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_R1)) {
-            l->setText(ACTION_RELEASE_JOYSTICK2_R1);
-            serial->write(ACTION_RELEASE_JOYSTICK2_R1);
-            _2_pressed[JOYSTICK_R1] = false;
-        }
-        if (!_2_pressed[JOYSTICK_R2]) {
-            if (sf::Joystick::isButtonPressed(1, JOYSTICK_R2)) {
-                l->setText(ACTION_PRESS_JOYSTICK2_R2);
-                serial->write(ACTION_PRESS_JOYSTICK2_R2);
-                _2_pressed[JOYSTICK_R2] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_R2)) {
-            l->setText(ACTION_RELEASE_JOYSTICK2_R2);
-            serial->write(ACTION_RELEASE_JOYSTICK2_R2);
-            _2_pressed[JOYSTICK_R2] = false;
-        }
-
-        //Shoulder
-        if (!_2_pressed[JOYSTICK_1]) {
-            if (sf::Joystick::isButtonPressed(1, JOYSTICK_1)) {
-                l->setText(ACTION_PRESS_JOYSTICK2_1);
-                serial->write(ACTION_PRESS_JOYSTICK2_1);
-                _2_pressed[JOYSTICK_1] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_1)) {
-            l->setText(ACTION_RELEASE_JOYSTICK2_1);
-            serial->write(ACTION_RELEASE_JOYSTICK2_1);
-            _2_pressed[JOYSTICK_1] = false;
-        }
-        if (!_2_pressed[JOYSTICK_3]) {
-            if (sf::Joystick::isButtonPressed(1, JOYSTICK_3)) {
-                l->setText(ACTION_PRESS_JOYSTICK2_3);
-                serial->write(ACTION_PRESS_JOYSTICK2_3);
-                _2_pressed[JOYSTICK_3] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_3)) {
-            l->setText(ACTION_RELEASE_JOYSTICK2_3);
-            serial->write(ACTION_RELEASE_JOYSTICK2_3);
-            _2_pressed[JOYSTICK_3] = false;
-        }
-        //Elbow
-        if (!y_2_pressed) {
-            if (y2 == -100) {
-                l->setText(ACTION_PRESS_JOYSTICK2_UP);
-                serial->write(ACTION_PRESS_JOYSTICK2_UP);
-                y_2_pressed = true;
-            }
-            else if (y2 == 100) {
-                l->setText(ACTION_PRESS_JOYSTICK2_DOWN);
-                serial->write(ACTION_PRESS_JOYSTICK2_DOWN);
-                y_2_pressed = true;
-            }
-        }
-        else if (abs(y2) < 5) {
-            l->setText(ACTION_RELEASE_JOYSTICK2_UP);
-            serial->write(ACTION_RELEASE_JOYSTICK2_UP);
-            y_2_pressed = false;
-        }
-        //Shoulder
-        /*if (!z_2_pressed) {
-            if (z2 == -100) {
-                l->setText(SHOULDER_LEFT);
-                serial->write(SHOULDER_LEFT);
-                z_2_pressed = true;
-            }
-            else if (z2 == 100) {
-                l->setText(SHOULDER_RIGHT);
-                serial->write(SHOULDER_RIGHT);
-                z_2_pressed = true;
-            }
-        }
-        else if (abs(z2) < 5) {
-            l->setText(SHOULDER_STOP);
-            serial->write(SHOULDER_STOP);
-            z_2_pressed = false;
-        }*/
-        //Base
-        /*if (!r_2_pressed) {
-            if (r2 == -100) {
-                l->setText(BASE_LEFT);
-                serial->write(BASE_LEFT);
-                r_2_pressed = true;
-            }
-            else if (r2 == 100) {
-                l->setText(BASE_RIGHT);
-                serial->write(BASE_RIGHT);
-                r_2_pressed = true;
-            }
-        }
-        else if (abs(r2) < 5) {
-            l->setText(BASE_STOP);
-            serial->write(BASE_STOP);
-            r_2_pressed = false;
-        }*/
-        if (!x_2_pressed) {
-            if (x2 == -100) {
-                l->setText(ACTION_PRESS_JOYSTICK2_RIGHT);
-                serial->write(ACTION_PRESS_JOYSTICK2_RIGHT);
-                x_2_pressed = true;
-            }
-            else if (x2 == 100) {
-                l->setText(ACTION_PRESS_JOYSTICK2_LEFT);
-                serial->write(ACTION_PRESS_JOYSTICK2_LEFT);
-                x_2_pressed = true;
-            }
-        }
-        else if ((int) x2 == 0) {
-            l->setText(ACTION_RELEASE_JOYSTICK2_LEFT);
-            serial->write(ACTION_RELEASE_JOYSTICK2_LEFT);
-            x_2_pressed = false;
-        }
-        //Speed
-        //Speed up
-        if (!_2_pressed[JOYSTICK_L1]) {
-            if (sf::Joystick::isButtonPressed(1, JOYSTICK_L1)) {
-                l->setText(ACTION_PRESS_JOYSTICK2_L1);
-                serial->write(ACTION_PRESS_JOYSTICK2_L1);
-                _2_pressed[JOYSTICK_L1] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_L1)) {
-            _2_pressed[JOYSTICK_L1] = false;
-        }
-        //Speed down
-        if (!_2_pressed[JOYSTICK_L2]) {
-            if (sf::Joystick::isButtonPressed(1, JOYSTICK_L2)) {
-                l->setText(ACTION_PRESS_JOYSTICK2_L2);
-                serial->write(ACTION_PRESS_JOYSTICK2_L2);
-                _2_pressed[JOYSTICK_L2] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_L2)) {
-            _2_pressed[JOYSTICK_L2] = false;
-        }
-        //CAM12
-        if (!_2_pressed[JOYSTICK_START]) {
-            if (sf::Joystick::isButtonPressed(1, JOYSTICK_START)) {
-                l->setText(ACTION_PRESS_JOYSTICK2_START);
-                serial->write(ACTION_PRESS_JOYSTICK2_START);
-                _2_pressed[JOYSTICK_START] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_START)) {
-            l->setText(ACTION_RELEASE_JOYSTICK2_START);
-            serial->write(ACTION_RELEASE_JOYSTICK2_START);
-            _2_pressed[JOYSTICK_START] = false;
-        }
-
-
-        if (!_2_pressed[JOYSTICK_SELECT]) {
-            if (sf::Joystick::isButtonPressed(1, JOYSTICK_SELECT)) {
-                l->setText(ACTION_PRESS_JOYSTICK2_SELECT);
-                serial->write(ACTION_PRESS_JOYSTICK2_SELECT);
-                _2_pressed[JOYSTICK_SELECT] = true;
-            }
-        }
-        else if (!sf::Joystick::isButtonPressed(1, JOYSTICK_SELECT)) {
-            l->setText(ACTION_RELEASE_JOYSTICK2_SELECT);
-            serial->write(ACTION_RELEASE_JOYSTICK2_SELECT);
-            _2_pressed[JOYSTICK_SELECT] = false;
-        }
-        //Tool Control
-        if (!z_2_pressed) {
-            if (z2 == 100) {
-                l->setText("@");
-                serial->write("@");
-                z_2_pressed = true;
-            }
-        }
-        else if (abs(z2) < 5) {
-            l->setText("#");
-            serial->write("#");
-            z_2_pressed = false;
-        }
-    }
-    else {
-        ui->joystickStatus->setText("Not Connected");
-        ui->joystickStatus->setStyleSheet("color: #ff0000");
     }
 }
 
@@ -921,19 +404,213 @@ void MainWindow::imageSaved(int id, QString str) {
     }
 }
 
-void MainWindow::joystickMotorSpeed() {
-    if (sf::Joystick::isButtonPressed(0, JOYSTICK_R2)) {
-        l->setText(ACTION_PRESS_JOYSTICK1_R2);
-        serial->write(ACTION_PRESS_JOYSTICK1_R2);
+void MainWindow::setupJoystick() {
+    j1 = new Joystick(Joystick::JOYSTICK1);
+    j2 = new Joystick(Joystick::JOYSTICK2);
+
+    initializeJ1ButtonKinds();
+    initializeJ1ActionPress();
+    initializeJ1ActionRelease();
+    initializeJ2ActionPress();
+    initializeJ2ActionRelease();
+
+    //Connectivity signals
+    connect(j1, SIGNAL(connected()), this, SLOT(joystickConnected()));
+    connect(j1, SIGNAL(disconnected()), this, SLOT(joystickDisconnected()));
+
+    //Button pressing signals
+    connect(j1, SIGNAL(buttonPressed(int)), this, SLOT(joystick1ButtonPressed(int)));
+    connect(j2, SIGNAL(buttonPressed(int)), this, SLOT(joystick2ButtonPressed(int)));
+
+    //Button releasing signals
+    connect(j1, SIGNAL(buttonReleased(int)), this, SLOT(joystick1ButtonReleased(int)));
+    connect(j2, SIGNAL(buttonReleased(int)), this, SLOT(joystick2ButtonReleased(int)));
+}
+
+void MainWindow::joystickConnected() {
+    ui->joystickStatus->setText("Connected");
+    ui->joystickStatus->setStyleSheet("color: #00ff00");
+}
+
+void MainWindow::joystickDisconnected() {
+    ui->joystickStatus->setText("Not Connected");
+    ui->joystickStatus->setStyleSheet("color: #ff0000");
+}
+
+void MainWindow::joystick1ButtonPressed(int id) {
+    int kind = j1->getKind(id);
+
+    if (kind == Joystick::CAPTURE)
+        imageCapture->capture();
+
+    else if (kind == Joystick::TOGGLE) {
+        toggleJ1[id] = !toggleJ1[id];
+        if (toggleJ1[id]) {
+            l->setText(j1ActionPress[id]);
+            serial->write(j1ActionPress[id]);
+        }
+        else {
+            l->setText(j1ActionRelease[id]);
+            serial->write(j1ActionRelease[id]);
+        }
     }
 
-    else if (sf::Joystick::isButtonPressed(0, JOYSTICK_L2)) {
-        l->setText(ACTION_PRESS_JOYSTICK1_L2);
-        serial->write(ACTION_PRESS_JOYSTICK1_L2);
+    else if (kind == Joystick::MODE) {
+        mode = !mode;
+        if (mode)
+            ui->valueMode->setText("Measuring");
+        else
+            ui->valueMode->setText("Capturing");
+    }
+
+    else if (j1ActionPress[id] != "") {
+        l->setText(j1ActionPress[id]);
+        serial->write(j1ActionPress[id]);
     }
 }
 
-void MainWindow::autoRepeatEvent() {
-    autoRepeat->stop();
-    joystickAutoRepeat->start(100);
+void MainWindow::joystick1ButtonReleased(int id) {
+    if (j1ActionRelease[id] != ""
+            && j1->getKind(id) != Joystick::TOGGLE) {
+        l->setText(j1ActionRelease[id]);
+        serial->write(j1ActionRelease[id]);
+    }
+}
+
+void MainWindow::joystick2ButtonPressed(int id) {
+    int kind = j2->getKind(id);
+
+    if (kind == Joystick::TOGGLE) {
+        toggleJ2[id] = !toggleJ2[id];
+        if (toggleJ2[id]) {
+            l->setText(j2ActionPress[id]);
+            serial->write(j2ActionPress[id]);
+        }
+        else {
+            l->setText(j2ActionRelease[id]);
+            serial->write(j2ActionRelease[id]);
+        }
+    }
+    else if (j2ActionPress[id] != "") {
+        l->setText(j2ActionPress[id]);
+        serial->write(j2ActionPress[id]);
+    }
+}
+
+void MainWindow::joystick2ButtonReleased(int id) {
+    if (j2ActionRelease[id] != ""
+            && j2->getKind(id) != Joystick::TOGGLE) {
+        l->setText(j2ActionRelease[id]);
+        serial->write(j2ActionRelease[id]);
+    }
+}
+
+void MainWindow::initializeJ1ButtonKinds() {
+    j1->setKind(Joystick::BUTTON_2, Joystick::CAPTURE);
+    j1->setKind(Joystick::BUTTON_ANALOG_2, Joystick::CAPTURE);
+    j1->setKind(Joystick::BUTTON_4, Joystick::TOGGLE);
+    j1->setKind(Joystick::BUTTON_ANALOG_4, Joystick::TOGGLE);
+    j1->setKind(Joystick::BUTTON_START, Joystick::MODE);
+    j1->setKind(Joystick::BUTTON_R2, Joystick::AUTO_REPEAT);
+    j1->setKind(Joystick::BUTTON_L2, Joystick::AUTO_REPEAT);
+}
+
+void MainWindow::initializeJ1ActionPress() {
+    j1ActionPress[Joystick::BUTTON_UP_OFF]     = FORWARD;
+    j1ActionPress[Joystick::BUTTON_DOWN_OFF]   = BACKWARD;
+    j1ActionPress[Joystick::BUTTON_RIGHT_OFF]  = MOVE_RIGHT;
+    j1ActionPress[Joystick::BUTTON_LEFT_OFF]   = MOVE_LEFT;
+    j1ActionPress[Joystick::BUTTON_UP_ON]      = FORWARD;
+    j1ActionPress[Joystick::BUTTON_DOWN_ON]    = BACKWARD;
+    j1ActionPress[Joystick::BUTTON_RIGHT_ON]   = MOVE_RIGHT;
+    j1ActionPress[Joystick::BUTTON_LEFT_ON]    = MOVE_LEFT;
+    j1ActionPress[Joystick::BUTTON_1]          = UP;
+    j1ActionPress[Joystick::BUTTON_2]          = "";
+    j1ActionPress[Joystick::BUTTON_3]          = DOWN;
+    j1ActionPress[Joystick::BUTTON_4]          = LIGHT_ON;
+    j1ActionPress[Joystick::BUTTON_ANALOG_1]   = UP;
+    j1ActionPress[Joystick::BUTTON_ANALOG_2]   = "";
+    j1ActionPress[Joystick::BUTTON_ANALOG_3]   = DOWN;
+    j1ActionPress[Joystick::BUTTON_ANALOG_4]   = LIGHT_ON;
+    j1ActionPress[Joystick::BUTTON_R1]         = TURN_RIGHT;
+    j1ActionPress[Joystick::BUTTON_R2]         = VERTICAL_MOTORS_SPEED_UP;
+    j1ActionPress[Joystick::BUTTON_L1]         = TURN_LEFT;
+    j1ActionPress[Joystick::BUTTON_L2]         = VERTICAL_MOTORS_SPEED_DOWN;
+    j1ActionPress[Joystick::BUTTON_START]      = "";
+    j1ActionPress[Joystick::BUTTON_SELECT]     = "";
+}
+
+void MainWindow::initializeJ1ActionRelease() {
+    j1ActionRelease[Joystick::BUTTON_UP_OFF]     = STOP_HORIZONTAL;
+    j1ActionRelease[Joystick::BUTTON_DOWN_OFF]   = STOP_HORIZONTAL;
+    j1ActionRelease[Joystick::BUTTON_RIGHT_OFF]  = STOP_HORIZONTAL;
+    j1ActionRelease[Joystick::BUTTON_LEFT_OFF]   = STOP_HORIZONTAL;
+    j1ActionRelease[Joystick::BUTTON_UP_ON]      = STOP_HORIZONTAL;
+    j1ActionRelease[Joystick::BUTTON_DOWN_ON]    = STOP_HORIZONTAL;
+    j1ActionRelease[Joystick::BUTTON_RIGHT_ON]   = STOP_HORIZONTAL;
+    j1ActionRelease[Joystick::BUTTON_LEFT_ON]    = STOP_HORIZONTAL;
+    j1ActionRelease[Joystick::BUTTON_1]          = STOP_VERTICAL;
+    j1ActionRelease[Joystick::BUTTON_2]          = "";
+    j1ActionRelease[Joystick::BUTTON_3]          = STOP_VERTICAL;
+    j1ActionRelease[Joystick::BUTTON_4]          = LIGHT_OFF;
+    j1ActionRelease[Joystick::BUTTON_ANALOG_1]   = STOP_VERTICAL;
+    j1ActionRelease[Joystick::BUTTON_ANALOG_2]   = "";
+    j1ActionRelease[Joystick::BUTTON_ANALOG_3]   = STOP_VERTICAL;
+    j1ActionRelease[Joystick::BUTTON_ANALOG_4]   = LIGHT_OFF;
+    j1ActionRelease[Joystick::BUTTON_R1]         = STOP_HORIZONTAL;
+    j1ActionRelease[Joystick::BUTTON_R2]         = "";
+    j1ActionRelease[Joystick::BUTTON_L1]         = STOP_HORIZONTAL;
+    j1ActionRelease[Joystick::BUTTON_L2]         = "";
+    j1ActionRelease[Joystick::BUTTON_START]      = "";
+    j1ActionRelease[Joystick::BUTTON_SELECT]     = "";
+}
+
+void MainWindow::initializeJ2ActionPress() {
+    j2ActionPress[Joystick::BUTTON_UP_OFF]     = ELBOW_LEFT;
+    j2ActionPress[Joystick::BUTTON_DOWN_OFF]   = ELBOW_RIGHT;
+    j2ActionPress[Joystick::BUTTON_RIGHT_OFF]  = CAM1_RIGHT;
+    j2ActionPress[Joystick::BUTTON_LEFT_OFF]   = CAM1_LEFT;
+    j2ActionPress[Joystick::BUTTON_UP_ON]      = ELBOW_LEFT;
+    j2ActionPress[Joystick::BUTTON_DOWN_ON]    = ELBOW_RIGHT;
+    j2ActionPress[Joystick::BUTTON_RIGHT_ON]   = CAM1_RIGHT;
+    j2ActionPress[Joystick::BUTTON_LEFT_ON]    = CAM1_LEFT;
+    j2ActionPress[Joystick::BUTTON_1]          = SHOULDER_LEFT;
+    j2ActionPress[Joystick::BUTTON_2]          = GRIPPER_LEFT;
+    j2ActionPress[Joystick::BUTTON_3]          = SHOULDER_RIGHT;
+    j2ActionPress[Joystick::BUTTON_4]          = GRIPPER_RIGHT;
+    j2ActionPress[Joystick::BUTTON_ANALOG_1]   = SHOULDER_LEFT;
+    j2ActionPress[Joystick::BUTTON_ANALOG_2]   = GRIPPER_LEFT;
+    j2ActionPress[Joystick::BUTTON_ANALOG_3]   = SHOULDER_RIGHT;
+    j2ActionPress[Joystick::BUTTON_ANALOG_4]   = GRIPPER_RIGHT;
+    j2ActionPress[Joystick::BUTTON_R1]         = WRIST_LEFT;
+    j2ActionPress[Joystick::BUTTON_R2]         = WRIST_RIGHT;
+    j2ActionPress[Joystick::BUTTON_L1]         = ARM_SPEED_UP;
+    j2ActionPress[Joystick::BUTTON_L2]         = ARM_SPEED_DOWN;
+    j2ActionPress[Joystick::BUTTON_START]      = CAM2_RIGHT;
+    j2ActionPress[Joystick::BUTTON_SELECT]     = CAM2_LEFT;
+}
+
+void MainWindow::initializeJ2ActionRelease() {
+    j2ActionRelease[Joystick::BUTTON_UP_OFF]     = ELBOW_STOP;
+    j2ActionRelease[Joystick::BUTTON_DOWN_OFF]   = ELBOW_STOP;
+    j2ActionRelease[Joystick::BUTTON_RIGHT_OFF]  = CAM1_STOP;
+    j2ActionRelease[Joystick::BUTTON_LEFT_OFF]   = CAM1_STOP;
+    j2ActionRelease[Joystick::BUTTON_UP_ON]      = ELBOW_STOP;
+    j2ActionRelease[Joystick::BUTTON_DOWN_ON]    = ELBOW_STOP;
+    j2ActionRelease[Joystick::BUTTON_RIGHT_ON]   = CAM1_STOP;
+    j2ActionRelease[Joystick::BUTTON_LEFT_ON]    = CAM1_STOP;
+    j2ActionRelease[Joystick::BUTTON_1]          = SHOULDER_STOP;
+    j2ActionRelease[Joystick::BUTTON_2]          = GRIPPER_STOP;
+    j2ActionRelease[Joystick::BUTTON_3]          = SHOULDER_STOP;
+    j2ActionRelease[Joystick::BUTTON_4]          = GRIPPER_STOP;
+    j2ActionRelease[Joystick::BUTTON_ANALOG_1]   = SHOULDER_STOP;
+    j2ActionRelease[Joystick::BUTTON_ANALOG_2]   = GRIPPER_STOP;
+    j2ActionRelease[Joystick::BUTTON_ANALOG_3]   = SHOULDER_STOP;
+    j2ActionRelease[Joystick::BUTTON_ANALOG_4]   = GRIPPER_STOP;
+    j2ActionRelease[Joystick::BUTTON_R1]         = WRIST_STOP;
+    j2ActionRelease[Joystick::BUTTON_R2]         = WRIST_STOP;
+    j2ActionRelease[Joystick::BUTTON_L1]         = "";
+    j2ActionRelease[Joystick::BUTTON_L2]         = "";
+    j2ActionRelease[Joystick::BUTTON_START]      = CAM2_STOP;
+    j2ActionRelease[Joystick::BUTTON_SELECT]     = CAM2_STOP;
 }

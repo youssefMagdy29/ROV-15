@@ -21,12 +21,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     image.cpp \
     customlabel.cpp \
-    resizable_label.cpp
+    resizable_label.cpp \
+    joystick.cpp
 
 HEADERS  += mainwindow.h \
     image.h \
     customlabel.h \
-    resizable_label.h
+    resizable_label.h \
+    joystick.h
 
 FORMS    += mainwindow.ui \
     image.ui
