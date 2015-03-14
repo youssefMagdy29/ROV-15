@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QVector>
 
 #include <SFML/Window.hpp>
 
@@ -46,10 +47,11 @@ public:
     } BUTTON;
 
     static enum KIND {
-        NORMAL  = 0,
-        TOGGLE  = 1,
-        CAPTURE = 2,
-        MODE    = 3
+        NORMAL      = 0,
+        TOGGLE      = 1,
+        CAPTURE     = 2,
+        MODE        = 3,
+        AUTO_REPEAT = 4
     } KIND;
 
     void setKind(int id, int kind);
@@ -60,9 +62,10 @@ private:
     bool isConnected;
     bool buttonStates[BUTTON_COUNT];
     short buttonKinds[BUTTON_COUNT];
-    QTimer *t;
+    QTimer *t, *checkAutoRepeat, *autoRepeat;
     float x, y, z, r;
     float povX, povY;
+    int currentButton;
 
     bool isButtonPressed(int id);
 
@@ -79,6 +82,10 @@ private slots:
     void checkConnectivity();
 
     void readJoystickState();
+
+    void sCheckAutoRepeat();
+
+    void sAutoRepeat();
 };
 
 #endif // JOYSTICK_H

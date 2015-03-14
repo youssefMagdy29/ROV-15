@@ -16,8 +16,6 @@
 #include "image.h"
 #include "resizable_label.h"
 
-#include <SFML/Window.hpp>
-
 #include <QDesktopServices>
 
 QSerialPort *serial;
@@ -513,6 +511,8 @@ void MainWindow::initializeJ1ButtonKinds() {
     j1->setKind(Joystick::BUTTON_4, Joystick::TOGGLE);
     j1->setKind(Joystick::BUTTON_ANALOG_4, Joystick::TOGGLE);
     j1->setKind(Joystick::BUTTON_START, Joystick::MODE);
+    j1->setKind(Joystick::BUTTON_R2, Joystick::AUTO_REPEAT);
+    j1->setKind(Joystick::BUTTON_L2, Joystick::AUTO_REPEAT);
 }
 
 void MainWindow::initializeJ1ActionPress() {
