@@ -48,8 +48,11 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Joystick *j1, *j2;
+    QByteArray j1ActionPress[32];
+    QByteArray j2ActionPress[32];
 
     void setupJoystick();
+    void initializeJ1ActionPress();
 };
 
 #endif // MAINWINDOW_H

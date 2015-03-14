@@ -136,35 +136,6 @@ QChar const KEY_BASE_LEFT  = 'U';
 QByteArray const ARM_SPEED_UP   = "z";
 QByteArray const ARM_SPEED_DOWN = "p";
 
-//Joystick buttons
-unsigned int const JOYSTICK_1      = 0;
-unsigned int const JOYSTICK_2      = 1;
-unsigned int const JOYSTICK_3      = 2;
-unsigned int const JOYSTICK_4      = 3;
-unsigned int const JOYSTICK_R1     = 5;
-unsigned int const JOYSTICK_R2     = 7;
-unsigned int const JOYSTICK_L1     = 4;
-unsigned int const JOYSTICK_L2     = 6;
-unsigned int const JOYSTICK_START  = 9;
-unsigned int const JOYSTICK_SELECT = 8;
-
-//Pilot Control
-//Press actions
-QByteArray const ACTION_PRESS_JOYSTICK1_UP     = FORWARD;
-QByteArray const ACTION_PRESS_JOYSTICK1_DOWN   = BACKWARD;
-QByteArray const ACTION_PRESS_JOYSTICK1_RIGHT  = MOVE_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK1_LEFT   = MOVE_LEFT;
-QByteArray const ACTION_PRESS_JOYSTICK1_1      = UP;
-QByteArray const ACTION_PRESS_JOYSTICK1_2      = "";
-QByteArray const ACTION_PRESS_JOYSTICK1_3      = DOWN;
-QByteArray const ACTION_PRESS_JOYSTICK1_4      = LIGHT_ON;
-QByteArray const ACTION_PRESS_JOYSTICK1_R1     = TURN_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK1_R2     = VERTICAL_MOTORS_SPEED_UP;
-QByteArray const ACTION_PRESS_JOYSTICK1_L1     = TURN_LEFT;
-QByteArray const ACTION_PRESS_JOYSTICK1_L2     = VERTICAL_MOTORS_SPEED_DOWN;
-QByteArray const ACTION_PRESS_JOYSTICK1_START  = "";
-QByteArray const ACTION_PRESS_JOYSTICK1_SELECT = "";
-
 //Release actions
 QByteArray const ACTION_RELEASE_JOYSTICK1_UP     = STOP_HORIZONTAL;
 QByteArray const ACTION_RELEASE_JOYSTICK1_DOWN   = STOP_HORIZONTAL;
@@ -214,19 +185,7 @@ QByteArray const ACTION_RELEASE_JOYSTICK2_L2     = "";
 QByteArray const ACTION_RELEASE_JOYSTICK2_START  = CAM2_STOP;
 QByteArray const ACTION_RELEASE_JOYSTICK2_SELECT = CAM2_STOP;
 
-bool x_1_pressed = false;
-bool y_1_pressed = false;
-bool x_2_pressed = false;
-bool y_2_pressed = false;
-bool z_2_pressed = false;
-bool r_2_pressed = false;
-bool p_2_pressed = false;
-
-bool _1_pressed[32];
-bool _2_pressed[32];
-
 bool mode;
-bool light_state;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -496,6 +455,8 @@ void MainWindow::setupJoystick() {
     j1 = new Joystick(Joystick::JOYSTICK1);
     j2 = new Joystick(Joystick::JOYSTICK2);
 
+    initializeJ1ActionPress();
+
     //Connectivity signals
     connect(j1, SIGNAL(connected()), this, SLOT(joystickConnected()));
     connect(j1, SIGNAL(disconnected()), this, SLOT(joystickDisconnected()));
@@ -520,7 +481,8 @@ void MainWindow::joystickDisconnected() {
 }
 
 void MainWindow::joystick1ButtonPressed(int id) {
-
+    l->setText(j1ActionPress[id]);
+    serial->write(j1ActionPress[id]);
 }
 
 void MainWindow::joystick1ButtonReleased(int id) {
@@ -533,4 +495,21 @@ void MainWindow::joystick2ButtonPressed(int id) {
 
 void MainWindow::joystick2ButtonReleased(int id) {
 
+}
+
+void MainWindow::initializeJ1ActionPress() {
+    /*j1ActionPress[Joystick::]     = FORWARD;
+    j1ActionPress[Joystick::]   = BACKWARD;
+    j1ActionPress[Joystick::]  = MOVE_RIGHT;
+    j1ActionPress[Joystick::]   = MOVE_LEFT;*/
+    j1ActionPress[Joystick::BUTTON_1]      = UP;
+    j1ActionPress[Joystick::BUTTON_2]      = "";
+    j1ActionPress[Joystick::BUTTON_3]      = DOWN;
+    j1ActionPress[Joystick::BUTTON_4]      = LIGHT_ON;
+    j1ActionPress[Joystick::BUTTON_R1]     = TURN_RIGHT;
+    j1ActionPress[Joystick::BUTTON_R2]     = VERTICAL_MOTORS_SPEED_UP;
+    j1ActionPress[Joystick::BUTTON_L1]     = TURN_LEFT;
+    j1ActionPress[Joystick::BUTTON_L2]     = VERTICAL_MOTORS_SPEED_DOWN;
+    j1ActionPress[Joystick::BUTTON_START]  = "";
+    j1ActionPress[Joystick::BUTTON_SELECT] = "";
 }

@@ -38,17 +38,19 @@ void Joystick::checkConnectivity() {
 
 void Joystick::readJoystickState() {
     //Emit buttonPressed signal
-    for (int i = 0; i < 32; i++) {
-        if (sf::Joystick::isButtonPressed(joystickNumber, i)
-                && !buttonStates[i]) {
-            buttonStates[i] = true;
-            emit buttonPressed(i);
-        }
+    if (isConnected) {
+        for (int i = 0; i < 32; i++) {
+            if (sf::Joystick::isButtonPressed(joystickNumber, i)
+                    && !buttonStates[i]) {
+                buttonStates[i] = true;
+                emit buttonPressed(i);
+            }
 
-        if (!sf::Joystick::isButtonPressed(joystickNumber, i)
-                && buttonStates[i]) {
-            buttonStates[i] = false;
-            emit buttonReleased(i);
+            if (!sf::Joystick::isButtonPressed(joystickNumber, i)
+                    && buttonStates[i]) {
+                buttonStates[i] = false;
+                emit buttonReleased(i);
+            }
         }
     }
 }
