@@ -14,7 +14,7 @@ Joystick::Joystick(unsigned int joystickNumber, QObject *parent) :
 
     t->start(30);
 
-    for (int i = 0; i < 32; i++)
+    for (int i = 0; i < 36; i++)
         buttonStates[i] = false;
 }
 
@@ -39,11 +39,10 @@ void Joystick::checkConnectivity() {
 void Joystick::readJoystickState() {
     sf::Joystick::update();
 
-    //Emit buttonPressed signal
     x = sf::Joystick::getAxisPosition(joystickNumber, sf::Joystick::X);
     y = sf::Joystick::getAxisPosition(joystickNumber, sf::Joystick::Y);
 
-    if (isConnected) {
+    if (sf::Joystick::isConnected(joystickNumber)) {
         for (int i = 0; i < 36; i++) {
             if (isButtonPressed(i) && !buttonStates[i]) {
                 buttonStates[i] = true;

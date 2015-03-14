@@ -136,39 +136,6 @@ QChar const KEY_BASE_LEFT  = 'U';
 QByteArray const ARM_SPEED_UP   = "z";
 QByteArray const ARM_SPEED_DOWN = "p";
 
-//Co-pilot Control
-//Press actions
-QByteArray const ACTION_PRESS_JOYSTICK2_UP     = ELBOW_LEFT;
-QByteArray const ACTION_PRESS_JOYSTICK2_DOWN   = ELBOW_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK2_RIGHT  = CAM1_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK2_LEFT   = CAM1_LEFT;
-QByteArray const ACTION_PRESS_JOYSTICK2_1      = SHOULDER_LEFT;
-QByteArray const ACTION_PRESS_JOYSTICK2_2      = GRIPPER_LEFT;
-QByteArray const ACTION_PRESS_JOYSTICK2_3      = SHOULDER_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK2_4      = GRIPPER_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK2_R1     = WRIST_LEFT;
-QByteArray const ACTION_PRESS_JOYSTICK2_R2     = WRIST_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK2_L1     = ARM_SPEED_UP;
-QByteArray const ACTION_PRESS_JOYSTICK2_L2     = ARM_SPEED_DOWN;
-QByteArray const ACTION_PRESS_JOYSTICK2_START  = CAM2_RIGHT;
-QByteArray const ACTION_PRESS_JOYSTICK2_SELECT = CAM2_LEFT;
-
-//Release actions
-QByteArray const ACTION_RELEASE_JOYSTICK2_UP     = ELBOW_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_DOWN   = ELBOW_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_RIGHT  = CAM1_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_LEFT   = CAM1_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_1      = SHOULDER_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_2      = GRIPPER_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_3      = SHOULDER_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_4      = GRIPPER_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_R1     = WRIST_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_R2     = WRIST_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_L1     = "";
-QByteArray const ACTION_RELEASE_JOYSTICK2_L2     = "";
-QByteArray const ACTION_RELEASE_JOYSTICK2_START  = CAM2_STOP;
-QByteArray const ACTION_RELEASE_JOYSTICK2_SELECT = CAM2_STOP;
-
 bool mode;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -230,78 +197,6 @@ MainWindow::~MainWindow()
 {
     delete ui;
     serial->close();
-}
-
-void MainWindow::keyReleaseEvent(QKeyEvent *e) {
-    QChar k = e->key();
-    if (!e->isAutoRepeat()) {
-        if (k == KEY_FORWARD    || k == KEY_BACKWARD  || k == KEY_MOVE_LEFT ||
-                k == KEY_MOVE_RIGHT || k == KEY_TURN_LEFT || k == KEY_TURN_RIGHT) {
-            l->setText(STOP_HORIZONTAL);
-            serial->write(STOP_HORIZONTAL);
-        }
-        else if (k == KEY_UP || k == KEY_DOWN) {
-            l->setText(STOP_VERTICAL);
-            serial->write(STOP_VERTICAL);
-        }
-        else if (k == KEY_CAM1_LEFT || k == KEY_CAM1_RIGHT) {
-            l->setText(CAM1_STOP);
-            serial->write(CAM1_STOP);
-        }
-        else if (k == KEY_GRIPPER_RIGHT || k == KEY_GRIPPER_LEFT) {
-            l->setText(GRIPPER_STOP);
-            serial->write(GRIPPER_STOP);
-        }
-        else if (k == KEY_WRIST_RIGHT || k == KEY_WRIST_LEFT) {
-            l->setText(WRIST_STOP);
-            serial->write(WRIST_STOP);
-        }
-        else if (k == KEY_ELBOW_RIGHT || k == KEY_ELBOW_LEFT) {
-            l->setText(ELBOW_STOP);
-            serial->write(ELBOW_STOP);
-        }
-        else if (k == KEY_SHOULDER_RIGHT || k == KEY_SHOULDER_LEFT) {
-            l->setText(SHOULDER_STOP);
-            serial->write(SHOULDER_STOP);
-        }
-        else if (k == KEY_BASE_RIGHT || k == KEY_BASE_LEFT) {
-            l->setText(BASE_STOP);
-            serial->write(BASE_STOP);
-        }
-    }
-}
-
-void MainWindow::on_buttonConnect_clicked()
-{
-    serial->setPortName(ui->lineEditCOMNumber->text());
-    serial->setBaudRate(QSerialPort::Baud115200);
-    serial->setDataBits(QSerialPort::Data8);
-    serial->setParity(QSerialPort::NoParity);
-    serial->setStopBits(QSerialPort::OneStop);
-    serial->setFlowControl(QSerialPort::NoFlowControl);
-    if(serial->open(QIODevice::ReadWrite)) {
-        ui->labelConnectionStatus->setText("Connected");
-        ui->labelConnectionStatus->setStyleSheet("color: #00ff00");
-        ui->buttonConnect->setDisabled(true);
-        ui->buttonDisconnect->setEnabled(true);
-    }
-    else {
-        QMessageBox::critical(this, tr("Error"), "Invalid Serial port");
-    }
-}
-
-void MainWindow::on_buttonDisconnect_clicked()
-{
-    if (serial->isOpen()) {
-        serial->close();
-        ui->labelConnectionStatus->setText("Disconnected");
-        ui->labelConnectionStatus->setStyleSheet("color: #ff0000");
-        ui->buttonConnect->setEnabled(true);
-        ui->buttonDisconnect->setDisabled(true);
-    }
-    else {
-        QMessageBox::critical(this, tr("Error"), "Not Connected!");
-    }
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
@@ -398,6 +293,78 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
     }
 }
 
+void MainWindow::keyReleaseEvent(QKeyEvent *e) {
+    QChar k = e->key();
+    if (!e->isAutoRepeat()) {
+        if (k == KEY_FORWARD    || k == KEY_BACKWARD  || k == KEY_MOVE_LEFT ||
+                k == KEY_MOVE_RIGHT || k == KEY_TURN_LEFT || k == KEY_TURN_RIGHT) {
+            l->setText(STOP_HORIZONTAL);
+            serial->write(STOP_HORIZONTAL);
+        }
+        else if (k == KEY_UP || k == KEY_DOWN) {
+            l->setText(STOP_VERTICAL);
+            serial->write(STOP_VERTICAL);
+        }
+        else if (k == KEY_CAM1_LEFT || k == KEY_CAM1_RIGHT) {
+            l->setText(CAM1_STOP);
+            serial->write(CAM1_STOP);
+        }
+        else if (k == KEY_GRIPPER_RIGHT || k == KEY_GRIPPER_LEFT) {
+            l->setText(GRIPPER_STOP);
+            serial->write(GRIPPER_STOP);
+        }
+        else if (k == KEY_WRIST_RIGHT || k == KEY_WRIST_LEFT) {
+            l->setText(WRIST_STOP);
+            serial->write(WRIST_STOP);
+        }
+        else if (k == KEY_ELBOW_RIGHT || k == KEY_ELBOW_LEFT) {
+            l->setText(ELBOW_STOP);
+            serial->write(ELBOW_STOP);
+        }
+        else if (k == KEY_SHOULDER_RIGHT || k == KEY_SHOULDER_LEFT) {
+            l->setText(SHOULDER_STOP);
+            serial->write(SHOULDER_STOP);
+        }
+        else if (k == KEY_BASE_RIGHT || k == KEY_BASE_LEFT) {
+            l->setText(BASE_STOP);
+            serial->write(BASE_STOP);
+        }
+    }
+}
+
+void MainWindow::on_buttonConnect_clicked()
+{
+    serial->setPortName(ui->lineEditCOMNumber->text());
+    serial->setBaudRate(QSerialPort::Baud115200);
+    serial->setDataBits(QSerialPort::Data8);
+    serial->setParity(QSerialPort::NoParity);
+    serial->setStopBits(QSerialPort::OneStop);
+    serial->setFlowControl(QSerialPort::NoFlowControl);
+    if(serial->open(QIODevice::ReadWrite)) {
+        ui->labelConnectionStatus->setText("Connected");
+        ui->labelConnectionStatus->setStyleSheet("color: #00ff00");
+        ui->buttonConnect->setDisabled(true);
+        ui->buttonDisconnect->setEnabled(true);
+    }
+    else {
+        QMessageBox::critical(this, tr("Error"), "Invalid Serial port");
+    }
+}
+
+void MainWindow::on_buttonDisconnect_clicked()
+{
+    if (serial->isOpen()) {
+        serial->close();
+        ui->labelConnectionStatus->setText("Disconnected");
+        ui->labelConnectionStatus->setStyleSheet("color: #ff0000");
+        ui->buttonConnect->setEnabled(true);
+        ui->buttonDisconnect->setDisabled(true);
+    }
+    else {
+        QMessageBox::critical(this, tr("Error"), "Not Connected!");
+    }
+}
+
 void MainWindow::readData() {
     QByteArray data;
     while (serial->canReadLine()) {
@@ -441,6 +408,8 @@ void MainWindow::setupJoystick() {
 
     initializeJ1ActionPress();
     initializeJ1ActionRelease();
+    initializeJ2ActionPress();
+    initializeJ2ActionRelease();
 
     //Connectivity signals
     connect(j1, SIGNAL(connected()), this, SLOT(joystickConnected()));
@@ -466,21 +435,31 @@ void MainWindow::joystickDisconnected() {
 }
 
 void MainWindow::joystick1ButtonPressed(int id) {
-    l->setText(j1ActionPress[id]);
-    serial->write(j1ActionPress[id]);
+    if (j1ActionPress[id] != "") {
+        l->setText(j1ActionPress[id]);
+        serial->write(j1ActionPress[id]);
+    }
 }
 
 void MainWindow::joystick1ButtonReleased(int id) {
-    l->setText(j1ActionRelease[id]);
-    serial->write(j1ActionRelease[id]);
+    if (j1ActionRelease[id] != "") {
+        l->setText(j1ActionRelease[id]);
+        serial->write(j1ActionRelease[id]);
+    }
 }
 
 void MainWindow::joystick2ButtonPressed(int id) {
-
+    if (j2ActionPress[id] != "") {
+        l->setText(j2ActionPress[id]);
+        serial->write(j2ActionPress[id]);
+    }
 }
 
 void MainWindow::joystick2ButtonReleased(int id) {
-
+    if (j2ActionRelease[id] != "") {
+        l->setText(j2ActionRelease[id]);
+        serial->write(j2ActionRelease[id]);
+    }
 }
 
 void MainWindow::initializeJ1ActionPress() {
@@ -515,4 +494,38 @@ void MainWindow::initializeJ1ActionRelease() {
     j1ActionRelease[Joystick::BUTTON_L2]     = "";
     j1ActionRelease[Joystick::BUTTON_START]  = "";
     j1ActionRelease[Joystick::BUTTON_SELECT] = "";
+}
+
+void MainWindow::initializeJ2ActionPress() {
+    j2ActionPress[Joystick::BUTTON_UP]     = ELBOW_LEFT;
+    j2ActionPress[Joystick::BUTTON_DOWN]   = ELBOW_RIGHT;
+    j2ActionPress[Joystick::BUTTON_RIGHT]  = CAM1_RIGHT;
+    j2ActionPress[Joystick::BUTTON_LEFT]   = CAM1_LEFT;
+    j2ActionPress[Joystick::BUTTON_1]      = SHOULDER_LEFT;
+    j2ActionPress[Joystick::BUTTON_2]      = GRIPPER_LEFT;
+    j2ActionPress[Joystick::BUTTON_3]      = SHOULDER_RIGHT;
+    j2ActionPress[Joystick::BUTTON_4]      = GRIPPER_RIGHT;
+    j2ActionPress[Joystick::BUTTON_R1]     = WRIST_LEFT;
+    j2ActionPress[Joystick::BUTTON_R2]     = WRIST_RIGHT;
+    j2ActionPress[Joystick::BUTTON_L1]     = ARM_SPEED_UP;
+    j2ActionPress[Joystick::BUTTON_L2]     = ARM_SPEED_DOWN;
+    j2ActionPress[Joystick::BUTTON_START]  = CAM2_RIGHT;
+    j2ActionPress[Joystick::BUTTON_SELECT] = CAM2_LEFT;
+}
+
+void MainWindow::initializeJ2ActionRelease() {
+    j2ActionRelease[Joystick::BUTTON_UP]     = ELBOW_STOP;
+    j2ActionRelease[Joystick::BUTTON_DOWN]   = ELBOW_STOP;
+    j2ActionRelease[Joystick::BUTTON_RIGHT]  = CAM1_STOP;
+    j2ActionRelease[Joystick::BUTTON_LEFT]   = CAM1_STOP;
+    j2ActionRelease[Joystick::BUTTON_1]      = SHOULDER_STOP;
+    j2ActionRelease[Joystick::BUTTON_2]      = GRIPPER_STOP;
+    j2ActionRelease[Joystick::BUTTON_3]      = SHOULDER_STOP;
+    j2ActionRelease[Joystick::BUTTON_4]      = GRIPPER_STOP;
+    j2ActionRelease[Joystick::BUTTON_R1]     = WRIST_STOP;
+    j2ActionRelease[Joystick::BUTTON_R2]     = WRIST_STOP;
+    j2ActionRelease[Joystick::BUTTON_L1]     = "";
+    j2ActionRelease[Joystick::BUTTON_L2]     = "";
+    j2ActionRelease[Joystick::BUTTON_START]  = CAM2_STOP;
+    j2ActionRelease[Joystick::BUTTON_SELECT] = CAM2_STOP;
 }
