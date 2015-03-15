@@ -61,6 +61,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     lbl->setWindowTitle("Screen Shot");
 
+    initKeys();
+    initializeKActionPress();
+    initializeKActionRelease();
+
     setupSerialConnection();
     setupCamera();
     setupJoystick();
@@ -114,6 +118,14 @@ void MainWindow::setupCamera() {
    camera->setCaptureMode(QCamera::CaptureStillImage);
    if (camInfo.description() == "SMI Grabber Device")
        camera->start();
+}
+
+void MainWindow::initializeKActionPress() {
+    keyboardActionPress[KEY_FORWARD] = FORWARD;
+}
+
+void MainWindow::initializeKActionRelease() {
+    keyboardActionRelease[KEY_FORWARD] = STOP_HORIZONTAL;
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
