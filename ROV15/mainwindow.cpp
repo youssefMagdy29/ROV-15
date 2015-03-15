@@ -8,110 +8,43 @@
 #include <QTimer>
 #include <QDesktopServices>
 
-//Directions...
-//Commands...
-QByteArray const FORWARD         = "f";
-QByteArray const BACKWARD        = "b";
-QByteArray const MOVE_RIGHT      = "x";
-QByteArray const MOVE_LEFT       = "c";
-QByteArray const TURN_RIGHT      = "r";
-QByteArray const TURN_LEFT       = "l";
-QByteArray const UP              = "u";
-QByteArray const DOWN            = "d";
-QByteArray const STOP_HORIZONTAL = "h";
-QByteArray const STOP_VERTICAL   = "v";
-//Keys...
-QChar const KEY_FORWARD    = 'W';
-QChar const KEY_BACKWARD   = 'S';
-QChar const KEY_MOVE_RIGHT = 'D';
-QChar const KEY_MOVE_LEFT  = 'A';
-QChar const KEY_TURN_RIGHT = 'K';
-QChar const KEY_TURN_LEFT  = 'L';
-QChar const KEY_UP         = 'I';
-QChar const KEY_DOWN       = 'J';
-
-//Vertical motors speed
-QByteArray const VERTICAL_MOTORS_SPEED_UP   = "+";
-QByteArray const VERTICAL_MOTORS_SPEED_DOWN = "-";
-
-//Light..
-//Commands...
-QByteArray const LIGHT_ON  = "n";
-QByteArray const LIGHT_OFF = "m";
-
-//Keys...
-QChar const KEY_LIGHT_ON  = 'N';
-QChar const KEY_LIGHT_OFF = 'M';
-
-//Camera1..
-//Commands...
-QByteArray const CAM1_RIGHT = "y";
-QByteArray const CAM1_LEFT  = "t";
-QByteArray const CAM1_STOP  = "o";
-
-//Keys...
-QChar const KEY_CAM1_RIGHT = 'Y';
-QChar const KEY_CAM1_LEFT  = 'T';
-
-//Camera2..
-QByteArray const CAM2_RIGHT = "/";
-QByteArray const CAM2_LEFT  = "*";
-QByteArray const CAM2_STOP  = ",";
-
-//Arm..
-//Commands..
-QByteArray const GRIPPER_STOP  = "0";
-QByteArray const GRIPPER_RIGHT = "1";
-QByteArray const GRIPPER_LEFT  = "2";
-
-//Keys..
-QChar const KEY_GRIPPER_STOP  = Qt::Key_0;
-QChar const KEY_GRIPPER_RIGHT = Qt::Key_1;
-QChar const KEY_GRIPPER_LEFT  = Qt::Key_2;
-
-//Commands..
-QByteArray const WRIST_STOP  = "3";
-QByteArray const WRIST_RIGHT = "4";
-QByteArray const WRIST_LEFT  = "5";
-
-//Keys..
-QChar const KEY_WRIST_STOP  = Qt::Key_3;
-QChar const KEY_WRIST_RIGHT = Qt::Key_4;
-QChar const KEY_WRIST_LEFT  = Qt::Key_5;
-
-//Commands..
-QByteArray const ELBOW_STOP  = "6";
-QByteArray const ELBOW_RIGHT = "7";
-QByteArray const ELBOW_LEFT  = "8";
-
-//Keys..
-QChar const KEY_ELBOW_STOP  = Qt::Key_6;
-QChar const KEY_ELBOW_RIGHT = Qt::Key_7;
-QChar const KEY_ELBOW_LEFT  = Qt::Key_8;
-
-//Commands..
-QByteArray const SHOULDER_STOP  = "9";
-QByteArray const SHOULDER_RIGHT = "q";
-QByteArray const SHOULDER_LEFT  = "e";
-
-//Keys..
-QChar const KEY_SHOULDER_STOP  = Qt::Key_9;
-QChar const KEY_SHOULDER_RIGHT = 'Q';
-QChar const KEY_SHOULDER_LEFT  = 'E';
-
-//Commands..
-QByteArray const BASE_STOP  = "j";
-QByteArray const BASE_RIGHT = "k";
-QByteArray const BASE_LEFT  = "i";
-
-//Keys..
-QChar const KEY_BASE_STOP  = 'H';
-QChar const KEY_BASE_RIGHT = 'V';
-QChar const KEY_BASE_LEFT  = 'U';
-
-//Speed Commands
-QByteArray const ARM_SPEED_UP   = "z";
-QByteArray const ARM_SPEED_DOWN = "p";
+static const QByteArray FORWARD                    = "f";
+static const QByteArray BACKWARD                   = "b";
+static const QByteArray MOVE_RIGHT                 = "x";
+static const QByteArray MOVE_LEFT                  = "c";
+static const QByteArray TURN_RIGHT                 = "r";
+static const QByteArray TURN_LEFT                  = "l";
+static const QByteArray UP                         = "u";
+static const QByteArray DOWN                       = "d";
+static const QByteArray STOP_HORIZONTAL            = "h";
+static const QByteArray STOP_VERTICAL              = "v";
+static const QByteArray VERTICAL_MOTORS_SPEED_UP   = "+";
+static const QByteArray VERTICAL_MOTORS_SPEED_DOWN = "-";
+static const QByteArray LIGHT_ON                   = "n";
+static const QByteArray LIGHT_OFF                  = "m";
+static const QByteArray CAM1_RIGHT                 = "y";
+static const QByteArray CAM1_LEFT                  = "t";
+static const QByteArray CAM1_STOP                  = "o";
+static const QByteArray CAM2_RIGHT                 = "/";
+static const QByteArray CAM2_LEFT                  = "*";
+static const QByteArray CAM2_STOP                  = ",";
+static const QByteArray GRIPPER_STOP               = "0";
+static const QByteArray GRIPPER_RIGHT              = "1";
+static const QByteArray GRIPPER_LEFT               = "2";
+static const QByteArray WRIST_STOP                 = "3";
+static const QByteArray WRIST_RIGHT                = "4";
+static const QByteArray WRIST_LEFT                 = "5";
+static const QByteArray ELBOW_STOP                 = "6";
+static const QByteArray ELBOW_RIGHT                = "7";
+static const QByteArray ELBOW_LEFT                 = "8";
+static const QByteArray SHOULDER_STOP              = "9";
+static const QByteArray SHOULDER_RIGHT             = "q";
+static const QByteArray SHOULDER_LEFT              = "e";
+static const QByteArray BASE_STOP                  = "j";
+static const QByteArray BASE_RIGHT                 = "k";
+static const QByteArray BASE_LEFT                  = "i";
+static const QByteArray ARM_SPEED_UP               = "z";
+static const QByteArray ARM_SPEED_DOWN             = "p";
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

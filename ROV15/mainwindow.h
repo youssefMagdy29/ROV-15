@@ -27,6 +27,38 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+
+
+    static enum KEY {
+        KEY_FORWARD        = 'W',
+        KEY_BACKWARD       = 'S',
+        KEY_MOVE_RIGHT     = 'D',
+        KEY_MOVE_LEFT      = 'A',
+        KEY_TURN_RIGHT     = 'L',
+        KEY_TURN_LEFT      = 'K',
+        KEY_UP             = 'I',
+        KEY_DOWN           = 'J',
+        KEY_LIGHT_ON       = 'N',
+        KEY_LIGHT_OFF      = 'M',
+        KEY_CAM1_RIGHT     = 'Y',
+        KEY_CAM1_LEFT      = 'T',
+        KEY_GRIPPER_STOP   = '0',
+        KEY_GRIPPER_RIGHT  = '1',
+        KEY_GRIPPER_LEFT   = '2',
+        KEY_WRIST_STOP     = '3',
+        KEY_WRIST_RIGHT    = '4',
+        KEY_WRIST_LEFT     = '5',
+        KEY_ELBOW_STOP     = '6',
+        KEY_ELBOW_RIGHT    = '7',
+        KEY_ELBOW_LEFT     = '8',
+        KEY_SHOULDER_STOP  = '9',
+        KEY_SHOULDER_RIGHT = 'Q',
+        KEY_SHOULDER_LEFT  = 'E',
+        KEY_BASE_STOP      = 'H',
+        KEY_BASE_RIGHT     = 'V',
+        KEY_BASE_LEFT      = 'U',
+    } KEY;
+
 private slots:
     void keyReleaseEvent(QKeyEvent *e);
 
