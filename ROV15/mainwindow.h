@@ -12,6 +12,7 @@
 #include <QCameraInfo>
 #include <QVideoWidget>
 #include <QGraphicsView>
+#include <QMap>
 
 #include "joystick.h"
 
@@ -42,19 +43,14 @@ public:
         KEY_LIGHT_OFF      = 'M',
         KEY_CAM1_RIGHT     = 'Y',
         KEY_CAM1_LEFT      = 'T',
-        KEY_GRIPPER_STOP   = '0',
         KEY_GRIPPER_RIGHT  = '1',
         KEY_GRIPPER_LEFT   = '2',
-        KEY_WRIST_STOP     = '3',
         KEY_WRIST_RIGHT    = '4',
         KEY_WRIST_LEFT     = '5',
-        KEY_ELBOW_STOP     = '6',
         KEY_ELBOW_RIGHT    = '7',
         KEY_ELBOW_LEFT     = '8',
-        KEY_SHOULDER_STOP  = '9',
         KEY_SHOULDER_RIGHT = 'Q',
         KEY_SHOULDER_LEFT  = 'E',
-        KEY_BASE_STOP      = 'H',
         KEY_BASE_RIGHT     = 'V',
         KEY_BASE_LEFT      = 'U',
     } KEY;
@@ -100,6 +96,8 @@ private:
     Image *image;
     QImage img;
     QCameraInfo camInfo;
+    QByteArray keyboardActionPress[255];
+    QByteArray keyboardActionRelease[255];
     Joystick *j1, *j2;
     QByteArray j1ActionPress[Joystick::BUTTON_COUNT], j1ActionRelease[Joystick::BUTTON_COUNT];
     QByteArray j2ActionPress[Joystick::BUTTON_COUNT], j2ActionRelease[Joystick::BUTTON_COUNT];
@@ -109,6 +107,7 @@ private:
 
     void setupSerialConnection();
     void setupCamera();
+    void initializeKActionPress();
     void setupJoystick();
     void initializeJ1ButtonKinds();
     void initializeJ1ActionPress();

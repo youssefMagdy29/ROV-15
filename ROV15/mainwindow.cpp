@@ -117,135 +117,20 @@ void MainWindow::setupCamera() {
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
-    QChar k = e->key();
-    if (!e->isAutoRepeat()) {
-        if (k == KEY_FORWARD) {
-            l->setText(FORWARD);
-            serial->write(FORWARD);
-        }
-        else if (k == KEY_BACKWARD) {
-            l->setText(BACKWARD);
-            serial->write(BACKWARD);
-        }
-        else if (k == KEY_MOVE_RIGHT) {
-            l->setText(MOVE_RIGHT);
-            serial->write(MOVE_RIGHT);
-        }
-        else if (k == KEY_MOVE_LEFT) {
-            l->setText(MOVE_LEFT);
-            serial->write(MOVE_LEFT);
-        }
-        else if (k == KEY_TURN_RIGHT) {
-            l->setText(TURN_RIGHT);
-            serial->write(TURN_RIGHT);
-        }
-        else if (k == KEY_TURN_LEFT) {
-            l->setText(TURN_LEFT);
-            serial->write(TURN_LEFT);
-        }
-        else if (k == KEY_UP) {
-            l->setText(UP);
-            serial->write(UP);
-        }
-        else if (k == KEY_DOWN) {
-            l->setText(DOWN);
-            serial->write(DOWN);
-        }
-        else if (k == KEY_CAM1_RIGHT) {
-            l->setText(CAM1_RIGHT);
-            serial->write(CAM1_RIGHT);
-        }
-        else if (k == KEY_CAM1_LEFT) {
-            l->setText(CAM1_LEFT);
-            serial->write(CAM1_LEFT);
-        }
-        else if (k == KEY_LIGHT_ON) {
-            l->setText("$");
-            serial->write("$");
-        }
-        else if (k == KEY_LIGHT_OFF) {
-            l->setText("%");
-            serial->write("%");
-        }
-        else if (k == KEY_GRIPPER_RIGHT) {
-            l->setText(GRIPPER_RIGHT);
-            serial->write(GRIPPER_RIGHT);
-        }
-        else if (k == KEY_GRIPPER_LEFT) {
-            l->setText(GRIPPER_LEFT);
-            serial->write(GRIPPER_LEFT);
-        }
-        else if (k == KEY_WRIST_RIGHT) {
-            l->setText(WRIST_RIGHT);
-            serial->write(WRIST_RIGHT);
-        }
-        else if (k == KEY_WRIST_LEFT) {
-            l->setText(WRIST_LEFT);
-            serial->write(WRIST_LEFT);
-        }
-        else if (k == KEY_ELBOW_RIGHT) {
-            l->setText(ELBOW_RIGHT);
-            serial->write(ELBOW_RIGHT);
-        }
-        else if (k == KEY_ELBOW_LEFT) {
-            l->setText(ELBOW_LEFT);
-            serial->write(ELBOW_LEFT);
-        }
-        else if (k == KEY_SHOULDER_RIGHT) {
-            l->setText(SHOULDER_RIGHT);
-            serial->write(SHOULDER_RIGHT);
-        }
-        else if (k == KEY_SHOULDER_LEFT) {
-            l->setText(SHOULDER_LEFT);
-            serial->write(SHOULDER_LEFT);
-        }
-        else if (k == KEY_BASE_RIGHT) {
-            l->setText(BASE_RIGHT);
-            serial->write(BASE_RIGHT);
-        }
-        else if (k == KEY_BASE_LEFT) {
-            l->setText(BASE_LEFT);
-            serial->write(BASE_LEFT);
-        }
+    QByteArray cmd = keyboardActionPress[e->key()];
+
+    if (!e->isAutoRepeat() && cmd != "") {
+        l->setText(cmd);
+        serial->write(cmd);
     }
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *e) {
-    QChar k = e->key();
-    if (!e->isAutoRepeat()) {
-        if (k == KEY_FORWARD    || k == KEY_BACKWARD  || k == KEY_MOVE_LEFT ||
-                k == KEY_MOVE_RIGHT || k == KEY_TURN_LEFT || k == KEY_TURN_RIGHT) {
-            l->setText(STOP_HORIZONTAL);
-            serial->write(STOP_HORIZONTAL);
-        }
-        else if (k == KEY_UP || k == KEY_DOWN) {
-            l->setText(STOP_VERTICAL);
-            serial->write(STOP_VERTICAL);
-        }
-        else if (k == KEY_CAM1_LEFT || k == KEY_CAM1_RIGHT) {
-            l->setText(CAM1_STOP);
-            serial->write(CAM1_STOP);
-        }
-        else if (k == KEY_GRIPPER_RIGHT || k == KEY_GRIPPER_LEFT) {
-            l->setText(GRIPPER_STOP);
-            serial->write(GRIPPER_STOP);
-        }
-        else if (k == KEY_WRIST_RIGHT || k == KEY_WRIST_LEFT) {
-            l->setText(WRIST_STOP);
-            serial->write(WRIST_STOP);
-        }
-        else if (k == KEY_ELBOW_RIGHT || k == KEY_ELBOW_LEFT) {
-            l->setText(ELBOW_STOP);
-            serial->write(ELBOW_STOP);
-        }
-        else if (k == KEY_SHOULDER_RIGHT || k == KEY_SHOULDER_LEFT) {
-            l->setText(SHOULDER_STOP);
-            serial->write(SHOULDER_STOP);
-        }
-        else if (k == KEY_BASE_RIGHT || k == KEY_BASE_LEFT) {
-            l->setText(BASE_STOP);
-            serial->write(BASE_STOP);
-        }
+    QByteArray cmd = keyboardActionRelease[e->key()];
+
+    if (!e->isAutoRepeat() && cmd != "") {
+        l->setText(cmd);
+        serial->write(cmd);
     }
 }
 
