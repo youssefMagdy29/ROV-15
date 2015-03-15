@@ -8,110 +8,43 @@
 #include <QTimer>
 #include <QDesktopServices>
 
-//Directions...
-//Commands...
-QByteArray const FORWARD         = "f";
-QByteArray const BACKWARD        = "b";
-QByteArray const MOVE_RIGHT      = "x";
-QByteArray const MOVE_LEFT       = "c";
-QByteArray const TURN_RIGHT      = "r";
-QByteArray const TURN_LEFT       = "l";
-QByteArray const UP              = "u";
-QByteArray const DOWN            = "d";
-QByteArray const STOP_HORIZONTAL = "h";
-QByteArray const STOP_VERTICAL   = "v";
-//Keys...
-QChar const KEY_FORWARD    = 'W';
-QChar const KEY_BACKWARD   = 'S';
-QChar const KEY_MOVE_RIGHT = 'D';
-QChar const KEY_MOVE_LEFT  = 'A';
-QChar const KEY_TURN_RIGHT = 'K';
-QChar const KEY_TURN_LEFT  = 'L';
-QChar const KEY_UP         = 'I';
-QChar const KEY_DOWN       = 'J';
-
-//Vertical motors speed
-QByteArray const VERTICAL_MOTORS_SPEED_UP   = "+";
-QByteArray const VERTICAL_MOTORS_SPEED_DOWN = "-";
-
-//Light..
-//Commands...
-QByteArray const LIGHT_ON  = "n";
-QByteArray const LIGHT_OFF = "m";
-
-//Keys...
-QChar const KEY_LIGHT_ON  = 'N';
-QChar const KEY_LIGHT_OFF = 'M';
-
-//Camera1..
-//Commands...
-QByteArray const CAM1_RIGHT = "y";
-QByteArray const CAM1_LEFT  = "t";
-QByteArray const CAM1_STOP  = "o";
-
-//Keys...
-QChar const KEY_CAM1_RIGHT = 'Y';
-QChar const KEY_CAM1_LEFT  = 'T';
-
-//Camera2..
-QByteArray const CAM2_RIGHT = "/";
-QByteArray const CAM2_LEFT  = "*";
-QByteArray const CAM2_STOP  = ",";
-
-//Arm..
-//Commands..
-QByteArray const GRIPPER_STOP  = "0";
-QByteArray const GRIPPER_RIGHT = "1";
-QByteArray const GRIPPER_LEFT  = "2";
-
-//Keys..
-QChar const KEY_GRIPPER_STOP  = Qt::Key_0;
-QChar const KEY_GRIPPER_RIGHT = Qt::Key_1;
-QChar const KEY_GRIPPER_LEFT  = Qt::Key_2;
-
-//Commands..
-QByteArray const WRIST_STOP  = "3";
-QByteArray const WRIST_RIGHT = "4";
-QByteArray const WRIST_LEFT  = "5";
-
-//Keys..
-QChar const KEY_WRIST_STOP  = Qt::Key_3;
-QChar const KEY_WRIST_RIGHT = Qt::Key_4;
-QChar const KEY_WRIST_LEFT  = Qt::Key_5;
-
-//Commands..
-QByteArray const ELBOW_STOP  = "6";
-QByteArray const ELBOW_RIGHT = "7";
-QByteArray const ELBOW_LEFT  = "8";
-
-//Keys..
-QChar const KEY_ELBOW_STOP  = Qt::Key_6;
-QChar const KEY_ELBOW_RIGHT = Qt::Key_7;
-QChar const KEY_ELBOW_LEFT  = Qt::Key_8;
-
-//Commands..
-QByteArray const SHOULDER_STOP  = "9";
-QByteArray const SHOULDER_RIGHT = "q";
-QByteArray const SHOULDER_LEFT  = "e";
-
-//Keys..
-QChar const KEY_SHOULDER_STOP  = Qt::Key_9;
-QChar const KEY_SHOULDER_RIGHT = 'Q';
-QChar const KEY_SHOULDER_LEFT  = 'E';
-
-//Commands..
-QByteArray const BASE_STOP  = "j";
-QByteArray const BASE_RIGHT = "k";
-QByteArray const BASE_LEFT  = "i";
-
-//Keys..
-QChar const KEY_BASE_STOP  = 'H';
-QChar const KEY_BASE_RIGHT = 'V';
-QChar const KEY_BASE_LEFT  = 'U';
-
-//Speed Commands
-QByteArray const ARM_SPEED_UP   = "z";
-QByteArray const ARM_SPEED_DOWN = "p";
+static const QByteArray FORWARD                    = "f";
+static const QByteArray BACKWARD                   = "b";
+static const QByteArray MOVE_RIGHT                 = "x";
+static const QByteArray MOVE_LEFT                  = "c";
+static const QByteArray TURN_RIGHT                 = "r";
+static const QByteArray TURN_LEFT                  = "l";
+static const QByteArray UP                         = "u";
+static const QByteArray DOWN                       = "d";
+static const QByteArray STOP_HORIZONTAL            = "h";
+static const QByteArray STOP_VERTICAL              = "v";
+static const QByteArray VERTICAL_MOTORS_SPEED_UP   = "+";
+static const QByteArray VERTICAL_MOTORS_SPEED_DOWN = "-";
+static const QByteArray LIGHT_ON                   = "n";
+static const QByteArray LIGHT_OFF                  = "m";
+static const QByteArray CAM1_RIGHT                 = "y";
+static const QByteArray CAM1_LEFT                  = "t";
+static const QByteArray CAM1_STOP                  = "o";
+static const QByteArray CAM2_RIGHT                 = "/";
+static const QByteArray CAM2_LEFT                  = "*";
+static const QByteArray CAM2_STOP                  = ",";
+static const QByteArray GRIPPER_STOP               = "0";
+static const QByteArray GRIPPER_RIGHT              = "1";
+static const QByteArray GRIPPER_LEFT               = "2";
+static const QByteArray WRIST_STOP                 = "3";
+static const QByteArray WRIST_RIGHT                = "4";
+static const QByteArray WRIST_LEFT                 = "5";
+static const QByteArray ELBOW_STOP                 = "6";
+static const QByteArray ELBOW_RIGHT                = "7";
+static const QByteArray ELBOW_LEFT                 = "8";
+static const QByteArray SHOULDER_STOP              = "9";
+static const QByteArray SHOULDER_RIGHT             = "q";
+static const QByteArray SHOULDER_LEFT              = "e";
+static const QByteArray BASE_STOP                  = "j";
+static const QByteArray BASE_RIGHT                 = "k";
+static const QByteArray BASE_LEFT                  = "i";
+static const QByteArray ARM_SPEED_UP               = "z";
+static const QByteArray ARM_SPEED_DOWN             = "p";
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -127,6 +60,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->buttonDisconnect->setDisabled(true);
 
     lbl->setWindowTitle("Screen Shot");
+
+    initKeys();
+    initializeKActionPress();
+    initializeKActionRelease();
 
     setupSerialConnection();
     setupCamera();
@@ -183,136 +120,83 @@ void MainWindow::setupCamera() {
        camera->start();
 }
 
+void MainWindow::initializeKActionPress() {
+    keyboardActionPress[KEY_FORWARD]            = FORWARD;
+    keyboardActionPress[KEY_BACKWARD]           = BACKWARD;
+    keyboardActionPress[KEY_MOVE_RIGHT]         = MOVE_RIGHT;
+    keyboardActionPress[KEY_MOVE_LEFT]          = MOVE_LEFT;
+    keyboardActionPress[KEY_TURN_RIGHT]         = TURN_RIGHT;
+    keyboardActionPress[KEY_TURN_LEFT]          = TURN_LEFT;
+    keyboardActionPress[KEY_UP]                 = UP;
+    keyboardActionPress[KEY_DOWN]               = DOWN;
+    keyboardActionPress[KEY_VMOTORS_SPEED_UP]   = VERTICAL_MOTORS_SPEED_UP;
+    keyboardActionPress[KEY_VMOTORS_SPEED_DOWN] = VERTICAL_MOTORS_SPEED_DOWN;
+    keyboardActionPress[KEY_LIGHT_ON]           = LIGHT_ON;
+    keyboardActionPress[KEY_LIGHT_OFF]          = LIGHT_OFF;
+    keyboardActionPress[KEY_CAM1_RIGHT]         = CAM1_RIGHT;
+    keyboardActionPress[KEY_CAM1_LEFT]          = CAM1_LEFT;
+    keyboardActionPress[KEY_CAM2_RIGHT]         = CAM2_RIGHT;
+    keyboardActionPress[KEY_CAM2_LEFT]          = CAM2_LEFT;
+    keyboardActionPress[KEY_GRIPPER_RIGHT]      = GRIPPER_RIGHT;
+    keyboardActionPress[KEY_GRIPPER_LEFT]       = GRIPPER_LEFT;
+    keyboardActionPress[KEY_WRIST_RIGHT]        = WRIST_RIGHT;
+    keyboardActionPress[KEY_WRIST_LEFT]         = WRIST_LEFT;
+    keyboardActionPress[KEY_ELBOW_RIGHT]        = ELBOW_RIGHT;
+    keyboardActionPress[KEY_ELBOW_LEFT]         = ELBOW_LEFT;
+    keyboardActionPress[KEY_SHOULDER_RIGHT]     = SHOULDER_RIGHT;
+    keyboardActionPress[KEY_SHOULDER_LEFT]      = SHOULDER_LEFT;
+    keyboardActionPress[KEY_BASE_RIGHT]         = BASE_RIGHT;
+    keyboardActionPress[KEY_BASE_LEFT]          = BASE_LEFT;
+    keyboardActionPress[KEY_ARM_SPEED_UP]       = ARM_SPEED_UP;
+    keyboardActionPress[KEY_ARM_SPEED_DOWN]     = ARM_SPEED_DOWN;
+}
+
+void MainWindow::initializeKActionRelease() {
+    keyboardActionRelease[KEY_FORWARD]            = STOP_HORIZONTAL;
+    keyboardActionRelease[KEY_BACKWARD]           = STOP_HORIZONTAL;
+    keyboardActionRelease[KEY_MOVE_RIGHT]         = STOP_HORIZONTAL;
+    keyboardActionRelease[KEY_MOVE_LEFT]          = STOP_HORIZONTAL;
+    keyboardActionRelease[KEY_TURN_RIGHT]         = STOP_HORIZONTAL;
+    keyboardActionRelease[KEY_TURN_LEFT]          = STOP_HORIZONTAL;
+    keyboardActionRelease[KEY_UP]                 = STOP_VERTICAL;
+    keyboardActionRelease[KEY_DOWN]               = STOP_VERTICAL;
+    keyboardActionRelease[KEY_VMOTORS_SPEED_UP]   = "";
+    keyboardActionRelease[KEY_VMOTORS_SPEED_DOWN] = "";
+    keyboardActionRelease[KEY_LIGHT_ON]           = "";
+    keyboardActionRelease[KEY_LIGHT_OFF]          = "";
+    keyboardActionRelease[KEY_CAM1_RIGHT]         = CAM1_STOP;
+    keyboardActionRelease[KEY_CAM1_LEFT]          = CAM1_STOP;
+    keyboardActionRelease[KEY_CAM2_RIGHT]         = CAM2_STOP;
+    keyboardActionRelease[KEY_CAM2_LEFT]          = CAM2_STOP;
+    keyboardActionRelease[KEY_GRIPPER_RIGHT]      = GRIPPER_STOP;
+    keyboardActionRelease[KEY_GRIPPER_LEFT]       = GRIPPER_STOP;
+    keyboardActionRelease[KEY_WRIST_RIGHT]        = WRIST_STOP;
+    keyboardActionRelease[KEY_WRIST_LEFT]         = WRIST_STOP;
+    keyboardActionRelease[KEY_ELBOW_RIGHT]        = ELBOW_STOP;
+    keyboardActionRelease[KEY_ELBOW_LEFT]         = ELBOW_STOP;
+    keyboardActionRelease[KEY_SHOULDER_RIGHT]     = SHOULDER_STOP;
+    keyboardActionRelease[KEY_SHOULDER_LEFT]      = SHOULDER_STOP;
+    keyboardActionRelease[KEY_BASE_RIGHT]         = BASE_STOP;
+    keyboardActionRelease[KEY_BASE_LEFT]          = BASE_STOP;
+    keyboardActionRelease[KEY_ARM_SPEED_UP]       = "";
+    keyboardActionRelease[KEY_ARM_SPEED_DOWN]     = "";
+}
+
 void MainWindow::keyPressEvent(QKeyEvent *e) {
-    QChar k = e->key();
-    if (!e->isAutoRepeat()) {
-        if (k == KEY_FORWARD) {
-            l->setText(FORWARD);
-            serial->write(FORWARD);
-        }
-        else if (k == KEY_BACKWARD) {
-            l->setText(BACKWARD);
-            serial->write(BACKWARD);
-        }
-        else if (k == KEY_MOVE_RIGHT) {
-            l->setText(MOVE_RIGHT);
-            serial->write(MOVE_RIGHT);
-        }
-        else if (k == KEY_MOVE_LEFT) {
-            l->setText(MOVE_LEFT);
-            serial->write(MOVE_LEFT);
-        }
-        else if (k == KEY_TURN_RIGHT) {
-            l->setText(TURN_RIGHT);
-            serial->write(TURN_RIGHT);
-        }
-        else if (k == KEY_TURN_LEFT) {
-            l->setText(TURN_LEFT);
-            serial->write(TURN_LEFT);
-        }
-        else if (k == KEY_UP) {
-            l->setText(UP);
-            serial->write(UP);
-        }
-        else if (k == KEY_DOWN) {
-            l->setText(DOWN);
-            serial->write(DOWN);
-        }
-        else if (k == KEY_CAM1_RIGHT) {
-            l->setText(CAM1_RIGHT);
-            serial->write(CAM1_RIGHT);
-        }
-        else if (k == KEY_CAM1_LEFT) {
-            l->setText(CAM1_LEFT);
-            serial->write(CAM1_LEFT);
-        }
-        else if (k == KEY_LIGHT_ON) {
-            l->setText("$");
-            serial->write("$");
-        }
-        else if (k == KEY_LIGHT_OFF) {
-            l->setText("%");
-            serial->write("%");
-        }
-        else if (k == KEY_GRIPPER_RIGHT) {
-            l->setText(GRIPPER_RIGHT);
-            serial->write(GRIPPER_RIGHT);
-        }
-        else if (k == KEY_GRIPPER_LEFT) {
-            l->setText(GRIPPER_LEFT);
-            serial->write(GRIPPER_LEFT);
-        }
-        else if (k == KEY_WRIST_RIGHT) {
-            l->setText(WRIST_RIGHT);
-            serial->write(WRIST_RIGHT);
-        }
-        else if (k == KEY_WRIST_LEFT) {
-            l->setText(WRIST_LEFT);
-            serial->write(WRIST_LEFT);
-        }
-        else if (k == KEY_ELBOW_RIGHT) {
-            l->setText(ELBOW_RIGHT);
-            serial->write(ELBOW_RIGHT);
-        }
-        else if (k == KEY_ELBOW_LEFT) {
-            l->setText(ELBOW_LEFT);
-            serial->write(ELBOW_LEFT);
-        }
-        else if (k == KEY_SHOULDER_RIGHT) {
-            l->setText(SHOULDER_RIGHT);
-            serial->write(SHOULDER_RIGHT);
-        }
-        else if (k == KEY_SHOULDER_LEFT) {
-            l->setText(SHOULDER_LEFT);
-            serial->write(SHOULDER_LEFT);
-        }
-        else if (k == KEY_BASE_RIGHT) {
-            l->setText(BASE_RIGHT);
-            serial->write(BASE_RIGHT);
-        }
-        else if (k == KEY_BASE_LEFT) {
-            l->setText(BASE_LEFT);
-            serial->write(BASE_LEFT);
-        }
+    QByteArray cmd = keyboardActionPress[e->key()];
+
+    if (!e->isAutoRepeat() && cmd != "") {
+        l->setText(cmd);
+        serial->write(cmd);
     }
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *e) {
-    QChar k = e->key();
-    if (!e->isAutoRepeat()) {
-        if (k == KEY_FORWARD    || k == KEY_BACKWARD  || k == KEY_MOVE_LEFT ||
-                k == KEY_MOVE_RIGHT || k == KEY_TURN_LEFT || k == KEY_TURN_RIGHT) {
-            l->setText(STOP_HORIZONTAL);
-            serial->write(STOP_HORIZONTAL);
-        }
-        else if (k == KEY_UP || k == KEY_DOWN) {
-            l->setText(STOP_VERTICAL);
-            serial->write(STOP_VERTICAL);
-        }
-        else if (k == KEY_CAM1_LEFT || k == KEY_CAM1_RIGHT) {
-            l->setText(CAM1_STOP);
-            serial->write(CAM1_STOP);
-        }
-        else if (k == KEY_GRIPPER_RIGHT || k == KEY_GRIPPER_LEFT) {
-            l->setText(GRIPPER_STOP);
-            serial->write(GRIPPER_STOP);
-        }
-        else if (k == KEY_WRIST_RIGHT || k == KEY_WRIST_LEFT) {
-            l->setText(WRIST_STOP);
-            serial->write(WRIST_STOP);
-        }
-        else if (k == KEY_ELBOW_RIGHT || k == KEY_ELBOW_LEFT) {
-            l->setText(ELBOW_STOP);
-            serial->write(ELBOW_STOP);
-        }
-        else if (k == KEY_SHOULDER_RIGHT || k == KEY_SHOULDER_LEFT) {
-            l->setText(SHOULDER_STOP);
-            serial->write(SHOULDER_STOP);
-        }
-        else if (k == KEY_BASE_RIGHT || k == KEY_BASE_LEFT) {
-            l->setText(BASE_STOP);
-            serial->write(BASE_STOP);
-        }
+    QByteArray cmd = keyboardActionRelease[e->key()];
+
+    if (!e->isAutoRepeat() && cmd != "") {
+        l->setText(cmd);
+        serial->write(cmd);
     }
 }
 
