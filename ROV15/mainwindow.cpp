@@ -121,11 +121,65 @@ void MainWindow::setupCamera() {
 }
 
 void MainWindow::initializeKActionPress() {
-    keyboardActionPress[KEY_FORWARD] = FORWARD;
+    keyboardActionPress[KEY_FORWARD]            = FORWARD;
+    keyboardActionPress[KEY_BACKWARD]           = BACKWARD;
+    keyboardActionPress[KEY_MOVE_RIGHT]         = MOVE_RIGHT;
+    keyboardActionPress[KEY_MOVE_LEFT]          = MOVE_LEFT;
+    keyboardActionPress[KEY_TURN_RIGHT]         = TURN_RIGHT;
+    keyboardActionPress[KEY_TURN_LEFT]          = TURN_LEFT;
+    keyboardActionPress[KEY_UP]                 = UP;
+    keyboardActionPress[KEY_DOWN]               = DOWN;
+    keyboardActionPress[KEY_VMOTORS_SPEED_UP]   = VERTICAL_MOTORS_SPEED_UP;
+    keyboardActionPress[KEY_VMOTORS_SPEED_DOWN] = VERTICAL_MOTORS_SPEED_DOWN;
+    keyboardActionPress[KEY_LIGHT_ON]           = LIGHT_ON;
+    keyboardActionPress[KEY_LIGHT_OFF]          = LIGHT_OFF;
+    keyboardActionPress[KEY_CAM1_RIGHT]         = CAM1_RIGHT;
+    keyboardActionPress[KEY_CAM1_LEFT]          = CAM1_LEFT;
+    keyboardActionPress[KEY_CAM2_RIGHT]         = CAM2_RIGHT;
+    keyboardActionPress[KEY_CAM2_LEFT]          = CAM2_LEFT;
+    keyboardActionPress[KEY_GRIPPER_RIGHT]      = GRIPPER_RIGHT;
+    keyboardActionPress[KEY_GRIPPER_LEFT]       = GRIPPER_LEFT;
+    keyboardActionPress[KEY_WRIST_RIGHT]        = WRIST_RIGHT;
+    keyboardActionPress[KEY_WRIST_LEFT]         = WRIST_LEFT;
+    keyboardActionPress[KEY_ELBOW_RIGHT]        = ELBOW_RIGHT;
+    keyboardActionPress[KEY_ELBOW_LEFT]         = ELBOW_LEFT;
+    keyboardActionPress[KEY_SHOULDER_RIGHT]     = SHOULDER_RIGHT;
+    keyboardActionPress[KEY_SHOULDER_LEFT]      = SHOULDER_LEFT;
+    keyboardActionPress[KEY_BASE_RIGHT]         = BASE_RIGHT;
+    keyboardActionPress[KEY_BASE_LEFT]          = BASE_LEFT;
+    keyboardActionPress[KEY_ARM_SPEED_UP]       = ARM_SPEED_UP;
+    keyboardActionPress[KEY_ARM_SPEED_DOWN]     = ARM_SPEED_DOWN;
 }
 
 void MainWindow::initializeKActionRelease() {
-    keyboardActionRelease[KEY_FORWARD] = STOP_HORIZONTAL;
+    keyboardActionRelease[KEY_FORWARD]            = STOP_HORIZONTAL;
+    keyboardActionRelease[KEY_BACKWARD]           = STOP_HORIZONTAL;
+    keyboardActionRelease[KEY_MOVE_RIGHT]         = STOP_HORIZONTAL;
+    keyboardActionRelease[KEY_MOVE_LEFT]          = STOP_HORIZONTAL;
+    keyboardActionRelease[KEY_TURN_RIGHT]         = STOP_HORIZONTAL;
+    keyboardActionRelease[KEY_TURN_LEFT]          = STOP_HORIZONTAL;
+    keyboardActionRelease[KEY_UP]                 = STOP_VERTICAL;
+    keyboardActionRelease[KEY_DOWN]               = STOP_VERTICAL;
+    keyboardActionRelease[KEY_VMOTORS_SPEED_UP]   = "";
+    keyboardActionRelease[KEY_VMOTORS_SPEED_DOWN] = "";
+    keyboardActionRelease[KEY_LIGHT_ON]           = "";
+    keyboardActionRelease[KEY_LIGHT_OFF]          = "";
+    keyboardActionRelease[KEY_CAM1_RIGHT]         = CAM1_STOP;
+    keyboardActionRelease[KEY_CAM1_LEFT]          = CAM1_STOP;
+    keyboardActionRelease[KEY_CAM2_RIGHT]         = CAM2_STOP;
+    keyboardActionRelease[KEY_CAM2_LEFT]          = CAM2_STOP;
+    keyboardActionRelease[KEY_GRIPPER_RIGHT]      = GRIPPER_STOP;
+    keyboardActionRelease[KEY_GRIPPER_LEFT]       = GRIPPER_STOP;
+    keyboardActionRelease[KEY_WRIST_RIGHT]        = WRIST_STOP;
+    keyboardActionRelease[KEY_WRIST_LEFT]         = WRIST_STOP;
+    keyboardActionRelease[KEY_ELBOW_RIGHT]        = ELBOW_STOP;
+    keyboardActionRelease[KEY_ELBOW_LEFT]         = ELBOW_STOP;
+    keyboardActionRelease[KEY_SHOULDER_RIGHT]     = SHOULDER_STOP;
+    keyboardActionRelease[KEY_SHOULDER_LEFT]      = SHOULDER_STOP;
+    keyboardActionRelease[KEY_BASE_RIGHT]         = BASE_STOP;
+    keyboardActionRelease[KEY_BASE_LEFT]          = BASE_STOP;
+    keyboardActionRelease[KEY_ARM_SPEED_UP]       = "";
+    keyboardActionRelease[KEY_ARM_SPEED_DOWN]     = "";
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
