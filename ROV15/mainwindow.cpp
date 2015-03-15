@@ -1,33 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 #include <QKeyEvent>
-#include <QtSerialPort/QSerialPort>
 #include <QMessageBox>
 #include <QDate>
 #include <QTime>
-
-#include <QtMultimedia/QCamera>
-#include <QCameraImageCapture>
-#include <QCameraViewfinder>
-#include <QCameraInfo>
-
 #include <QTimer>
-
-#include "image.h"
-#include "resizable_label.h"
-
 #include <QDesktopServices>
-
-QSerialPort *serial;
-QLabel *l;
-QCamera *camera;
-QVideoWidget *viewfinder;
-QCameraImageCapture *imageCapture;
-QGraphicsView *graphicsView;
-ResizableLabel *lbl;
-Image *image;
-QImage img;
-QCameraInfo camInfo;
 
 //Directions...
 //Commands...
@@ -135,60 +114,23 @@ QByteArray const ARM_SPEED_UP   = "z";
 QByteArray const ARM_SPEED_DOWN = "p";
 
 MainWindow::MainWindow(QWidget *parent) :
-
     QMainWindow(parent),
     ui(new Ui::MainWindow),
+    l(ui->labelSentCommand),
+    lbl(new ResizableLabel),
+    image(new Image(new QImage())),
     mode(false)
 {
     ui->setupUi(this);
-    l = ui->labelSentCommand;
 
     ui->buttonDisconnect->setDisabled(true);
 
-    setupJoystick();
-
-    lbl = new ResizableLabel;
     lbl->setWindowTitle("Screen Shot");
 
-    image = new Image(new QImage());
+    setupSerialConnection();
+    setupCamera();
+    setupJoystick();
 
-    //Serial connection setup
-    serial = new QSerialPort(this);
-
-    connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
-
-    //Camera setup
-     foreach (const QCameraInfo &CameraInfo, QCameraInfo::availableCameras()) {
-         if (CameraInfo.description() == "SMI Grabber Device") {
-             camInfo = CameraInfo;
-         }
-         else {
-             camInfo = QCameraInfo::defaultCamera();
-         }
-     }
-
-    camera = new QCamera(camInfo);
-    viewfinder = new QVideoWidget;
-
-    graphicsView = ui->graphicsView;
-
-    QGraphicsScene *scene = new QGraphicsScene;
-
-    scene->addWidget(viewfinder);
-
-    graphicsView->scale(-1, 1);
-    graphicsView->setScene(scene);
-
-    camera->setViewfinder(viewfinder);
-
-    imageCapture = new QCameraImageCapture(camera);
-
-    connect(imageCapture, SIGNAL(imageSaved(int,QString)),
-            this, SLOT(imageSaved(int, QString)));
-
-    camera->setCaptureMode(QCamera::CaptureStillImage);
-    if (camInfo.description() == "SMI Grabber Device")
-        camera->start();
     for (int i = 0; i < Joystick::BUTTON_COUNT; i++) {
         toggleJ1[i] = false;
         toggleJ2[i] = false;
@@ -199,6 +141,45 @@ MainWindow::~MainWindow()
 {
     delete ui;
     serial->close();
+}
+
+void MainWindow::setupSerialConnection() {
+    serial = new QSerialPort(this);
+    connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+}
+
+void MainWindow::setupCamera() {
+    foreach (const QCameraInfo &CameraInfo, QCameraInfo::availableCameras()) {
+        if (CameraInfo.description() == "SMI Grabber Device") {
+            camInfo = CameraInfo;
+        }
+        else {
+            camInfo = QCameraInfo::defaultCamera();
+        }
+    }
+
+   camera = new QCamera(camInfo);
+   viewfinder = new QVideoWidget;
+
+   graphicsView = ui->graphicsView;
+
+   QGraphicsScene *scene = new QGraphicsScene;
+
+   scene->addWidget(viewfinder);
+
+   graphicsView->scale(-1, 1);
+   graphicsView->setScene(scene);
+
+   camera->setViewfinder(viewfinder);
+
+   imageCapture = new QCameraImageCapture(camera);
+
+   connect(imageCapture, SIGNAL(imageSaved(int,QString)),
+           this, SLOT(imageSaved(int, QString)));
+
+   camera->setCaptureMode(QCamera::CaptureStillImage);
+   if (camInfo.description() == "SMI Grabber Device")
+       camera->start();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
