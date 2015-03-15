@@ -1,8 +1,17 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "image.h"
+#include "resizable_label.h"
+
+#include <QLabel>
 #include <QMainWindow>
 #include <QtSerialPort/QSerialPort>
+#include <QCamera>
+#include <QCameraImageCapture>
+#include <QCameraInfo>
+#include <QVideoWidget>
+#include <QGraphicsView>
 
 #include "joystick.h"
 
@@ -49,6 +58,16 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QLabel *l;
+    QSerialPort *serial;
+    QCamera *camera;
+    QVideoWidget *viewfinder;
+    QCameraImageCapture *imageCapture;
+    QGraphicsView *graphicsView;
+    ResizableLabel *lbl;
+    Image *image;
+    QImage img;
+    QCameraInfo camInfo;
     Joystick *j1, *j2;
     QByteArray j1ActionPress[Joystick::BUTTON_COUNT], j1ActionRelease[Joystick::BUTTON_COUNT];
     QByteArray j2ActionPress[Joystick::BUTTON_COUNT], j2ActionRelease[Joystick::BUTTON_COUNT];
@@ -56,6 +75,8 @@ private:
     bool toggleJ1[Joystick::BUTTON_COUNT];
     bool toggleJ2[Joystick::BUTTON_COUNT];
 
+    void setupSerialConnection();
+    void setupCamera();
     void setupJoystick();
     void initializeJ1ButtonKinds();
     void initializeJ1ActionPress();
