@@ -116,12 +116,13 @@ QByteArray const ARM_SPEED_DOWN = "p";
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    l(ui->labelSentCommand),
     lbl(new ResizableLabel),
     image(new Image(new QImage())),
     mode(false)
 {
     ui->setupUi(this);
+
+    l = ui->labelSentCommand;
 
     ui->buttonDisconnect->setDisabled(true);
 
