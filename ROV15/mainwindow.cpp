@@ -183,7 +183,10 @@ void MainWindow::initializeKActionRelease() {
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e) {
-    QByteArray cmd = keyboardActionPress[e->key()];
+    QByteArray cmd;
+
+    if (e->key() < 255)
+        cmd = keyboardActionPress[e->key()];
 
     if (!e->isAutoRepeat() && cmd != "") {
         l->setText(cmd);
@@ -192,7 +195,10 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *e) {
-    QByteArray cmd = keyboardActionRelease[e->key()];
+    QByteArray cmd;
+
+    if (e->key() < 255)
+        cmd = keyboardActionRelease[e->key()];
 
     if (!e->isAutoRepeat() && cmd != "") {
         l->setText(cmd);
