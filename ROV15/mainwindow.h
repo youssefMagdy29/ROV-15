@@ -106,6 +106,11 @@ private:
     bool mode;
     bool toggleJ1[Joystick::BUTTON_COUNT];
     bool toggleJ2[Joystick::BUTTON_COUNT];
+    QLabel *rLabels[255];
+    double xAcc, yAcc, zAcc;
+    double xVel, yVel, zVel;
+    double xDst, yDst, zDst;
+    double SAMPLE_TIME;
 
     void setupSerialConnection();
     void setupCamera();
@@ -117,6 +122,8 @@ private:
     void initializeJ2ActionPress();
     void initializeJ1ActionRelease();
     void initializeJ2ActionRelease();
+
+    void initrLabels();
 
     void initKeys() {
         KEY_FORWARD            = 'W';

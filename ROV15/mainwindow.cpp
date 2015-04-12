@@ -51,7 +51,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow),
     lbl(new ResizableLabel),
     image(new Image(new QImage())),
-    mode(false)
+    mode(false),
+    xVel(0), yVel(0), zVel(0),
+    xDst(0), yDst(0), zDst(0),
+    SAMPLE_TIME(1.0 / 100)
 {
     ui->setupUi(this);
 
@@ -64,6 +67,8 @@ MainWindow::MainWindow(QWidget *parent) :
     initKeys();
     initializeKActionPress();
     initializeKActionRelease();
+
+    initrLabels();
 
     setupSerialConnection();
     setupCamera();
@@ -244,8 +249,29 @@ void MainWindow::readData() {
     while (serial->canReadLine()) {
         data = serial->readAll();
         data = data.trimmed();
-        qDebug() << data;
-        ui->valueLeakage->setText(data);
+
+        int b = data.indexOf('b');
+        int c = data.indexOf('c');
+
+        QByteArray QxAcc = data.mid(1, b - 1);
+        QByteArray QyAcc = data.mid(b + 1, c - b - 1);
+        QByteArray QzAcc = data.mid(c + 1);
+
+        xAcc = QxAcc.toDouble();
+        yAcc = QyAcc.toDouble();
+        zAcc = QyAcc.toDouble();
+
+        xVel += xAcc * SAMPLE_TIME;
+        yVel += yAcc * SAMPLE_TIME;
+        zVel += zAcc * SAMPLE_TIME;
+
+        rLabels['a']->setText(QxAcc);
+        rLabels['b']->setText(QyAcc);
+        rLabels['c']->setText(QzAcc);
+
+        rLabels['a' - '0']->setText(QString::number(xVel));
+        rLabels['b' - '0']->setText(QString::number(yVel));
+        rLabels['c' - '0']->setText(QString::number(zVel));
     }
 }
 
@@ -492,4 +518,17 @@ void MainWindow::initializeJ2ActionRelease() {
     j2ActionRelease[Joystick::BUTTON_L2]         = "";
     j2ActionRelease[Joystick::BUTTON_START]      = CAM2_STOP;
     j2ActionRelease[Joystick::BUTTON_SELECT]     = CAM2_STOP;
+}
+
+void MainWindow::initrLabels() {
+    rLabels['a']       = ui->valueXAcceleration;
+    rLabels['b']       = ui->valueYAcceleration;
+    rLabels['c']       = ui->valueZAcceleration;
+    rLabels['a' - '0'] = ui->valueXVelocity;
+    rLabels['b' - '0'] = ui->valueYVelocity;
+    rLabels['c' - '0'] = ui->valueZVelocity;
+    rLabels['a' + '0'] = ui->valueXDistance;
+    rLabels['b' + '0'] = ui->valueYDistance;
+    rLabels['c' + '0'] = ui->valueZDistance;
+    rLabels['l']       = ui->valueLeakage;
 }
