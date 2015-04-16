@@ -68,8 +68,6 @@ MainWindow::MainWindow(QWidget *parent) :
     initializeKActionPress();
     initializeKActionRelease();
 
-    initrLabels();
-
     setupSerialConnection();
     setupCamera();
     setupJoystick();
@@ -252,10 +250,20 @@ void MainWindow::readData() {
 
         int b = data.indexOf('b');
         int c = data.indexOf('c');
+        int p = data.indexOf('p');
+        int t = data.indexOf('t');
+        int s = data.indexOf('s');
+        int l = data.indexOf('l');
 
         QByteArray QxAcc = data.mid(1, b - 1);
         QByteArray QyAcc = data.mid(b + 1, c - b - 1);
-        QByteArray QzAcc = data.mid(c + 1);
+        QByteArray QzAcc = data.mid(c + 1, p - c - 1);
+
+        QByteArray Qpres = data.mid(p + 1, t - p - 1);
+        QByteArray Qtemp = data.mid(t + 1, s - t - 1);
+        QByteArray Qserv = data.mid(s + 1, l - s - 1);
+
+        QByteArray Qleak = data.mid(l + 1);
 
         xAcc = QxAcc.toDouble();
         yAcc = QyAcc.toDouble();
@@ -265,13 +273,27 @@ void MainWindow::readData() {
         yVel += yAcc * SAMPLE_TIME;
         zVel += zAcc * SAMPLE_TIME;
 
-        rLabels['a']->setText(QxAcc);
-        rLabels['b']->setText(QyAcc);
-        rLabels['c']->setText(QzAcc);
+        xDst += xVel * SAMPLE_TIME;
+        yDst += yVel * SAMPLE_TIME;
+        zDst += zVel * SAMPLE_TIME;
 
-        rLabels['a' - '0']->setText(QString::number(xVel));
-        rLabels['b' - '0']->setText(QString::number(yVel));
-        rLabels['c' - '0']->setText(QString::number(zVel));
+        ui->valueXAcceleration->setText(QxAcc);
+        ui->valueYAcceleration->setText(QyAcc);
+        ui->valueZAcceleration->setText(QzAcc);
+
+        ui->valueXVelocity->setText(QString::number(xVel));
+        ui->valueYVelocity->setText(QString::number(yVel));
+        ui->valueZVelocity->setText(QString::number(zVel));
+
+        ui->valueXDistance->setText(QString::number(xDst));
+        ui->valueYDistance->setText(QString::number(yDst));
+        ui->valueZDistance->setText(QString::number(zDst));
+
+        ui->valuePressure->setText(Qpres);
+        ui->valueTemperature->setText(Qtemp);
+        ui->valueCamera->setText(Qserv);
+
+        ui->valueLeakage->setText(Qleak);
     }
 }
 
@@ -518,17 +540,4 @@ void MainWindow::initializeJ2ActionRelease() {
     j2ActionRelease[Joystick::BUTTON_L2]         = "";
     j2ActionRelease[Joystick::BUTTON_START]      = CAM2_STOP;
     j2ActionRelease[Joystick::BUTTON_SELECT]     = CAM2_STOP;
-}
-
-void MainWindow::initrLabels() {
-    rLabels['a']       = ui->valueXAcceleration;
-    rLabels['b']       = ui->valueYAcceleration;
-    rLabels['c']       = ui->valueZAcceleration;
-    rLabels['a' - '0'] = ui->valueXVelocity;
-    rLabels['b' - '0'] = ui->valueYVelocity;
-    rLabels['c' - '0'] = ui->valueZVelocity;
-    rLabels['a' + '0'] = ui->valueXDistance;
-    rLabels['b' + '0'] = ui->valueYDistance;
-    rLabels['c' + '0'] = ui->valueZDistance;
-    rLabels['l']       = ui->valueLeakage;
 }
