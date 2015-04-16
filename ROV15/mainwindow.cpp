@@ -8,12 +8,12 @@
 #include <QTimer>
 #include <QDesktopServices>
 
-static const QByteArray FORWARD                    = "f";
-static const QByteArray BACKWARD                   = "b";
+static const QByteArray FORWARD                    = "b";
+static const QByteArray BACKWARD                   = "f";
 static const QByteArray MOVE_RIGHT                 = "x";
 static const QByteArray MOVE_LEFT                  = "c";
-static const QByteArray TURN_RIGHT                 = "r";
-static const QByteArray TURN_LEFT                  = "l";
+static const QByteArray TURN_RIGHT                 = "l";
+static const QByteArray TURN_LEFT                  = "r";
 static const QByteArray UP                         = "u";
 static const QByteArray DOWN                       = "d";
 static const QByteArray STOP_HORIZONTAL            = "h";
