@@ -7,7 +7,7 @@
 class Mission
 {
 public:
-    Mission(QString name, QString description, QImage *image);
+    Mission(QString name, QString description, QImage *image, int time);
     ~Mission();
     QString getName();
     QString getDescription();
@@ -17,6 +17,7 @@ private:
     QString name;
     QString description;
     QImage *image;
+    int time;
 };
 
 #endif // MISSION_H

@@ -1,9 +1,10 @@
 #include "mission.h"
 
-Mission::Mission(QString name, QString description, QImage *image) :
+Mission::Mission(QString name, QString description, QImage *image, int time) :
     name(name),
     description(description),
-    image(image)
+    image(image),
+    time(time)
 {
 }
 

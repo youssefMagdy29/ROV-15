@@ -94,7 +94,6 @@ private:
     QVideoWidget *viewfinder;
     QCameraImageCapture *imageCapture;
     QGraphicsView *graphicsView;
-    ResizableLabel *lbl;
     Image *image;
     QImage img;
     QCameraInfo camInfo;

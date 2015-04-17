@@ -52,7 +52,6 @@ QTimer *tt;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    lbl(new ResizableLabel),
     image(new Image(new QImage())),
     mode(false),
     xVel(0), yVel(0), zVel(0),
@@ -64,8 +63,6 @@ MainWindow::MainWindow(QWidget *parent) :
     l = ui->labelSentCommand;
 
     ui->buttonDisconnect->setDisabled(true);
-
-    lbl->setWindowTitle("Screen Shot");
 
     initKeys();
     initializeKActionPress();
@@ -124,7 +121,7 @@ void MainWindow::setupCamera() {
            this, SLOT(imageSaved(int, QString)));
 
    camera->setCaptureMode(QCamera::CaptureStillImage);
-   if (camInfo.description() == "SMI Grabber Device")
+   //if (camInfo.description() == "SMI Grabber Device")
        camera->start();
 }
 
@@ -350,9 +347,9 @@ void MainWindow::imageSaved(int id, QString str) {
     }
     else {
         QByteArray fileformat = "jpeg";
-        lbl->setPixmap(QPixmap::fromImage(img.scaled(lbl->width(), lbl->height())));
-        lbl->setImage(&img);
-        lbl->show();
+        ui->lastScreenShot->setPixmap(QPixmap::fromImage(
+                                          img.scaled(ui->lastScreenShot->width(), ui->lastScreenShot->height())));
+        ui->lastScreenShot->setImage(&img);
         QString filename = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/ROV_ScreenShots/"
                 + QDate::currentDate().toString(Qt::ISODate) + " " +
                 QTime::currentTime().toString("hh:mm:ss.zzz").replace(":", "_").replace(".", "_") + ".jpeg";
