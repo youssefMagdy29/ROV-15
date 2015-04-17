@@ -22,13 +22,15 @@ SOURCES += main.cpp\
     image.cpp \
     customlabel.cpp \
     resizable_label.cpp \
-    joystick.cpp
+    joystick.cpp \
+    mission.cpp
 
 HEADERS  += mainwindow.h \
     image.h \
     customlabel.h \
     resizable_label.h \
-    joystick.h
+    joystick.h \
+    mission.h
 
 FORMS    += mainwindow.ui \
     image.ui
