@@ -579,7 +579,7 @@ void MainWindow::initializeJ2ActionRelease() {
 
 void MainWindow::initMissionsList() {
     QString fileName = QDir::currentPath() + "/Missions/";
-    missionsList[0] = new Mission("Maneuvering through the hole",
+    missionsList[0] = new Mission("Demo #1", "Maneuvering through the hole",
                                   "Maneuvering through a 75cm x 75cm hole in the ice.",
                                   new QImage(fileName + "1.jpeg"), 50);
     qDebug() << fileName;
@@ -589,4 +589,17 @@ void MainWindow::updateMission() {
     ui->valueMissionName->setText(currentMission->getName());
     ui->valueMissionDescription->setText(currentMission->getDescription());
     ui->imageMission->setImage(currentMission->getImage());
+
+    int t = currentMission->getTime();
+    QString time = "";
+
+    if (t / 60 == 0)
+        time += "00";
+    else
+        time += QString::number(t / 60);
+    time += ":";
+    if (t % 60 == 0)
+        time += "00";
+    else
+        time += QString::number(t % 60);
 }
