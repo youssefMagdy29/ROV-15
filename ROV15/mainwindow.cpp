@@ -347,8 +347,9 @@ void MainWindow::imageSaved(int id, QString str) {
     img = QImage(str);
     img = img.mirrored(true, false);
 
-    if (mode) {
+    if (!mode) {
         image->setImage(img);
+        image->setMission(currentMission);
         image->show();
     }
     else {

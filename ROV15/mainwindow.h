@@ -59,6 +59,8 @@ public:
     int KEY_ARM_SPEED_UP;
     int KEY_ARM_SPEED_DOWN;
 
+    Mission *currentMission;
+
 private slots:
     //void keyReleaseEvent(QKeyEvent *e);
 
@@ -112,7 +114,6 @@ private:
     double xDst, yDst, zDst;
     double SAMPLE_TIME;
     Mission *missionsList[30];
-    Mission *currentMission;
 
     void setupSerialConnection();
 

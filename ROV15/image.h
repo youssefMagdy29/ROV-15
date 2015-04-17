@@ -2,6 +2,7 @@
 #define IMAGE_H
 
 #include <QMainWindow>
+#include "mission.h"
 
 namespace Ui {
 class Image;
@@ -16,10 +17,12 @@ public:
     void setImage(QImage &image);
     ~Image();
     void show();
+    void setMission(Mission *cm);
 
 private:
     Ui::Image *ui;
     QImage *image;
+    Mission *currentMission;
 
 private slots:
     void showResult(int startX, int startY, int endX, int endY);
