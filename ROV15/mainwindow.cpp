@@ -356,7 +356,7 @@ void MainWindow::imageSaved(int id, QString str) {
         ui->lastScreenShot->setPixmap(QPixmap::fromImage(
                                           img.scaled(ui->lastScreenShot->width(), ui->lastScreenShot->height())));
         QString basePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/ROV_ScreenShots/"
-                + currentMission->getName() + "/";
+                + currentMission->getDemo() + "/" + currentMission->getName() + "/";
         QDir dir(basePath);
         if (!dir.exists())
             dir.mkpath(".");
@@ -602,4 +602,5 @@ void MainWindow::updateMission() {
         time += "00";
     else
         time += QString::number(t % 60);
+    ui->valueMissionTime->setText(time);
 }

@@ -904,7 +904,7 @@ p, li { white-space: pre-wrap; }
       <string>Stop</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_17">
+    <widget class="QLabel" name="valueMissionTime">
      <property name="geometry">
       <rect>
        <x>50</x>
