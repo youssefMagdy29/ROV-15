@@ -7,6 +7,7 @@
 #include <QTime>
 #include <QTimer>
 #include <QDesktopServices>
+#include <QtMath>
 
 static const QByteArray FORWARD                    = "b";
 static const QByteArray BACKWARD                   = "f";
@@ -46,6 +47,8 @@ static const QByteArray BASE_LEFT                  = "i";
 static const QByteArray ARM_SPEED_UP               = "z";
 static const QByteArray ARM_SPEED_DOWN             = "p";
 
+QTimer *tt;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
@@ -54,7 +57,7 @@ MainWindow::MainWindow(QWidget *parent) :
     mode(false),
     xVel(0), yVel(0), zVel(0),
     xDst(0), yDst(0), zDst(0),
-    SAMPLE_TIME(1.0 / 100)
+    SAMPLE_TIME(4.0 / 100)
 {
     ui->setupUi(this);
 
@@ -76,6 +79,8 @@ MainWindow::MainWindow(QWidget *parent) :
         toggleJ1[i] = false;
         toggleJ2[i] = false;
     }
+
+    tt = new QTimer(this);
 }
 
 MainWindow::~MainWindow()
@@ -254,6 +259,8 @@ void MainWindow::readData() {
         int t = data.indexOf('t');
         int s = data.indexOf('s');
         int l = data.indexOf('l');
+        int x = data.indexOf('x');
+        int y = data.indexOf('y');
 
         QByteArray QxAcc = data.mid(1, b - 1);
         QByteArray QyAcc = data.mid(b + 1, c - b - 1);
@@ -263,11 +270,31 @@ void MainWindow::readData() {
         QByteArray Qtemp = data.mid(t + 1, s - t - 1);
         QByteArray Qserv = data.mid(s + 1, l - s - 1);
 
-        QByteArray Qleak = data.mid(l + 1);
+        QByteArray Qleak = data.mid(l + 1, x - l - 1);
 
-        xAcc = QxAcc.toDouble();
-        yAcc = QyAcc.toDouble();
-        zAcc = QyAcc.toDouble();
+        QByteArray Qmx   = data.mid(x + 1, y - x - 1);
+        QByteArray Qmy   = data.mid(y + 1);
+
+        double mx = Qmx.toDouble();
+        double my = Qmy.toDouble();
+
+        double heading = qAtan2(mx, my);
+
+        if (heading < 0)
+            heading += 2 * M_PI;
+
+        double Qcomp = heading * 180 / M_PI;
+
+        qDebug() << tt->remainingTime();
+
+        if (tt->isActive())
+            tt->stop();
+
+        tt->start(1000);
+
+        xAcc = QxAcc.toDouble() / 1712.0 - 0.3;
+        yAcc = QyAcc.toDouble() / 1606.0 + 0.4;
+        zAcc = QzAcc.toDouble() / 1548.0;
 
         xVel += xAcc * SAMPLE_TIME;
         yVel += yAcc * SAMPLE_TIME;
@@ -277,9 +304,9 @@ void MainWindow::readData() {
         yDst += yVel * SAMPLE_TIME;
         zDst += zVel * SAMPLE_TIME;
 
-        ui->valueXAcceleration->setText(QxAcc);
-        ui->valueYAcceleration->setText(QyAcc);
-        ui->valueZAcceleration->setText(QzAcc);
+        ui->valueXAcceleration->setText(QString::number(xAcc));
+        ui->valueYAcceleration->setText(QString::number(yAcc));
+        ui->valueZAcceleration->setText(QString::number(zAcc));
 
         ui->valueXVelocity->setText(QString::number(xVel));
         ui->valueYVelocity->setText(QString::number(yVel));
@@ -294,6 +321,8 @@ void MainWindow::readData() {
         ui->valueCamera->setText(Qserv);
 
         ui->valueLeakage->setText(Qleak);
+
+        ui->valueCompass->setText(QString::number(Qcomp));
     }
 }
 
