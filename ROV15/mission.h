@@ -11,7 +11,7 @@ public:
     ~Mission();
     QString getName();
     QString getDescription();
-    QImage  getImage();
+    QImage  *getImage();
 
 private:
     QString name;

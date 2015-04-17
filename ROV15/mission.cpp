@@ -16,8 +16,8 @@ QString Mission::getDescription() {
     return description;
 }
 
-QImage Mission::getImage() {
-    return *image;
+QImage *Mission::getImage() {
+    return image;
 }
 
 

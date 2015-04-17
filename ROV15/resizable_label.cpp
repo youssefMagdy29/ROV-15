@@ -13,4 +13,5 @@ void ResizableLabel::resizeEvent(QResizeEvent *e) {
 
 void ResizableLabel::setImage(QImage *image) {
     this->image = image;
+    this->setPixmap(QPixmap::fromImage(*image));
 }

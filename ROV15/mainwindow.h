@@ -16,6 +16,8 @@
 
 #include "joystick.h"
 
+#include "mission.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -109,17 +111,26 @@ private:
     double xVel, yVel, zVel;
     double xDst, yDst, zDst;
     double SAMPLE_TIME;
+    Mission *missionsList[30];
+    Mission *currentMission;
 
     void setupSerialConnection();
+
     void setupCamera();
+
     void initializeKActionPress();
     void initializeKActionRelease();
+
     void setupJoystick();
     void initializeJ1ButtonKinds();
     void initializeJ1ActionPress();
     void initializeJ2ActionPress();
     void initializeJ1ActionRelease();
     void initializeJ2ActionRelease();
+
+    void initMissionsList();
+
+    void updateMission();
 
     void initKeys() {
         KEY_FORWARD            = 'W';

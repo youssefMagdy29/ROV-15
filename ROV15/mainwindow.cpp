@@ -8,6 +8,7 @@
 #include <QTimer>
 #include <QDesktopServices>
 #include <QtMath>
+#include <QDir>
 
 static const QByteArray FORWARD                    = "b";
 static const QByteArray BACKWARD                   = "f";
@@ -71,6 +72,11 @@ MainWindow::MainWindow(QWidget *parent) :
     setupSerialConnection();
     setupCamera();
     setupJoystick();
+
+    initMissionsList();
+
+    currentMission = missionsList[0];
+    updateMission();
 
     for (int i = 0; i < Joystick::BUTTON_COUNT; i++) {
         toggleJ1[i] = false;
@@ -566,4 +572,18 @@ void MainWindow::initializeJ2ActionRelease() {
     j2ActionRelease[Joystick::BUTTON_L2]         = "";
     j2ActionRelease[Joystick::BUTTON_START]      = CAM2_STOP;
     j2ActionRelease[Joystick::BUTTON_SELECT]     = CAM2_STOP;
+}
+
+void MainWindow::initMissionsList() {
+    QString fileName = QDir::currentPath() + "/Missions/";
+    missionsList[0] = new Mission("Maneuvering through the hole",
+                                  "Maneuvering through a 75cm x 75cm hole in the ice.",
+                                  new QImage(fileName + "1.jpeg"), 50);
+    qDebug() << fileName;
+}
+
+void MainWindow::updateMission() {
+    ui->valueMissionName->setText(currentMission->getName());
+    ui->valueMissionDescription->setText(currentMission->getDescription());
+    ui->imageMission->setImage(currentMission->getImage());
 }

@@ -645,31 +645,141 @@
     </column>
     <item>
      <property name="text">
-      <string>Demo #1 (Science Under The Ice)</string>
+      <string>Demo #1 (SCIENCE UNDER THE ICE)</string>
      </property>
      <item>
       <property name="text">
-       <string>Mission 1</string>
+       <string>Maneuvering through the hole</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>Mission 2</string>
+       <string>Collecting algae</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Collecting urchin</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Identify sea stars</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Deploying sensor</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Measuring dimension of iceberg</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Map iceberg location</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Determine iceberg threat level</string>
       </property>
      </item>
     </item>
     <item>
      <property name="text">
-      <string>Demo #2</string>
+      <string>Demo #2 (SUBSEA PIPELINE INSPECTION &amp; REPAIR)</string>
      </property>
      <item>
       <property name="text">
-       <string>Mission 1</string>
+       <string>Conducting CVI</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>Mission 2</string>
+       <string>Turning valve</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Examining gauge dial </string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Measuring corroded pipeline</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Attaching lift line</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Cutting corroded section</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Removing corroded section</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Installling adapter flange</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Installing gasket</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Inserting hot stab</string>
+      </property>
+     </item>
+    </item>
+    <item>
+     <property name="text">
+      <string>Demo #3 (OFFSHORE OILFIELD PRODUCTION &amp; MAINTENANCE)</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Testing anodes</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Determine not grounded anodes</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Measuring wellhead</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Determine pathways</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Turning valves</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Moving water</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Determine the average flow rate</string>
       </property>
      </item>
     </item>
@@ -702,9 +812,9 @@
     <widget class="QLabel" name="valueMissionName">
      <property name="geometry">
       <rect>
-       <x>60</x>
-       <y>20</y>
-       <width>81</width>
+       <x>20</x>
+       <y>40</y>
+       <width>161</width>
        <height>16</height>
       </rect>
      </property>
@@ -716,7 +826,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>50</y>
+       <y>60</y>
        <width>91</width>
        <height>16</height>
       </rect>
@@ -725,11 +835,11 @@
       <string>Short Description:</string>
      </property>
     </widget>
-    <widget class="QTextEdit" name="textEdit">
+    <widget class="QTextEdit" name="valueMissionDescription">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>70</y>
+       <y>80</y>
        <width>171</width>
        <height>81</height>
       </rect>
@@ -766,7 +876,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="title">
-     <string>Timer</string>
+     <string>Mission Timer</string>
     </property>
     <widget class="QPushButton" name="pushButton_3">
      <property name="geometry">
