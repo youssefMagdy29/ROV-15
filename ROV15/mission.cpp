@@ -1,11 +1,16 @@
 #include "mission.h"
 
-Mission::Mission(QString name, QString description, QImage *image, int time) :
+Mission::Mission(QString demo, QString name, QString description, QImage *image, int time) :
+    demo(demo),
     name(name),
     description(description),
     image(image),
     time(time)
 {
+}
+
+QString Mission::getDemo() {
+    return demo;
 }
 
 QString Mission::getName() {
@@ -18,6 +23,10 @@ QString Mission::getDescription() {
 
 QImage *Mission::getImage() {
     return image;
+}
+
+int Mission::getTime() {
+    return time;
 }
 
 

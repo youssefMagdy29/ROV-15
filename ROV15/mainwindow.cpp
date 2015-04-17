@@ -193,7 +193,7 @@ void MainWindow::initializeKActionRelease() {
     keyboardActionRelease[KEY_ARM_SPEED_DOWN]     = "";
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *e) {
+/*void MainWindow::keyPressEvent(QKeyEvent *e) {
     QByteArray cmd;
 
     if (e->key() < 255)
@@ -215,7 +215,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *e) {
         l->setText(cmd);
         serial->write(cmd);
     }
-}
+}*/
 
 void MainWindow::on_buttonConnect_clicked()
 {
@@ -355,9 +355,12 @@ void MainWindow::imageSaved(int id, QString str) {
         QByteArray fileformat = "jpeg";
         ui->lastScreenShot->setPixmap(QPixmap::fromImage(
                                           img.scaled(ui->lastScreenShot->width(), ui->lastScreenShot->height())));
-        ui->lastScreenShot->setImage(&img);
-        QString filename = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/ROV_ScreenShots/"
-                + QDate::currentDate().toString(Qt::ISODate) + " " +
+        QString basePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/ROV_ScreenShots/"
+                + currentMission->getName() + "/";
+        QDir dir(basePath);
+        if (!dir.exists())
+            dir.mkpath(".");
+        QString filename = basePath  + QDate::currentDate().toString(Qt::ISODate) + " " +
                 QTime::currentTime().toString("hh:mm:ss.zzz").replace(":", "_").replace(".", "_") + ".jpeg";
         img.save(filename, fileformat.constData());
     }

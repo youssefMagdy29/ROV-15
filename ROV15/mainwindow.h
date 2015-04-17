@@ -60,7 +60,7 @@ public:
     int KEY_ARM_SPEED_DOWN;
 
 private slots:
-    void keyReleaseEvent(QKeyEvent *e);
+    //void keyReleaseEvent(QKeyEvent *e);
 
     void on_buttonConnect_clicked();
 
@@ -72,7 +72,7 @@ private slots:
 
     void imageSaved(int id, QString str);
 
-    void keyPressEvent(QKeyEvent *e);
+    //void keyPressEvent(QKeyEvent *e);
 
     void joystickConnected();
 
