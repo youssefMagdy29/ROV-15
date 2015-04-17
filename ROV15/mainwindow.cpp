@@ -7,13 +7,15 @@
 #include <QTime>
 #include <QTimer>
 #include <QDesktopServices>
+#include <QtMath>
+#include <QDir>
 
-static const QByteArray FORWARD                    = "f";
-static const QByteArray BACKWARD                   = "b";
+static const QByteArray FORWARD                    = "b";
+static const QByteArray BACKWARD                   = "f";
 static const QByteArray MOVE_RIGHT                 = "x";
 static const QByteArray MOVE_LEFT                  = "c";
-static const QByteArray TURN_RIGHT                 = "r";
-static const QByteArray TURN_LEFT                  = "l";
+static const QByteArray TURN_RIGHT                 = "l";
+static const QByteArray TURN_LEFT                  = "r";
 static const QByteArray UP                         = "u";
 static const QByteArray DOWN                       = "d";
 static const QByteArray STOP_HORIZONTAL            = "h";
@@ -46,20 +48,22 @@ static const QByteArray BASE_LEFT                  = "i";
 static const QByteArray ARM_SPEED_UP               = "z";
 static const QByteArray ARM_SPEED_DOWN             = "p";
 
+QTimer *tt;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    lbl(new ResizableLabel),
     image(new Image(new QImage())),
-    mode(false)
+    mode(false),
+    xVel(0), yVel(0), zVel(0),
+    xDst(0), yDst(0), zDst(0),
+    SAMPLE_TIME(4.0 / 100)
 {
     ui->setupUi(this);
 
     l = ui->labelSentCommand;
 
     ui->buttonDisconnect->setDisabled(true);
-
-    lbl->setWindowTitle("Screen Shot");
 
     initKeys();
     initializeKActionPress();
@@ -69,10 +73,17 @@ MainWindow::MainWindow(QWidget *parent) :
     setupCamera();
     setupJoystick();
 
+    initMissionsList();
+
+    currentMission = missionsList[0];
+    updateMission();
+
     for (int i = 0; i < Joystick::BUTTON_COUNT; i++) {
         toggleJ1[i] = false;
         toggleJ2[i] = false;
     }
+
+    tt = new QTimer(this);
 }
 
 MainWindow::~MainWindow()
@@ -116,7 +127,7 @@ void MainWindow::setupCamera() {
            this, SLOT(imageSaved(int, QString)));
 
    camera->setCaptureMode(QCamera::CaptureStillImage);
-   if (camInfo.description() == "SMI Grabber Device")
+   //if (camInfo.description() == "SMI Grabber Device")
        camera->start();
 }
 
@@ -182,7 +193,7 @@ void MainWindow::initializeKActionRelease() {
     keyboardActionRelease[KEY_ARM_SPEED_DOWN]     = "";
 }
 
-void MainWindow::keyPressEvent(QKeyEvent *e) {
+/*void MainWindow::keyPressEvent(QKeyEvent *e) {
     QByteArray cmd;
 
     if (e->key() < 255)
@@ -204,7 +215,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *e) {
         l->setText(cmd);
         serial->write(cmd);
     }
-}
+}*/
 
 void MainWindow::on_buttonConnect_clicked()
 {
@@ -244,8 +255,77 @@ void MainWindow::readData() {
     while (serial->canReadLine()) {
         data = serial->readAll();
         data = data.trimmed();
-        qDebug() << data;
-        ui->valueLeakage->setText(data);
+
+        int b = data.indexOf('b');
+        int c = data.indexOf('c');
+        int p = data.indexOf('p');
+        int t = data.indexOf('t');
+        int s = data.indexOf('s');
+        int l = data.indexOf('l');
+        int x = data.indexOf('x');
+        int y = data.indexOf('y');
+
+        QByteArray QxAcc = data.mid(1, b - 1);
+        QByteArray QyAcc = data.mid(b + 1, c - b - 1);
+        QByteArray QzAcc = data.mid(c + 1, p - c - 1);
+
+        QByteArray Qpres = data.mid(p + 1, t - p - 1);
+        QByteArray Qtemp = data.mid(t + 1, s - t - 1);
+        QByteArray Qserv = data.mid(s + 1, l - s - 1);
+
+        QByteArray Qleak = data.mid(l + 1, x - l - 1);
+
+        QByteArray Qmx   = data.mid(x + 1, y - x - 1);
+        QByteArray Qmy   = data.mid(y + 1);
+
+        double mx = Qmx.toDouble();
+        double my = Qmy.toDouble();
+
+        double heading = qAtan2(mx, my);
+
+        if (heading < 0)
+            heading += 2 * M_PI;
+
+        double Qcomp = heading * 180 / M_PI;
+
+        qDebug() << tt->remainingTime();
+
+        if (tt->isActive())
+            tt->stop();
+
+        tt->start(1000);
+
+        xAcc = QxAcc.toDouble() / 1712.0 - 0.3;
+        yAcc = QyAcc.toDouble() / 1606.0 + 0.4;
+        zAcc = QzAcc.toDouble() / 1548.0;
+
+        xVel += xAcc * SAMPLE_TIME;
+        yVel += yAcc * SAMPLE_TIME;
+        zVel += zAcc * SAMPLE_TIME;
+
+        xDst += xVel * SAMPLE_TIME;
+        yDst += yVel * SAMPLE_TIME;
+        zDst += zVel * SAMPLE_TIME;
+
+        ui->valueXAcceleration->setText(QString::number(xAcc));
+        ui->valueYAcceleration->setText(QString::number(yAcc));
+        ui->valueZAcceleration->setText(QString::number(zAcc));
+
+        ui->valueXVelocity->setText(QString::number(xVel));
+        ui->valueYVelocity->setText(QString::number(yVel));
+        ui->valueZVelocity->setText(QString::number(zVel));
+
+        ui->valueXDistance->setText(QString::number(xDst));
+        ui->valueYDistance->setText(QString::number(yDst));
+        ui->valueZDistance->setText(QString::number(zDst));
+
+        ui->valuePressure->setText(Qpres);
+        ui->valueTemperature->setText(Qtemp);
+        ui->valueCamera->setText(Qserv);
+
+        ui->valueLeakage->setText(Qleak);
+
+        ui->valueCompass->setText(QString::number(Qcomp));
     }
 }
 
@@ -267,17 +347,21 @@ void MainWindow::imageSaved(int id, QString str) {
     img = QImage(str);
     img = img.mirrored(true, false);
 
-    if (mode) {
+    if (!mode) {
         image->setImage(img);
+        image->setMission(currentMission);
         image->show();
     }
     else {
         QByteArray fileformat = "jpeg";
-        lbl->setPixmap(QPixmap::fromImage(img.scaled(lbl->width(), lbl->height())));
-        lbl->setImage(&img);
-        lbl->show();
-        QString filename = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/ROV_ScreenShots/"
-                + QDate::currentDate().toString(Qt::ISODate) + " " +
+        ui->lastScreenShot->setPixmap(QPixmap::fromImage(
+                                          img.scaled(ui->lastScreenShot->width(), ui->lastScreenShot->height())));
+        QString basePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/ROV_ScreenShots/"
+                + currentMission->getDemo() + "/" + currentMission->getName() + "/";
+        QDir dir(basePath);
+        if (!dir.exists())
+            dir.mkpath(".");
+        QString filename = basePath  + QDate::currentDate().toString(Qt::ISODate) + " " +
                 QTime::currentTime().toString("hh:mm:ss.zzz").replace(":", "_").replace(".", "_") + ".jpeg";
         img.save(filename, fileformat.constData());
     }
@@ -492,4 +576,32 @@ void MainWindow::initializeJ2ActionRelease() {
     j2ActionRelease[Joystick::BUTTON_L2]         = "";
     j2ActionRelease[Joystick::BUTTON_START]      = CAM2_STOP;
     j2ActionRelease[Joystick::BUTTON_SELECT]     = CAM2_STOP;
+}
+
+void MainWindow::initMissionsList() {
+    QString fileName = QDir::currentPath() + "/Missions/";
+    missionsList[0] = new Mission("Demo #1", "Maneuvering through the hole",
+                                  "Maneuvering through a 75cm x 75cm hole in the ice.",
+                                  new QImage(fileName + "1.jpeg"), 50);
+    qDebug() << fileName;
+}
+
+void MainWindow::updateMission() {
+    ui->valueMissionName->setText(currentMission->getName());
+    ui->valueMissionDescription->setText(currentMission->getDescription());
+    ui->imageMission->setImage(currentMission->getImage());
+
+    int t = currentMission->getTime();
+    QString time = "";
+
+    if (t / 60 == 0)
+        time += "00";
+    else
+        time += QString::number(t / 60);
+    time += ":";
+    if (t % 60 == 0)
+        time += "00";
+    else
+        time += QString::number(t % 60);
+    ui->valueMissionTime->setText(time);
 }

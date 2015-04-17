@@ -12,6 +12,7 @@
 #include <QDate>
 #include <QTime>
 #include <QStandardPaths>
+#include "mission.h"
 
 Image::Image(QImage *image, QWidget *parent) :
     QMainWindow(parent),
@@ -93,12 +94,18 @@ void Image::show() {
 
     QByteArray fileformat = "jpeg";
 
-    QString filename = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/ROV_ScreenShots/"
-            + QDate::currentDate().toString(Qt::ISODate) + " " +
+    QString basePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/ROV_ScreenShots/"
+            + currentMission->getDemo() + "/" + currentMission->getName() + "/";
+    QDir dir(basePath);
+    if (!dir.exists())
+        dir.mkpath(".");
+    QString filename = basePath  + QDate::currentDate().toString(Qt::ISODate) + " " +
             QTime::currentTime().toString("hh:mm:ss.zzz").replace(":", "_").replace(".", "_") + ".jpeg";
 
 
-    qDebug() << filename;
-
     this->image->save(filename, fileformat.constData());
+}
+
+void Image::setMission(Mission *cm) {
+    currentMission = cm;
 }

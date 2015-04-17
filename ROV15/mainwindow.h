@@ -16,6 +16,8 @@
 
 #include "joystick.h"
 
+#include "mission.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -57,8 +59,10 @@ public:
     int KEY_ARM_SPEED_UP;
     int KEY_ARM_SPEED_DOWN;
 
+    Mission *currentMission;
+
 private slots:
-    void keyReleaseEvent(QKeyEvent *e);
+    //void keyReleaseEvent(QKeyEvent *e);
 
     void on_buttonConnect_clicked();
 
@@ -70,7 +74,7 @@ private slots:
 
     void imageSaved(int id, QString str);
 
-    void keyPressEvent(QKeyEvent *e);
+    //void keyPressEvent(QKeyEvent *e);
 
     void joystickConnected();
 
@@ -94,7 +98,6 @@ private:
     QVideoWidget *viewfinder;
     QCameraImageCapture *imageCapture;
     QGraphicsView *graphicsView;
-    ResizableLabel *lbl;
     Image *image;
     QImage img;
     QCameraInfo camInfo;
@@ -106,17 +109,29 @@ private:
     bool mode;
     bool toggleJ1[Joystick::BUTTON_COUNT];
     bool toggleJ2[Joystick::BUTTON_COUNT];
+    double xAcc, yAcc, zAcc;
+    double xVel, yVel, zVel;
+    double xDst, yDst, zDst;
+    double SAMPLE_TIME;
+    Mission *missionsList[30];
 
     void setupSerialConnection();
+
     void setupCamera();
+
     void initializeKActionPress();
     void initializeKActionRelease();
+
     void setupJoystick();
     void initializeJ1ButtonKinds();
     void initializeJ1ActionPress();
     void initializeJ2ActionPress();
     void initializeJ1ActionRelease();
     void initializeJ2ActionRelease();
+
+    void initMissionsList();
+
+    void updateMission();
 
     void initKeys() {
         KEY_FORWARD            = 'W';

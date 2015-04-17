@@ -3,6 +3,7 @@
 
 ResizableLabel::ResizableLabel(QWidget *parent) :
     QLabel(parent) {
+    image = new QImage();
 }
 
 void ResizableLabel::resizeEvent(QResizeEvent *e) {
@@ -12,4 +13,5 @@ void ResizableLabel::resizeEvent(QResizeEvent *e) {
 
 void ResizableLabel::setImage(QImage *image) {
     this->image = image;
+    this->setPixmap(QPixmap::fromImage(*image));
 }
