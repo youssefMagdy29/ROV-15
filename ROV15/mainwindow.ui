@@ -651,40 +651,64 @@
       <property name="text">
        <string>Maneuvering through the hole</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Collecting algae</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Collecting urchin</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Identify sea stars</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Deploying sensor</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Measuring iceberg</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Map iceberg location</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Determine iceberg threat level</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
     </item>
@@ -696,50 +720,80 @@
       <property name="text">
        <string>Conducting CVI</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Turning valve</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Examining gauge dial </string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Measuring corroded pipeline</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Attaching lift line</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Cutting corroded section</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Removing corroded section</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Installling adapter flange</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Installing gasket</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Inserting hot stab</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
     </item>
@@ -751,35 +805,56 @@
       <property name="text">
        <string>Testing anodes</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Determine not grounded anodes</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Measuring wellhead</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Determine pathways</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Turning valves</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Moving water</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Determine the average flow rate</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
     </item>
