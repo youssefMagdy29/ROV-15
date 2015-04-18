@@ -119,6 +119,7 @@ private:
     double xAcc, yAcc, zAcc;
     double xVel, yVel, zVel;
     double xDst, yDst, zDst;
+    double pitch, roll, yaw;
     double SAMPLE_TIME;
     Mission *missionsList[30];
 
