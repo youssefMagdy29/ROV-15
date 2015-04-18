@@ -90,6 +90,10 @@ private slots:
 
     void on_sendButton_clicked();
 
+    void nextButtonClicked();
+
+    void prevButtonClicked();
+
 private:
     Ui::MainWindow *ui;
     QLabel *l;
@@ -114,6 +118,8 @@ private:
     double xDst, yDst, zDst;
     double SAMPLE_TIME;
     Mission *missionsList[30];
+
+    int curr;
 
     void setupSerialConnection();
 

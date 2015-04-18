@@ -57,7 +57,8 @@ MainWindow::MainWindow(QWidget *parent) :
     mode(false),
     xVel(0), yVel(0), zVel(0),
     xDst(0), yDst(0), zDst(0),
-    SAMPLE_TIME(4.0 / 100)
+    SAMPLE_TIME(4.0 / 100),
+    curr(0)
 {
     ui->setupUi(this);
 
@@ -347,7 +348,7 @@ void MainWindow::imageSaved(int id, QString str) {
     img = QImage(str);
     img = img.mirrored(true, false);
 
-    if (!mode) {
+    if (mode) {
         image->setImage(img);
         image->setMission(currentMission);
         image->show();
@@ -579,11 +580,34 @@ void MainWindow::initializeJ2ActionRelease() {
 }
 
 void MainWindow::initMissionsList() {
+    connect(ui->nextButton, SIGNAL(clicked()), this, SLOT(nextButtonClicked()));
+    connect(ui->prevButton, SIGNAL(clicked()), this, SLOT(prevButtonClicked()));
+
     QString fileName = QDir::currentPath() + "/Missions/";
     missionsList[0] = new Mission("Demo #1", "Maneuvering through the hole",
                                   "Maneuvering through a 75cm x 75cm hole in the ice.",
-                                  new QImage(fileName + "1.jpeg"), 50);
-    qDebug() << fileName;
+                                  new QImage(fileName + "1.jpeg"), 5);
+    missionsList[1] = new Mission("Demo #1", "Collecting algae",
+                                  "Collecting a sample of algae from the underside of the ice sheet.",
+                                  new QImage(fileName + "2.jpeg"), 50);
+    missionsList[2] = new Mission("Demo #1", "Collecting urchin",
+                                  "Collecting an urchin located on the seafloor.",
+                                  new QImage(fileName + "3.jpeg"), 20);
+    missionsList[3] = new Mission("Demo #1", "Identify sea starts",
+                                  "Using a species identification handbook to identify and count species of sea star.",
+                                  new QImage(fileName + "4.jpeg"), 50);
+    missionsList[4] = new Mission("Demo #1", "Deploying sensor",
+                                  "Deploying a passive acoustic sensor in a designated area.",
+                                  new QImage(fileName + "5.jpeg"), 90);
+    missionsList[5] = new Mission("Demo #1", "Measuring iceberg",
+                                  "Measuring the dimensions of an iceberg and calculate its volume.",
+                                  new QImage(fileName + "6.jpeg"), 50);
+    missionsList[6] = new Mission("Demo #1", "Map iceberg location",
+                                  "Using coordinates to map the location of the iceberg.",
+                                  new QImage(fileName + "7.jpeg"), 70);
+    missionsList[7] = new Mission("Demo #1", "Determine iceberg threat level",
+                                  "Using the location, heading, and keel depth to determine the threat level of the iceberg to area oil platforms",
+                                  new QImage(fileName + "8.jpeg"), 20);
 }
 
 void MainWindow::updateMission() {
@@ -604,4 +628,16 @@ void MainWindow::updateMission() {
     else
         time += QString::number(t % 60);
     ui->valueMissionTime->setText(time);
+}
+
+void MainWindow::nextButtonClicked() {
+    if (curr != 7)
+        currentMission = missionsList[++curr];
+    updateMission();
+}
+
+void MainWindow::prevButtonClicked() {
+    if (curr != 0)
+        currentMission = missionsList[--curr];
+    updateMission();
 }

@@ -674,7 +674,7 @@
      </item>
      <item>
       <property name="text">
-       <string>Measuring dimension of iceberg</string>
+       <string>Measuring iceberg</string>
       </property>
      </item>
      <item>
@@ -929,7 +929,7 @@ p, li { white-space: pre-wrap; }
      </property>
     </widget>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="nextButton">
     <property name="geometry">
      <rect>
       <x>1260</x>
@@ -942,7 +942,7 @@ p, li { white-space: pre-wrap; }
      <string>Next &gt;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="prevButton">
     <property name="geometry">
      <rect>
       <x>1080</x>
