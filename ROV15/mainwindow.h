@@ -13,6 +13,7 @@
 #include <QVideoWidget>
 #include <QGraphicsView>
 #include <QMap>
+#include <QTreeWidget>
 
 #include "joystick.h"
 
@@ -93,6 +94,8 @@ private slots:
     void nextButtonClicked();
 
     void prevButtonClicked();
+
+    void mTreeDClicked(QTreeWidgetItem* i, int x);
 
 private:
     Ui::MainWindow *ui;

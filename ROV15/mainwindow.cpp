@@ -583,37 +583,40 @@ void MainWindow::initMissionsList() {
     connect(ui->nextButton, SIGNAL(clicked()), this, SLOT(nextButtonClicked()));
     connect(ui->prevButton, SIGNAL(clicked()), this, SLOT(prevButtonClicked()));
 
+    connect(ui->missionsTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(mTreeDClicked(QTreeWidgetItem*,int)));
+
     QString fileName = QDir::currentPath() + "/Missions/";
     missionsList[0] = new Mission("Demo #1", "Maneuvering through the hole",
                                   "Maneuvering through a 75cm x 75cm hole in the ice.",
-                                  new QImage(fileName + "1.jpeg"), 5);
+                                  new QImage(fileName + "1.1.png"), 5);
     missionsList[1] = new Mission("Demo #1", "Collecting algae",
                                   "Collecting a sample of algae from the underside of the ice sheet.",
-                                  new QImage(fileName + "2.jpeg"), 50);
+                                  new QImage(fileName + "1.2.png"), 50);
     missionsList[2] = new Mission("Demo #1", "Collecting urchin",
                                   "Collecting an urchin located on the seafloor.",
-                                  new QImage(fileName + "3.jpeg"), 20);
-    missionsList[3] = new Mission("Demo #1", "Identify sea starts",
+                                  new QImage(fileName + "1.3.png"), 20);
+    missionsList[3] = new Mission("Demo #1", "Identify sea stars",
                                   "Using a species identification handbook to identify and count species of sea star.",
-                                  new QImage(fileName + "4.jpeg"), 50);
+                                  new QImage(fileName + "1.4.png"), 50);
     missionsList[4] = new Mission("Demo #1", "Deploying sensor",
                                   "Deploying a passive acoustic sensor in a designated area.",
-                                  new QImage(fileName + "5.jpeg"), 90);
+                                  new QImage(fileName + "1.5.png"), 90);
     missionsList[5] = new Mission("Demo #1", "Measuring iceberg",
                                   "Measuring the dimensions of an iceberg and calculate its volume.",
-                                  new QImage(fileName + "6.jpeg"), 50);
+                                  new QImage(fileName + "1.6.png"), 50);
     missionsList[6] = new Mission("Demo #1", "Map iceberg location",
                                   "Using coordinates to map the location of the iceberg.",
-                                  new QImage(fileName + "7.jpeg"), 70);
+                                  new QImage(fileName + "1.7.png"), 70);
     missionsList[7] = new Mission("Demo #1", "Determine iceberg threat level",
                                   "Using the location, heading, and keel depth to determine the threat level of the iceberg to area oil platforms",
-                                  new QImage(fileName + "8.jpeg"), 20);
+                                  new QImage(fileName + "1.8.png"), 20);
 }
 
 void MainWindow::updateMission() {
     ui->valueMissionName->setText(currentMission->getName());
     ui->valueMissionDescription->setText(currentMission->getDescription());
-    ui->imageMission->setImage(currentMission->getImage());
+    ui->imageMission->setPixmap(QPixmap::fromImage(
+                                    currentMission->getImage()->scaled(ui->imageMission->width(), ui->imageMission->height())));
 
     int t = currentMission->getTime();
     QString time = "";
@@ -640,4 +643,13 @@ void MainWindow::prevButtonClicked() {
     if (curr != 0)
         currentMission = missionsList[--curr];
     updateMission();
+}
+
+void MainWindow::mTreeDClicked(QTreeWidgetItem *i, int x) {
+    for (int j = 0; j < 8; j++)
+        if (missionsList[j]->getName() == i->text(x)) {
+            currentMission = missionsList[j];
+            updateMission();
+            break;
+        }
 }
