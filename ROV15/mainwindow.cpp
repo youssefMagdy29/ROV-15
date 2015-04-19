@@ -636,30 +636,51 @@ void MainWindow::initMissionsList() {
     missionsList[9] = new Mission("Demo #2", "Turning valve",
                                   "Turning a valve to stop the flow of oil through the pipeline.",
                                   new QImage(fileName + "2.2"), 0);
-    missionsList[10] = new Mission("Demo #2", "Examining gauge",
+    missionsList[10] = new Mission("Demo #2", "Examining gauge dial",
                                    "Examining a gauge dial to determine the pipeline oil pressure is zero.",
-                                   new QImage(fileName + "2.3", 0));
+                                   new QImage(fileName + "2.3"), 0);
     missionsList[11] = new Mission("Demo #2", "Measuring corroded pipeline",
                                    "Measuring the length of the section of corroded pipeline.",
                                    new QImage(fileName + "2.4"), 0);
-    missionsList[12] = new Mission("Demo #2", "Attaching a lift",
+    missionsList[12] = new Mission("Demo #2", "Attaching lift line",
                                    "Attaching a life line to the corroded section.",
                                    new QImage(fileName + "2.5"), 0);
-    missionsList[13] = new Mission("Demo #2", "Cutting corroded pipeline",
+    missionsList[13] = new Mission("Demo #2", "Cutting corroded section",
                                    "Cutting(simulated) the section of corroded pipeline.",
                                    new QImage(fileName + "2.6"), 0);
-    missionsList[14] = new Mission("Demo #2", "Removing corroded pipeline",
+    missionsList[14] = new Mission("Demo #2", "Removing corroded section",
                                    "Removing the seection of corroded pipeline and return it to the surface.",
                                    new QImage(fileName + "2.7"), 0);
-    missionsList[15] = new Mission("Demo #2", "Installing flange",
+    missionsList[15] = new Mission("Demo #2", "Installing adapter flange",
                                    "Installing and securing an adapter flange over both cut ends of the pipeline",
                                    new QImage(fileName + "2.8"), 0);
     missionsList[16] = new Mission("Demo #2", "Installing gasket",
                                    "Installing a gasket into a wellhead.",
                                    new QImage(fileName + "2.9"), 0);
-    missionsList[17] = new Mission("Demo #2", "Inserting a hot stab",
+    missionsList[17] = new Mission("Demo #2", "Inserting hot stab",
                                    "Inserting a hot stab to simulate injecting corrosion prohibiter into the wellhead.",
                                    new QImage(fileName + "2.10"), 0);
+    missionsList[18] = new Mission("Demo #3", "Testing anodes",
+                                   "Testing the grounding of anodes by measuring the voltage of specified points along the leg of an oil platform.",
+                                   new QImage(fileName + "3.1"), 0);
+    missionsList[19] = new Mission("Demo #3", "Determine not grounded andoes",
+                                   "Determining which anode(s) is not properly grounded.",
+                                   new QImage(fileName + "3.2"), 0);
+    missionsList[20] = new Mission("Demo #3", "Measuring wellhead",
+                                   "Measuring the height and length of a wellhead from the seafloor to determine the angle that it emerges from the seafloor.",
+                                   new QImage(fileName + "3.3"), 0);
+    missionsList[21] = new Mission("Demo #3", "Determine pathways",
+                                   "Using a map to determine the pathways of flow through a pipeline system.",
+                                   new QImage(fileName + "3.4"), 0);
+    missionsList[22] = new Mission("Demo #3", "Turning valves",
+                                   "Turning valves to ensure that oil will flow through the specified pathway.",
+                                   new QImage(fileName + "3.5"), 0);
+    missionsList[23] = new Mission("Demo #3", "Moving water",
+                                   "Moving water through the pipeline system to verify that oil will flow through the correct pathway.",
+                                   new QImage(fileName + "3.6"), 0);
+    missionsList[24] = new Mission("Demo #3", "Determine average flow",
+                                   "Determine the average flow rate of the water current.",
+                                   new QImage(fileName + "3.7"), 0);
 }
 
 void MainWindow::updateMission() {
@@ -684,7 +705,7 @@ void MainWindow::updateMission() {
 }
 
 void MainWindow::nextButtonClicked() {
-    if (curr != 7)
+    if (curr < 24)
         currentMission = missionsList[++curr];
     updateMission();
 }
@@ -696,9 +717,10 @@ void MainWindow::prevButtonClicked() {
 }
 
 void MainWindow::mTreeDClicked(QTreeWidgetItem *i, int x) {
-    for (int j = 0; j < 8; j++)
+    for (int j = 0; j < 25; j++)
         if (missionsList[j]->getName() == i->text(x)) {
             currentMission = missionsList[j];
+            curr = j;
             updateMission();
             break;
         }

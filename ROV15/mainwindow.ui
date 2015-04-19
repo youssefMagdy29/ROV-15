@@ -708,7 +708,7 @@
      </item>
      <item>
       <property name="text">
-       <string>Examining gauge dial </string>
+       <string>Examining gauge dial</string>
       </property>
       <property name="checkState">
        <enum>Unchecked</enum>
@@ -748,7 +748,7 @@
      </item>
      <item>
       <property name="text">
-       <string>Installling adapter flange</string>
+       <string>Installing adapter flange</string>
       </property>
       <property name="checkState">
        <enum>Unchecked</enum>
