@@ -13,6 +13,7 @@
 #include <QVideoWidget>
 #include <QGraphicsView>
 #include <QMap>
+#include <QTreeWidget>
 
 #include "joystick.h"
 
@@ -90,6 +91,12 @@ private slots:
 
     void on_sendButton_clicked();
 
+    void nextButtonClicked();
+
+    void prevButtonClicked();
+
+    void mTreeDClicked(QTreeWidgetItem* i, int x);
+
 private:
     Ui::MainWindow *ui;
     QLabel *l;
@@ -112,8 +119,11 @@ private:
     double xAcc, yAcc, zAcc;
     double xVel, yVel, zVel;
     double xDst, yDst, zDst;
+    double pitch, roll, yaw;
     double SAMPLE_TIME;
     Mission *missionsList[30];
+
+    int curr;
 
     void setupSerialConnection();
 

@@ -57,7 +57,9 @@ MainWindow::MainWindow(QWidget *parent) :
     mode(false),
     xVel(0), yVel(0), zVel(0),
     xDst(0), yDst(0), zDst(0),
-    SAMPLE_TIME(4.0 / 100)
+    pitch(0), roll(0), yaw(0),
+    SAMPLE_TIME(20.0 / 1000),
+    curr(0)
 {
     ui->setupUi(this);
 
@@ -260,23 +262,28 @@ void MainWindow::readData() {
         int c = data.indexOf('c');
         int p = data.indexOf('p');
         int t = data.indexOf('t');
-        int s = data.indexOf('s');
         int l = data.indexOf('l');
         int x = data.indexOf('x');
         int y = data.indexOf('y');
+        int i = data.indexOf('i');
+        int r = data.indexOf('r');
+        int w = data.indexOf('w');
 
-        QByteArray QxAcc = data.mid(1, b - 1);
-        QByteArray QyAcc = data.mid(b + 1, c - b - 1);
-        QByteArray QzAcc = data.mid(c + 1, p - c - 1);
+        QByteArray QxAcc  = data.mid(1, b - 1);
+        QByteArray QyAcc  = data.mid(b + 1, c - b - 1);
+        QByteArray QzAcc  = data.mid(c + 1, p - c - 1);
 
-        QByteArray Qpres = data.mid(p + 1, t - p - 1);
-        QByteArray Qtemp = data.mid(t + 1, s - t - 1);
-        QByteArray Qserv = data.mid(s + 1, l - s - 1);
+        QByteArray Qpres  = data.mid(p + 1, t - p - 1);
+        QByteArray Qtemp  = data.mid(t + 1, l - t - 1);
 
-        QByteArray Qleak = data.mid(l + 1, x - l - 1);
+        QByteArray Qleak  = data.mid(l + 1, x - l - 1);
 
-        QByteArray Qmx   = data.mid(x + 1, y - x - 1);
-        QByteArray Qmy   = data.mid(y + 1);
+        QByteArray Qmx    = data.mid(x + 1, y - x - 1);
+        QByteArray Qmy    = data.mid(y + 1, i - y - 1);
+
+        QByteArray Qpitch = data.mid(i + 1, r - i - 1);
+        QByteArray Qroll  = data.mid(r + 1, w - r - 1);
+        QByteArray Qyaw   = data.mid(w + 1);
 
         double mx = Qmx.toDouble();
         double my = Qmy.toDouble();
@@ -295,9 +302,20 @@ void MainWindow::readData() {
 
         tt->start(1000);
 
-        xAcc = QxAcc.toDouble() / 1712.0 - 0.3;
-        yAcc = QyAcc.toDouble() / 1606.0 + 0.4;
-        zAcc = QzAcc.toDouble() / 1548.0;
+        double ax = QxAcc.toDouble();
+        double ay = QyAcc.toDouble();
+        double az = QzAcc.toDouble();
+
+        xAcc = 9.81 * ax / 8192.0;
+        yAcc = 9.81 * ay / 8192.0;
+        zAcc = 9.81 * az / 8192.0;
+
+        if ((xAcc > 0 && xAcc < 0.05) || (xAcc < 0 && xAcc > -0.05))
+            xAcc = 0, xVel = 0;
+        if ((yAcc > 0 && yAcc < 0.05) || (yAcc < 0 && yAcc > -0.05))
+            yAcc = 0, yVel = 0;
+        if ((zAcc > 0 && zAcc < 0.05) || (zAcc < 0 && zAcc > -0.05))
+            zAcc = 0, zVel = 0;
 
         xVel += xAcc * SAMPLE_TIME;
         yVel += yAcc * SAMPLE_TIME;
@@ -321,11 +339,14 @@ void MainWindow::readData() {
 
         ui->valuePressure->setText(Qpres);
         ui->valueTemperature->setText(Qtemp);
-        ui->valueCamera->setText(Qserv);
 
         ui->valueLeakage->setText(Qleak);
 
         ui->valueCompass->setText(QString::number(Qcomp));
+
+        ui->valuePitch->setText(Qpitch);
+        ui->valueRoll->setText(Qroll);
+        ui->valueYaw->setText(Qyaw);
     }
 }
 
@@ -347,7 +368,7 @@ void MainWindow::imageSaved(int id, QString str) {
     img = QImage(str);
     img = img.mirrored(true, false);
 
-    if (!mode) {
+    if (mode) {
         image->setImage(img);
         image->setMission(currentMission);
         image->show();
@@ -579,17 +600,94 @@ void MainWindow::initializeJ2ActionRelease() {
 }
 
 void MainWindow::initMissionsList() {
+    connect(ui->nextButton, SIGNAL(clicked()), this, SLOT(nextButtonClicked()));
+    connect(ui->prevButton, SIGNAL(clicked()), this, SLOT(prevButtonClicked()));
+
+    connect(ui->missionsTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), this, SLOT(mTreeDClicked(QTreeWidgetItem*,int)));
+
     QString fileName = QDir::currentPath() + "/Missions/";
     missionsList[0] = new Mission("Demo #1", "Maneuvering through the hole",
                                   "Maneuvering through a 75cm x 75cm hole in the ice.",
-                                  new QImage(fileName + "1.jpeg"), 50);
-    qDebug() << fileName;
+                                  new QImage(fileName + "1.1.png"), 5);
+    missionsList[1] = new Mission("Demo #1", "Collecting algae",
+                                  "Collecting a sample of algae from the underside of the ice sheet.",
+                                  new QImage(fileName + "1.2.png"), 50);
+    missionsList[2] = new Mission("Demo #1", "Collecting urchin",
+                                  "Collecting an urchin located on the seafloor.",
+                                  new QImage(fileName + "1.3.png"), 20);
+    missionsList[3] = new Mission("Demo #1", "Identify sea stars",
+                                  "Using a species identification handbook to identify and count species of sea star.",
+                                  new QImage(fileName + "1.4.png"), 50);
+    missionsList[4] = new Mission("Demo #1", "Deploying sensor",
+                                  "Deploying a passive acoustic sensor in a designated area.",
+                                  new QImage(fileName + "1.5.png"), 90);
+    missionsList[5] = new Mission("Demo #1", "Measuring iceberg",
+                                  "Measuring the dimensions of an iceberg and calculate its volume.",
+                                  new QImage(fileName + "1.6.png"), 50);
+    missionsList[6] = new Mission("Demo #1", "Map iceberg location",
+                                  "Using coordinates to map the location of the iceberg.",
+                                  new QImage(fileName + "1.7.png"), 70);
+    missionsList[7] = new Mission("Demo #1", "Determine iceberg threat level",
+                                  "Using the location, heading, and keel depth to determine the threat level of the iceberg to area oil platforms",
+                                  new QImage(fileName + "1.8.png"), 20);
+    missionsList[8] = new Mission("Demo #2", "Conducting CVI",
+                                  "Conducting a CVI (close visual inspection) of an oil pipeline for corrosion.",
+                                  new QImage(fileName + "2.1"), 0);
+    missionsList[9] = new Mission("Demo #2", "Turning valve",
+                                  "Turning a valve to stop the flow of oil through the pipeline.",
+                                  new QImage(fileName + "2.2"), 0);
+    missionsList[10] = new Mission("Demo #2", "Examining gauge dial",
+                                   "Examining a gauge dial to determine the pipeline oil pressure is zero.",
+                                   new QImage(fileName + "2.3"), 0);
+    missionsList[11] = new Mission("Demo #2", "Measuring corroded pipeline",
+                                   "Measuring the length of the section of corroded pipeline.",
+                                   new QImage(fileName + "2.4"), 0);
+    missionsList[12] = new Mission("Demo #2", "Attaching lift line",
+                                   "Attaching a life line to the corroded section.",
+                                   new QImage(fileName + "2.5"), 0);
+    missionsList[13] = new Mission("Demo #2", "Cutting corroded section",
+                                   "Cutting(simulated) the section of corroded pipeline.",
+                                   new QImage(fileName + "2.6"), 0);
+    missionsList[14] = new Mission("Demo #2", "Removing corroded section",
+                                   "Removing the seection of corroded pipeline and return it to the surface.",
+                                   new QImage(fileName + "2.7"), 0);
+    missionsList[15] = new Mission("Demo #2", "Installing adapter flange",
+                                   "Installing and securing an adapter flange over both cut ends of the pipeline",
+                                   new QImage(fileName + "2.8"), 0);
+    missionsList[16] = new Mission("Demo #2", "Installing gasket",
+                                   "Installing a gasket into a wellhead.",
+                                   new QImage(fileName + "2.9"), 0);
+    missionsList[17] = new Mission("Demo #2", "Inserting hot stab",
+                                   "Inserting a hot stab to simulate injecting corrosion prohibiter into the wellhead.",
+                                   new QImage(fileName + "2.10"), 0);
+    missionsList[18] = new Mission("Demo #3", "Testing anodes",
+                                   "Testing the grounding of anodes by measuring the voltage of specified points along the leg of an oil platform.",
+                                   new QImage(fileName + "3.1"), 0);
+    missionsList[19] = new Mission("Demo #3", "Determine not grounded anodes",
+                                   "Determining which anode(s) is not properly grounded.",
+                                   new QImage(fileName + "3.2"), 0);
+    missionsList[20] = new Mission("Demo #3", "Measuring wellhead",
+                                   "Measuring the height and length of a wellhead from the seafloor to determine the angle that it emerges from the seafloor.",
+                                   new QImage(fileName + "3.3"), 0);
+    missionsList[21] = new Mission("Demo #3", "Determine pathways",
+                                   "Using a map to determine the pathways of flow through a pipeline system.",
+                                   new QImage(fileName + "3.4"), 0);
+    missionsList[22] = new Mission("Demo #3", "Turning valves",
+                                   "Turning valves to ensure that oil will flow through the specified pathway.",
+                                   new QImage(fileName + "3.5"), 0);
+    missionsList[23] = new Mission("Demo #3", "Moving water",
+                                   "Moving water through the pipeline system to verify that oil will flow through the correct pathway.",
+                                   new QImage(fileName + "3.6"), 0);
+    missionsList[24] = new Mission("Demo #3", "Determine average flow",
+                                   "Determine the average flow rate of the water current.",
+                                   new QImage(fileName + "3.7"), 0);
 }
 
 void MainWindow::updateMission() {
     ui->valueMissionName->setText(currentMission->getName());
     ui->valueMissionDescription->setText(currentMission->getDescription());
-    ui->imageMission->setImage(currentMission->getImage());
+    ui->imageMission->setPixmap(QPixmap::fromImage(
+                                    currentMission->getImage()->scaled(ui->imageMission->width(), ui->imageMission->height())));
 
     int t = currentMission->getTime();
     QString time = "";
@@ -604,4 +702,26 @@ void MainWindow::updateMission() {
     else
         time += QString::number(t % 60);
     ui->valueMissionTime->setText(time);
+}
+
+void MainWindow::nextButtonClicked() {
+    if (curr < 24)
+        currentMission = missionsList[++curr];
+    updateMission();
+}
+
+void MainWindow::prevButtonClicked() {
+    if (curr != 0)
+        currentMission = missionsList[--curr];
+    updateMission();
+}
+
+void MainWindow::mTreeDClicked(QTreeWidgetItem *i, int x) {
+    for (int j = 0; j < 25; j++)
+        if (missionsList[j]->getName() == i->text(x)) {
+            currentMission = missionsList[j];
+            curr = j;
+            updateMission();
+            break;
+        }
 }

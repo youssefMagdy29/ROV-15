@@ -223,8 +223,8 @@
    <widget class="QLabel" name="labelLeakage">
     <property name="geometry">
      <rect>
-      <x>844</x>
-      <y>650</y>
+      <x>840</x>
+      <y>480</y>
       <width>51</width>
       <height>16</height>
      </rect>
@@ -239,8 +239,8 @@
    <widget class="QLabel" name="valueLeakage">
     <property name="geometry">
      <rect>
-      <x>894</x>
-      <y>650</y>
+      <x>920</x>
+      <y>480</y>
       <width>61</width>
       <height>16</height>
      </rect>
@@ -294,7 +294,7 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>844</x>
+      <x>840</x>
       <y>190</y>
       <width>81</width>
       <height>16</height>
@@ -307,7 +307,7 @@
    <widget class="QLabel" name="valueXAcceleration">
     <property name="geometry">
      <rect>
-      <x>924</x>
+      <x>920</x>
       <y>190</y>
       <width>71</width>
       <height>16</height>
@@ -320,8 +320,8 @@
    <widget class="QLabel" name="valueYAcceleration">
     <property name="geometry">
      <rect>
-      <x>924</x>
-      <y>220</y>
+      <x>920</x>
+      <y>210</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -333,8 +333,8 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>844</x>
-      <y>220</y>
+      <x>840</x>
+      <y>210</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -346,8 +346,8 @@
    <widget class="QLabel" name="valueZAcceleration">
     <property name="geometry">
      <rect>
-      <x>924</x>
-      <y>250</y>
+      <x>920</x>
+      <y>230</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -359,8 +359,8 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>844</x>
-      <y>250</y>
+      <x>840</x>
+      <y>230</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -372,8 +372,8 @@
    <widget class="QLabel" name="valueXVelocity">
     <property name="geometry">
      <rect>
-      <x>924</x>
-      <y>300</y>
+      <x>920</x>
+      <y>260</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -385,8 +385,8 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>844</x>
-      <y>300</y>
+      <x>840</x>
+      <y>260</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -398,8 +398,8 @@
    <widget class="QLabel" name="valueYVelocity">
     <property name="geometry">
      <rect>
-      <x>924</x>
-      <y>330</y>
+      <x>920</x>
+      <y>280</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -411,8 +411,8 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>844</x>
-      <y>330</y>
+      <x>840</x>
+      <y>280</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -424,8 +424,8 @@
    <widget class="QLabel" name="valueZVelocity">
     <property name="geometry">
      <rect>
-      <x>924</x>
-      <y>360</y>
+      <x>920</x>
+      <y>300</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -437,8 +437,8 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>844</x>
-      <y>360</y>
+      <x>840</x>
+      <y>300</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -450,8 +450,8 @@
    <widget class="QLabel" name="valueXDistance">
     <property name="geometry">
      <rect>
-      <x>924</x>
-      <y>410</y>
+      <x>920</x>
+      <y>330</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -463,8 +463,8 @@
    <widget class="QLabel" name="label_9">
     <property name="geometry">
      <rect>
-      <x>844</x>
-      <y>410</y>
+      <x>840</x>
+      <y>330</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -476,8 +476,8 @@
    <widget class="QLabel" name="valueYDistance">
     <property name="geometry">
      <rect>
-      <x>924</x>
-      <y>440</y>
+      <x>920</x>
+      <y>350</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -489,8 +489,8 @@
    <widget class="QLabel" name="label_10">
     <property name="geometry">
      <rect>
-      <x>844</x>
-      <y>440</y>
+      <x>840</x>
+      <y>350</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -502,8 +502,8 @@
    <widget class="QLabel" name="valueZDistance">
     <property name="geometry">
      <rect>
-      <x>924</x>
-      <y>470</y>
+      <x>920</x>
+      <y>370</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -515,8 +515,8 @@
    <widget class="QLabel" name="label_11">
     <property name="geometry">
      <rect>
-      <x>844</x>
-      <y>470</y>
+      <x>840</x>
+      <y>370</y>
       <width>81</width>
       <height>16</height>
      </rect>
@@ -528,8 +528,8 @@
    <widget class="QLabel" name="label_12">
     <property name="geometry">
      <rect>
-      <x>844</x>
-      <y>520</y>
+      <x>840</x>
+      <y>400</y>
       <width>51</width>
       <height>16</height>
      </rect>
@@ -541,8 +541,8 @@
    <widget class="QLabel" name="valuePressure">
     <property name="geometry">
      <rect>
-      <x>914</x>
-      <y>520</y>
+      <x>920</x>
+      <y>400</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -554,8 +554,8 @@
    <widget class="QLabel" name="label_13">
     <property name="geometry">
      <rect>
-      <x>844</x>
-      <y>550</y>
+      <x>840</x>
+      <y>420</y>
       <width>71</width>
       <height>16</height>
      </rect>
@@ -567,36 +567,10 @@
    <widget class="QLabel" name="valueTemperature">
     <property name="geometry">
      <rect>
-      <x>924</x>
-      <y>550</y>
-      <width>47</width>
-      <height>13</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_14">
-    <property name="geometry">
-     <rect>
-      <x>844</x>
-      <y>580</y>
-      <width>47</width>
-      <height>13</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Camera:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="valueCamera">
-    <property name="geometry">
-     <rect>
-      <x>894</x>
-      <y>580</y>
-      <width>47</width>
-      <height>13</height>
+      <x>920</x>
+      <y>420</y>
+      <width>61</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
@@ -606,8 +580,8 @@
    <widget class="QLabel" name="label_15">
     <property name="geometry">
      <rect>
-      <x>844</x>
-      <y>610</y>
+      <x>840</x>
+      <y>460</y>
       <width>51</width>
       <height>16</height>
      </rect>
@@ -619,17 +593,17 @@
    <widget class="QLabel" name="valueCompass">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>610</y>
+      <x>920</x>
+      <y>460</y>
       <width>51</width>
-      <height>20</height>
+      <height>16</height>
      </rect>
     </property>
     <property name="text">
      <string/>
     </property>
    </widget>
-   <widget class="QTreeWidget" name="treeWidget">
+   <widget class="QTreeWidget" name="missionsTree">
     <property name="geometry">
      <rect>
       <x>1070</x>
@@ -651,40 +625,64 @@
       <property name="text">
        <string>Maneuvering through the hole</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Collecting algae</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Collecting urchin</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Identify sea stars</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Deploying sensor</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
-       <string>Measuring dimension of iceberg</string>
+       <string>Measuring iceberg</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Map iceberg location</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Determine iceberg threat level</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
     </item>
@@ -696,50 +694,80 @@
       <property name="text">
        <string>Conducting CVI</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Turning valve</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
-       <string>Examining gauge dial </string>
+       <string>Examining gauge dial</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Measuring corroded pipeline</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Attaching lift line</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Cutting corroded section</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Removing corroded section</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
-       <string>Installling adapter flange</string>
+       <string>Installing adapter flange</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Installing gasket</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Inserting hot stab</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
     </item>
@@ -751,35 +779,56 @@
       <property name="text">
        <string>Testing anodes</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Determine not grounded anodes</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Measuring wellhead</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Determine pathways</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
      <item>
       <property name="text">
        <string>Turning valves</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
        <string>Moving water</string>
       </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
+      </property>
      </item>
      <item>
       <property name="text">
-       <string>Determine the average flow rate</string>
+       <string>Determine average flow</string>
+      </property>
+      <property name="checkState">
+       <enum>Unchecked</enum>
       </property>
      </item>
     </item>
@@ -852,7 +901,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
-    <widget class="ResizableLabel" name="imageMission">
+    <widget class="QLabel" name="imageMission">
      <property name="geometry">
       <rect>
        <x>200</x>
@@ -929,7 +978,7 @@ p, li { white-space: pre-wrap; }
      </property>
     </widget>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="nextButton">
     <property name="geometry">
      <rect>
       <x>1260</x>
@@ -942,7 +991,7 @@ p, li { white-space: pre-wrap; }
      <string>Next &gt;</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="prevButton">
     <property name="geometry">
      <rect>
       <x>1080</x>
@@ -955,7 +1004,7 @@ p, li { white-space: pre-wrap; }
      <string>&lt; Previous</string>
     </property>
    </widget>
-   <widget class="ResizableLabel" name="lastScreenShot">
+   <widget class="QLabel" name="lastScreenShot">
     <property name="geometry">
      <rect>
       <x>840</x>
@@ -968,16 +1017,150 @@ p, li { white-space: pre-wrap; }
      <string/>
     </property>
    </widget>
+   <widget class="QLabel" name="label_17">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>540</y>
+      <width>61</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string>Pitch:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_19">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>570</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(0, 170, 0);</string>
+    </property>
+    <property name="text">
+     <string>Roll:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_20">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>600</y>
+      <width>51</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>14</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(0, 0, 255);</string>
+    </property>
+    <property name="text">
+     <string>Yaw:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="valuePitch">
+    <property name="geometry">
+     <rect>
+      <x>906</x>
+      <y>540</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Gill Sans Ultra Bold</family>
+      <pointsize>12</pointsize>
+      <italic>true</italic>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 0, 0);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="valueRoll">
+    <property name="geometry">
+     <rect>
+      <x>906</x>
+      <y>570</y>
+      <width>81</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Gill Sans Ultra Bold</family>
+      <pointsize>12</pointsize>
+      <italic>true</italic>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(0, 170, 0);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="valueYaw">
+    <property name="geometry">
+     <rect>
+      <x>906</x>
+      <y>600</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Gill Sans Ultra Bold</family>
+      <pointsize>12</pointsize>
+      <italic>true</italic>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(0, 0, 255);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>ResizableLabel</class>
-   <extends>QLabel</extends>
-   <header location="global">resizable_label.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
