@@ -663,7 +663,7 @@ void MainWindow::initMissionsList() {
     missionsList[18] = new Mission("Demo #3", "Testing anodes",
                                    "Testing the grounding of anodes by measuring the voltage of specified points along the leg of an oil platform.",
                                    new QImage(fileName + "3.1"), 0);
-    missionsList[19] = new Mission("Demo #3", "Determine not grounded andoes",
+    missionsList[19] = new Mission("Demo #3", "Determine not grounded anodes",
                                    "Determining which anode(s) is not properly grounded.",
                                    new QImage(fileName + "3.2"), 0);
     missionsList[20] = new Mission("Demo #3", "Measuring wellhead",

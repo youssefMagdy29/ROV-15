@@ -825,7 +825,7 @@
      </item>
      <item>
       <property name="text">
-       <string>Determine the average flow rate</string>
+       <string>Determine average flow</string>
       </property>
       <property name="checkState">
        <enum>Unchecked</enum>
