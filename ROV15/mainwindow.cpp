@@ -630,6 +630,36 @@ void MainWindow::initMissionsList() {
     missionsList[7] = new Mission("Demo #1", "Determine iceberg threat level",
                                   "Using the location, heading, and keel depth to determine the threat level of the iceberg to area oil platforms",
                                   new QImage(fileName + "1.8.png"), 20);
+    missionsList[8] = new Mission("Demo #2", "Conducting CVI",
+                                  "Conducting a CVI (close visual inspection) of an oil pipeline for corrosion.",
+                                  new QImage(fileName + "2.1"), 0);
+    missionsList[9] = new Mission("Demo #2", "Turning valve",
+                                  "Turning a valve to stop the flow of oil through the pipeline.",
+                                  new QImage(fileName + "2.2"), 0);
+    missionsList[10] = new Mission("Demo #2", "Examining gauge",
+                                   "Examining a gauge dial to determine the pipeline oil pressure is zero.",
+                                   new QImage(fileName + "2.3", 0));
+    missionsList[11] = new Mission("Demo #2", "Measuring corroded pipeline",
+                                   "Measuring the length of the section of corroded pipeline.",
+                                   new QImage(fileName + "2.4"), 0);
+    missionsList[12] = new Mission("Demo #2", "Attaching a lift",
+                                   "Attaching a life line to the corroded section.",
+                                   new QImage(fileName + "2.5"), 0);
+    missionsList[13] = new Mission("Demo #2", "Cutting corroded pipeline",
+                                   "Cutting(simulated) the section of corroded pipeline.",
+                                   new QImage(fileName + "2.6"), 0);
+    missionsList[14] = new Mission("Demo #2", "Removing corroded pipeline",
+                                   "Removing the seection of corroded pipeline and return it to the surface.",
+                                   new QImage(fileName + "2.7"), 0);
+    missionsList[15] = new Mission("Demo #2", "Installing flange",
+                                   "Installing and securing an adapter flange over both cut ends of the pipeline",
+                                   new QImage(fileName + "2.8"), 0);
+    missionsList[16] = new Mission("Demo #2", "Installing gasket",
+                                   "Installing a gasket into a wellhead.",
+                                   new QImage(fileName + "2.9"), 0);
+    missionsList[17] = new Mission("Demo #2", "Inserting a hot stab",
+                                   "Inserting a hot stab to simulate injecting corrosion prohibiter into the wellhead.",
+                                   new QImage(fileName + "2.10"), 0);
 }
 
 void MainWindow::updateMission() {
