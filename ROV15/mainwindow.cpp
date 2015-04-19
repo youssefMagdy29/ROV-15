@@ -58,7 +58,7 @@ MainWindow::MainWindow(QWidget *parent) :
     xVel(0), yVel(0), zVel(0),
     xDst(0), yDst(0), zDst(0),
     pitch(0), roll(0), yaw(0),
-    SAMPLE_TIME(19.0 / 1000),
+    SAMPLE_TIME(20.0 / 1000),
     curr(0)
 {
     ui->setupUi(this);
@@ -262,37 +262,31 @@ void MainWindow::readData() {
         int c = data.indexOf('c');
         int p = data.indexOf('p');
         int t = data.indexOf('t');
-        int s = data.indexOf('s');
         int l = data.indexOf('l');
         int x = data.indexOf('x');
         int y = data.indexOf('y');
         int i = data.indexOf('i');
-        int m = data.indexOf('m');
-        int u = data.indexOf('u');
+        int r = data.indexOf('r');
+        int w = data.indexOf('w');
 
-        QByteArray QxAcc = data.mid(1, b - 1);
-        QByteArray QyAcc = data.mid(b + 1, c - b - 1);
-        QByteArray QzAcc = data.mid(c + 1, p - c - 1);
+        QByteArray QxAcc  = data.mid(1, b - 1);
+        QByteArray QyAcc  = data.mid(b + 1, c - b - 1);
+        QByteArray QzAcc  = data.mid(c + 1, p - c - 1);
 
-        QByteArray Qpres = data.mid(p + 1, t - p - 1);
-        QByteArray Qtemp = data.mid(t + 1, s - t - 1);
-        QByteArray Qserv = data.mid(s + 1, l - s - 1);
+        QByteArray Qpres  = data.mid(p + 1, t - p - 1);
+        QByteArray Qtemp  = data.mid(t + 1, l - t - 1);
 
-        QByteArray Qleak = data.mid(l + 1, x - l - 1);
+        QByteArray Qleak  = data.mid(l + 1, x - l - 1);
 
-        QByteArray Qmx   = data.mid(x + 1, y - x - 1);
-        QByteArray Qmy   = data.mid(y + 1, i - y - 1);
+        QByteArray Qmx    = data.mid(x + 1, y - x - 1);
+        QByteArray Qmy    = data.mid(y + 1, i - y - 1);
 
-        QByteArray Qgx   = data.mid(i + 1, m - i - 1);
-        QByteArray Qgy   = data.mid(m + 1,u - m - 1);
-        QByteArray Qgz   = data.mid(u + 1);
+        QByteArray Qpitch = data.mid(i + 1, r - i - 1);
+        QByteArray Qroll  = data.mid(r + 1, w - r - 1);
+        QByteArray Qyaw   = data.mid(w + 1);
 
         double mx = Qmx.toDouble();
         double my = Qmy.toDouble();
-
-        double gx = Qgx.toDouble();
-        double gy = Qgy.toDouble();
-        double gz = Qgz.toDouble();
 
         double heading = qAtan2(mx, my);
 
@@ -312,9 +306,16 @@ void MainWindow::readData() {
         double ay = QyAcc.toDouble();
         double az = QzAcc.toDouble();
 
-        xAcc = ax / 1712.0 - 0.3;
-        yAcc = ay / 1606.0 + 0.4;
-        zAcc = az / 1548.0;
+        xAcc = 9.81 * ax / 8192.0;
+        yAcc = 9.81 * ay / 8192.0;
+        zAcc = 9.81 * az / 8192.0;
+
+        if ((xAcc > 0 && xAcc < 0.05) || (xAcc < 0 && xAcc > -0.05))
+            xAcc = 0, xVel = 0;
+        if ((yAcc > 0 && yAcc < 0.05) || (yAcc < 0 && yAcc > -0.05))
+            yAcc = 0, yVel = 0;
+        if ((zAcc > 0 && zAcc < 0.05) || (zAcc < 0 && zAcc > -0.05))
+            zAcc = 0, zVel = 0;
 
         xVel += xAcc * SAMPLE_TIME;
         yVel += yAcc * SAMPLE_TIME;
@@ -323,10 +324,6 @@ void MainWindow::readData() {
         xDst += xVel * SAMPLE_TIME;
         yDst += yVel * SAMPLE_TIME;
         zDst += zVel * SAMPLE_TIME;
-
-        pitch = 0.98 * (pitch + gx * SAMPLE_TIME) + 0.02 * ax;
-        roll  = 0.98 * (roll  + gy * SAMPLE_TIME) + 0.02 * ay;
-        yaw   = 0.98 * (yaw   + gz * SAMPLE_TIME) + 0.02 * az;
 
         ui->valueXAcceleration->setText(QString::number(xAcc));
         ui->valueYAcceleration->setText(QString::number(yAcc));
@@ -342,15 +339,14 @@ void MainWindow::readData() {
 
         ui->valuePressure->setText(Qpres);
         ui->valueTemperature->setText(Qtemp);
-        ui->valueCamera->setText(Qserv);
 
         ui->valueLeakage->setText(Qleak);
 
         ui->valueCompass->setText(QString::number(Qcomp));
 
-        ui->valuePitch->setText(QString::number(pitch));
-        ui->valueRoll->setText(QString::number(roll));
-        ui->valueYaw->setText(QString::number(yaw));
+        ui->valuePitch->setText(Qpitch);
+        ui->valueRoll->setText(Qroll);
+        ui->valueYaw->setText(Qyaw);
     }
 }
 
